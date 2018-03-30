@@ -238,7 +238,7 @@ class WCMp_Install {
                 CONSTRAINT visitor UNIQUE (vendor_id, session_id),
                 KEY vendor_id (vendor_id),
                 KEY user_id (user_id),
-                KEY user_cookie (user_cookie),
+                KEY user_cookie (user_cookie(191)),
                 KEY session_id (session_id),
                 KEY ip (ip)
 		) $collate;";
