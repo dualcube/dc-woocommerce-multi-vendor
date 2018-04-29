@@ -74,7 +74,8 @@ class WCMp_Product {
             //add_action('trashed_post', array($this, 'remove_product_from_multiple_seller_mapping'), 10);
             //add_action('untrash_post', array($this, 'restore_multiple_seller_mapping'), 10);
             if (!defined('WCMP_HIDE_MULTIPLE_PRODUCT')) {
-                add_action('woocommerce_shop_loop', array(&$this, 'woocommerce_shop_loop_callback'), 5);
+		//new bug introduced in v3 causes Memory leak in PHP
+                //add_action('woocommerce_shop_loop', array(&$this, 'woocommerce_shop_loop_callback'), 5);
                 add_action('woocommerce_product_query', array(&$this, 'woocommerce_product_query'), 10);
             }
         }
