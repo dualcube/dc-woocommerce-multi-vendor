@@ -155,19 +155,10 @@ class WCMp_Vendor_Hooks {
             ),
             'vendor-report'        => array(
                 'label'       => __( 'Stats / Reports', 'dc-woocommerce-multi-vendor' )
-                , 'url'         => '#'
+                , 'url'         => wcmp_get_vendor_dashboard_endpoint_url( get_wcmp_vendor_settings( 'wcmp_vendor_report_endpoint', 'vendor', 'general', 'vendor-report' ) )
                 , 'capability'  => apply_filters( 'wcmp_vendor_dashboard_menu_vendor_report_capability', true )
                 , 'position'    => 40
-                , 'submenu'     => array(
-                    'vendor-report' => array(
-                        'label'       => __( 'Overview', 'dc-woocommerce-multi-vendor' )
-                        , 'url'         => wcmp_get_vendor_dashboard_endpoint_url( get_wcmp_vendor_settings( 'wcmp_vendor_report_endpoint', 'vendor', 'general', 'vendor-report' ) )
-                        , 'capability'  => apply_filters( 'wcmp_vendor_dashboard_menu_vendor_report_capability', true )
-                        , 'position'    => 10
-                        , 'link_target' => '_self'
-                        , 'nav_icon'    => 'wcmp-font ico-reports-icon'
-                    )
-                )
+                , 'submenu'     => array()
                 , 'link_target' => '_self'
                 , 'nav_icon'    => 'wcmp-font ico-reports-icon'
             ),
