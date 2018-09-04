@@ -284,10 +284,12 @@ class WCMp_Install {
                 'posts_per_page' => -1,
                 'post_type' => 'product',
                 'post_status' => 'publish',
-                'suppress_filters' => true
+                'fields' => 'ids'
             );
-            $post_array = get_posts($args_multi_vendor);
-            foreach ($post_array as $product_post) {
+            $post_query = new WP_Query($args_multi_vendor);
+            $post_array = $post_query->posts;
+            foreach ($post_array as $product_post_id) {
+                $product_post = get_post($product_post_id);
                 $results = $wpdb->get_results("select * from {$wpdb->prefix}wcmp_products_map where product_title = '{$product_post->post_title}' ");
                 if (is_array($results) && (count($results) > 0)) {
                     $id_of_similar = $results[0]->ID;
