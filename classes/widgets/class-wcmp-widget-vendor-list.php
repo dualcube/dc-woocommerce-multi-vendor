@@ -65,16 +65,18 @@ class DC_Widget_Vendor_List extends WP_Widget {
 
             if (!empty($vendors) && is_array($vendors)) {
                 // Set up widget title
-                if ($instance['title']) {
-                    $title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
-                } else {
-                    $title = false;
-                }
-                // Before widget (defined by themes)
-                echo $before_widget;
-                // Display the widget title if one was input (before and after defined by themes).
-                if ($title) {
-                    echo $before_title . $title . $after_title;
+                if ( $instance ) {
+                    if ($instance['title']) {
+                        $title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
+                    } else {
+                        $title = false;
+                    }
+                    // Before widget (defined by themes)
+                    echo $before_widget;
+                    // Display the widget title if one was input (before and after defined by themes).
+                    if ($title) {
+                        echo $before_title . $title . $after_title;
+                    }
                 }
                 // Widget content
                 // Action for plugins/themes to hook onto

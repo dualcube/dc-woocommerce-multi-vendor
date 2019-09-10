@@ -14,6 +14,8 @@ class WCMp_Frontend {
         add_action('wp_enqueue_scripts', array(&$this, 'frontend_scripts'));
         //enqueue styles
         add_action('wp_enqueue_scripts', array(&$this, 'frontend_styles'), 999);
+        /** Elementor script enqueue **/
+        add_action('elementor/frontend/after_register_scripts', array(&$this, 'add_wcmp_js_on_elementor_page'));
 
         add_action('woocommerce_archive_description', array(&$this, 'product_archive_vendor_info'), 10);
         add_filter('body_class', array(&$this, 'set_product_archive_class'));
@@ -420,6 +422,16 @@ class WCMp_Frontend {
             wp_enqueue_style('frontend_css');
         }
         do_action('wcmp_frontend_enqueue_scripts', $is_vendor_dashboard);
+    }
+
+    function add_wcmp_js_on_elementor_page() {
+        global $WCMp;
+        $frontend_script_path = $WCMp->plugin_url . 'assets/frontend/js/';
+        $frontend_script_path = str_replace(array('http:', 'https:'), '', $frontend_script_path);
+        $suffix = defined('WCMP_SCRIPT_DEBUG') && WCMP_SCRIPT_DEBUG ? '' : '.min';
+        wp_register_script( 'frontend_js', $frontend_script_path . 'frontend' . $suffix . '.js', array('jquery'), $WCMp->version, true );
+        $WCMp->localize_script('frontend_js'); 
+        wp_enqueue_script('frontend_js');
     }
 
     public function wcmp_dequeue_global_style() {
