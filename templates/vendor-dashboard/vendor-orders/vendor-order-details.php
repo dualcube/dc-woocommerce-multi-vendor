@@ -33,7 +33,6 @@ $vendor_items = get_wcmp_vendor_orders(array('order_id' => $order->get_id(), 've
 $vendor_order_amount = get_wcmp_vendor_order_amount(array('order_id' => $order->get_id(), 'vendor_id' => $vendor->id));
 $subtotal = 0;
 
-print_r($vendor->vendor_order_item_table($order, $vendor->id, true)); 
 ?>
 <div id="wcmp-order-details" class="col-md-12">
     <div class="panel panel-default panel-pading pannel-outer-heading mt-0 order-detail-top-panel">
