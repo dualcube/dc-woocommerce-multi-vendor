@@ -717,7 +717,7 @@ class WCMp_Order {
         // Resume the unpaid order if its pending
         if ($order_id > 0) {
             $order = wc_get_order($order_id);
-            if ($order->has_status(array('pending', 'failed'))) {
+            if (! empty($order) && $order->has_status(array('pending', 'failed'))) {
                 $wcmp_suborders = get_wcmp_suborders($order_id);
                 if ($wcmp_suborders) {
                     foreach ($wcmp_suborders as $suborder) {
