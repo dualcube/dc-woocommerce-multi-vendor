@@ -366,7 +366,8 @@ class WCMp_Order {
         }else{
             self::create_wcmp_order_shipping_lines($vendor_order, WC()->session->get('chosen_shipping_methods'), WC()->shipping->get_packages(), $args, $data_migration);
         }
-        
+        /** add coupon data with order line items**/
+        self::create_wcmp_order_coupon_lines( $vendor_order, WC()->cart );
         //self::create_wcmp_order_tax_lines( $vendor_order, $args );
         // Add customer checkout fields data to vendor order
         if (empty($checkout_fields)) {
@@ -579,6 +580,38 @@ class WCMp_Order {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Add coupon lines to the order.
+     *
+     * @param WC_Order $order Order Instance.
+     * @param WC_Cart  $cart  Cart instance.
+     */
+    public static function create_wcmp_order_coupon_lines( $order, $cart ) {
+        foreach ( $cart->get_coupons() as $code => $coupon ) {
+            $item = new WC_Order_Item_Coupon();
+            $item->set_props(
+                array(
+                    'code'         => $code,
+                    'discount'     => $cart->get_coupon_discount_amount( $code ),
+                    'discount_tax' => $cart->get_coupon_discount_tax_amount( $code ),
+                )
+            );
+            // Avoid storing used_by - it's not needed and can get large.
+            $coupon_data = $coupon->get_data();
+            unset( $coupon_data['used_by'] );
+            $item->add_meta_data( 'coupon_data', $coupon_data );
+
+            /**
+             * Action hook to adjust item before save.
+             *
+             * @since 3.4.3
+             */
+            do_action( 'wcmp_checkout_create_order_coupon_item', $item, $code, $coupon, $order );
+            // Add item to order and save.
+            $order->add_item( $item );
         }
     }
 
