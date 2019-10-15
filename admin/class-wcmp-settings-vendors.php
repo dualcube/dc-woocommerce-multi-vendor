@@ -34,6 +34,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
     		'email' => __( 'Email', 'dc-woocommerce-multi-vendor' ),
     		'registered' => __( 'Registered', 'dc-woocommerce-multi-vendor' ),
     		'products' => __( 'Products', 'dc-woocommerce-multi-vendor' ),
+    		'rating' => __( 'Rating', 'dc-woocommerce-multi-vendor' ),
     		'status' => __( 'Status', 'dc-woocommerce-multi-vendor' ),
 		];
 		return apply_filters('wcmp_list_table_vendors_columns', $columns);	
@@ -163,6 +164,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 				$vendor_products = $vendor->get_products(array('fields' => 'ids'));
 				$vendor_permalink = $vendor->permalink;
 				$product_count = count($vendor_products);
+				$rating_info = wcmp_get_vendor_review_info($vendor->term_id);
 			}
 			
 			if(in_array('dc_vendor', $user->roles)) {
@@ -184,6 +186,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 							'email' => $user->data->user_email,
 							'registered' => get_date_from_gmt( $user->data->user_registered ),
 							'products' => $product_count,
+							'rating' => isset($rating_info) ? number_format( $rating_info['avg_rating'], 1 ) . '<i class="dashicons dashicons-star-filled"></i>' : '0.0 <i class="dashicons dashicons-star-filled"></i>',
 							'status' => $status,
 							'permalink' => $vendor_permalink,
 							'username' => $user->data->user_login
