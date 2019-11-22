@@ -1864,7 +1864,7 @@ Class WCMp_Admin_Dashboard {
                 wp_set_object_terms( $post_id, $product_type, 'product_type' );
 
                 // Set Product Catagories
-                $catagories = isset( $_POST['tax_input']['product_cat'] ) ? array_filter( array_map( 'intval', (array) $_POST['tax_input']['product_cat'] ) ) : array();
+                $catagories = isset( $_POST['tax_input_product']['product_cat'] ) ? array_filter( array_map( 'intval', (array) $_POST['tax_input_product']['product_cat'] ) ) : array();
                 wp_set_object_terms( $post_id, $catagories, 'product_cat' );
                 // if product has different multi level categories hierarchy, save the default
                 if( isset( $_POST['_default_cat_hierarchy_term_id'] ) && in_array( $_POST['_default_cat_hierarchy_term_id'], $catagories ) ){

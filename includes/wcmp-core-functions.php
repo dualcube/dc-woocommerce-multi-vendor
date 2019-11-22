@@ -3750,7 +3750,7 @@ if ( ! function_exists( 'generate_non_hierarchical_taxonomy_html' ) ) {
         if ( ! empty( $product_terms ) || $add_cap ) {
             ob_start();
             ?>
-            <select multiple = "multiple" data-placeholder = "<?php esc_attr_e( 'Select', 'dc-woocommerce-multi-vendor' ); ?>" class = "multiselect form-control <?php echo $taxonomy; ?>" name = "tax_input[<?php echo $taxonomy; ?>][]">
+            <select multiple = "multiple" data-placeholder = "<?php esc_attr_e( 'Select', 'dc-woocommerce-multi-vendor' ); ?>" class = "multiselect form-control <?php echo $taxonomy; ?>" name = "tax_input_product[<?php echo $taxonomy; ?>][]">
                 <?php
                 foreach ( $product_terms as $term_id => $term_name ) {
                     echo '<option value="' . $term_id . '" ' . selected( in_array( $term_id, $seleted_terms ), true, false ) . '>' . $term_name . '</option>';
@@ -3785,7 +3785,7 @@ if ( ! function_exists( 'generate_hierarchical_taxonomy_html' ) ) {
                 }
             }
 
-            $tax_html .= '<li><label><input type="checkbox" name="tax_input[' . $taxonomy . '][]" value="' . $term_id . '" ' . checked( in_array( $term_id, $post_terms ), true, false ) . '> ' . $term_name . $child_html . '</label></li>';
+            $tax_html .= '<li><label><input type="checkbox" name="tax_input_product[' . $taxonomy . '][]" value="' . $term_id . '" ' . checked( in_array( $term_id, $post_terms ), true, false ) . '> ' . $term_name . $child_html . '</label></li>';
         }
         $tax_html .= '</ul>';
         if ( $add_cap ) {
