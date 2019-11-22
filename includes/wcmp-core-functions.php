@@ -4130,9 +4130,9 @@ if (!function_exists('get_wcmp_more_spmv_products')) {
                     if( $p_obj ){
                         if ( !$p_obj->is_visible() || get_post_status ( $p_id ) != 'publish' ) continue;
                         if ( is_user_wcmp_pending_vendor( $p_author ) || is_user_wcmp_rejected_vendor( $p_author ) && absint( get_post_field( 'post_author', $product_id ) ) == $p_author ) continue;
-                        $product_vendor = get_wcmp_product_vendors( $product_id );
+                            $product_vendor = get_wcmp_product_vendors( $p_id );
                         if ( $product_vendor ){
-                            $more_products[$i]['seller_name'] = $product_vendor->page_title;
+                            $more_products[$i]['seller_name'] = isset( $product_vendor->user_data->data->display_name) ? $product_vendor->user_data->data->display_name : '';
                             $more_products[$i]['is_vendor'] = 1;
                             $more_products[$i]['shop_link'] = $product_vendor->permalink;
                             $more_products[$i]['rating_data'] = wcmp_get_vendor_review_info( $product_vendor->term_id );

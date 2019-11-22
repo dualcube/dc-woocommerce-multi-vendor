@@ -61,9 +61,7 @@ if(isset($more_product_array) && is_array($more_product_array) && count($more_pr
 			</div>
 			<div class="rowsub">
 				<?php 
-                                woocommerce_template_loop_add_to_cart( array(
-                                    'quantity' => 1,
-                                ) );
+                    echo do_shortcode('[add_to_cart show_price ="false" id="'.$_product->get_id().'"]');
                                 ?>
 				<a href="<?php echo get_permalink($more_product['product_id']); ?>" class="buttongap button" ><?php echo __('Details','dc-woocommerce-multi-vendor'); ?></a>
 			</div>
