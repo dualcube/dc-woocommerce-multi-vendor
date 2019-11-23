@@ -3940,6 +3940,7 @@ class WCMp_Ajax {
             $data = array();
             if ( $vendor_ledgers ) {
                 foreach ($vendor_ledgers as $ledger ) {
+                    if( get_post_status( $ledger->ref_id ) != 'trash' ) :
                     // total credited balance
                     $total_credit += floatval( $ledger->credit );
                     // total debited balance
@@ -3969,6 +3970,7 @@ class WCMp_Ajax {
                     $row ['debit'] = ( $ledger->debit ) ? wc_price($ledger->debit, array('currency' => $currency)) : '';
                     $row ['balance'] = wc_price($ledger->balance, array('currency' => $currency));
                     $data[] = apply_filters( 'wcmp_vendor_banking_ledger_list_row_data', $row, $ledger );
+                    endif;
                 }
             }
 
