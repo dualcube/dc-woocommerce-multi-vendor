@@ -57,7 +57,9 @@ Class WCMp_Admin_Dashboard {
         // save shipping data
         $this->backend_shipping_handler();
         // vendor store setup wizard
-        $this->vendor_setup_wizard();
+        if( !is_admin() && is_user_wcmp_vendor(get_current_vendor_id()) ){
+            $this->vendor_setup_wizard();
+        }
     }
 
     function remove_admin_bar_links() {
