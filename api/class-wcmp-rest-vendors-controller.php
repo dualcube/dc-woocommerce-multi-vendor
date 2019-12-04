@@ -390,15 +390,21 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
 			'role' => $this->post_type
 		);
 		
-		$user_id = wp_insert_user( $userdata ) ;
-		
-		if ( is_wp_error( $user_id ) ) {
-			return $user_id;
-		}
-		
-		if(isset($request['notify_vendor']) && $request['notify_vendor']) wp_new_user_notification($user_id, null, 'user');
+		if( get_user_by( 'login',  $request['login'] ) ){
+			$user = get_user_by( 'login',  $request['login'] );
+			$user->set_role('dc_vendor');
+        } else if( get_user_by( 'email',  $request['email'] ) ){
+			$user = get_user_by( 'email',  $request['email'] );
+			$user->set_role('dc_vendor');
+        } else {
+        	$user_id = wp_insert_user( $userdata ) ;
 
-		$this->update_additional_fields_for_vendor( $user_id, $request );
+        	if ( is_wp_error( $user_id ) ) {
+        		return $user_id;
+        	}
+        	if(isset($request['notify_vendor']) && $request['notify_vendor']) wp_new_user_notification($user_id, null, 'user');
+			$this->update_additional_fields_for_vendor( $user_id, $request );
+        }
 		
 		/**
 		 * Fires after a single object is created or updated via the REST API.
