@@ -47,6 +47,7 @@ class WCMp_Order {
             add_action('woocommerce_saved_order_items', array(&$this, 'wcmp_create_orders_from_backend'), 10, 2 );
             add_action('woocommerce_checkout_order_processed', array(&$this, 'wcmp_create_orders'), 10, 3);
             add_action('woocommerce_after_checkout_validation', array($this, 'wcmp_check_order_awaiting_payment'));
+            add_action( 'woocommerce_rest_insert_shop_order_object',array(&$this, 'wcmp_create_suborder_through_rest_api'), 10, 3 ); 
             // Order Refund
             add_action('woocommerce_order_refunded', array($this, 'wcmp_order_refunded'), 10, 2);
             add_action('woocommerce_refund_deleted', array($this, 'wcmp_refund_deleted'), 10, 2);
@@ -294,6 +295,11 @@ class WCMp_Order {
         $has_sub_order = get_post_meta($order_id, 'has_wcmp_sub_order', true) ? true : false;
         if($has_sub_order) return;
         $this->wcmp_create_orders($order_id, array(), $order, true);
+    }
+
+    public function wcmp_create_suborder_through_rest_api( $order, $response, $request ) { 
+        global $WCMp;
+        $this>wcmp_create_orders($order->get_id(), array(), $order, true);
     }
 
     /**
