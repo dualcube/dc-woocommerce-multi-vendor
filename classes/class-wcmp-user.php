@@ -231,6 +231,19 @@ class WCMp_User {
                 }
                 $wcmp_vendor_fields = $_POST['wcmp_vendor_fields'];
 
+                if( !empty( $wcmp_vendor_fields ) ){
+                    foreach ($wcmp_vendor_fields as $key => $value) {
+                        if( $value['type'] == 'vendor_country' ){
+                            $country_data = WC()->countries->get_countries();
+                            $country_name = ( isset($country_data[$value['value']]) ) ? $country_data[$value['value']] : $country_code;
+                            update_user_meta($customer_id, '_'.$value['type'], $country_name);
+                            update_user_meta($customer_id, '_vendor_country_code', $value['value']);
+                        } else {
+                            update_user_meta($customer_id, '_'.$value['type'], $value['value']);         
+                        }
+                    }
+                }
+
                 $wcmp_vendor_fields = apply_filters('wcmp_save_registration_fields', $wcmp_vendor_fields, $customer_id);
                 update_user_meta($customer_id, 'wcmp_vendor_fields', $wcmp_vendor_fields);
             }
