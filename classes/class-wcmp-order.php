@@ -881,6 +881,13 @@ class WCMp_Order {
                         'line_items' => $line_items,
                         )
                     );
+                    wc_create_refund(array(
+                        'amount' => $suborder_total_refund,
+                        'reason' => $refund_reason,
+                        'order_id' => $order_id,
+                        'line_items' => $line_items,
+                        )
+                    );
                     if($refund)
                         add_post_meta($refund->get_id(), '_parent_refund_id', $parent_refund_id);
                 }
