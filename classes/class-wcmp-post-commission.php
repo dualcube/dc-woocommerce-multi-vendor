@@ -1662,7 +1662,7 @@ class WCMp_Commission {
             $commission = $this->get_commission($post_id);
             $vendor = $commission->vendor;
             $commission_status = get_post_meta($post_id, '_paid_status', true);
-            if ($commission_status == 'unpaid') {
+            if ($commission_status == 'unpaid' || $commission_status == 'partial_refunded') {
                 $commission_to_pay[$vendor->term_id][] = $post_id;
             }
         }

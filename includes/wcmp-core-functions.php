@@ -726,7 +726,7 @@ if (!function_exists('wcmp_paid_commission_status')) {
 
     function wcmp_paid_commission_status($commission_id) {
         global $wpdb;
-        update_post_meta($commission_id, '_paid_status', 'paid', 'unpaid');
+        update_post_meta($commission_id, '_paid_status', 'paid');
         update_post_meta($commission_id, '_paid_date', time());
         $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_status = 'paid', commission_paid_date = now() WHERE commission_id = {$commission_id}");
     }
