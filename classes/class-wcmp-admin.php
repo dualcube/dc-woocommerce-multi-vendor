@@ -561,6 +561,12 @@ class WCMp_Admin {
         if (!in_array($order->get_status(), $WCMp->commission->completed_statuses)) {
             return;
         }
+        $items = $order->get_items();
+        foreach ($items as $item_id => $item) {
+            $variation_id = isset($item['variation_id']) && !empty($item['variation_id']) ? $item['variation_id'] : 0;
+            $item_commission = $WCMp->commission->get_item_commission($item['product_id'], $variation_id, $item, $order->get_id(), $item_id);
+            wc_update_order_item_meta( $item_id, '_vendor_item_commission', $item_commission  );
+        }
         delete_post_meta($order->get_id(), '_commissions_processed');
         $commission_id = get_post_meta($order->get_id(), '_commission_id', true) ? get_post_meta($order->get_id(), '_commission_id', true) : '';
         if ($commission_id) {
