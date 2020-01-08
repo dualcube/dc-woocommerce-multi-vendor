@@ -150,7 +150,7 @@ class WCMp_Ledger {
                         'ref_status'    => 'completed',
                         'ref_updated'   => date('Y-m-d H:i:s', current_time('timestamp')),
                         'debit'         => $withdrawal_total,
-                        'balance'       => $unpaid_commission_total['total'],
+                        'balance'       => isset($unpaid_commission_total['total']) ? $unpaid_commission_total['total'] : 0.00,
                     );
                     $data_store = $this->load_ledger_data_store();
                     $data_store->create($data);
