@@ -554,12 +554,46 @@ class WCMp_Calculate_Commission {
 
         $data = array();
         if ($product_id > 0 && $vendor_id > 0) {
+
             $vendor_idd = wc_get_order_item_meta($item_id, '_vendor_id', true);
             if ($vendor_idd) {
                 $vendor = get_wcmp_vendor($vendor_idd);
             } else {
                 $vendor = get_wcmp_product_vendors($product_id);
             }
+
+            if ( isset( $WCMp->vendor_caps->payment_cap['default_percentage'] ) ) {
+                $WCMp->vendor_caps->payment_cap['default_percentage'] = apply_filters(
+                    'wcmp_default_percentage_commission_val',
+                    $WCMp->vendor_caps->payment_cap['default_percentage'],
+                    $vendor_idd
+                );
+            }
+            
+            if ( isset( $WCMp->vendor_caps->payment_cap['default_commission'] ) ) {
+                $WCMp->vendor_caps->payment_cap['default_commission'] = apply_filters(
+                    'wcmp_default_percentage_commission_val',
+                    $WCMp->vendor_caps->payment_cap['default_commission'],
+                    $vendor_idd
+                );
+            }
+
+            if ( isset( $WCMp->vendor_caps->payment_cap['fixed_with_percentage'] ) ) {
+                $WCMp->vendor_caps->payment_cap['fixed_with_percentage'] = apply_filters(
+                    'wcmp_default_fixed_commission_val',
+                    $WCMp->vendor_caps->payment_cap['fixed_with_percentage'],
+                    $vendor_idd
+                );
+            }
+           
+            if ( isset( $WCMp->vendor_caps->payment_cap['fixed_with_percentage_qty'] ) ) {
+                $WCMp->vendor_caps->payment_cap['fixed_with_percentage_qty'] = apply_filters(
+                    'wcmp_default_fixed_commission_val',
+                    $WCMp->vendor_caps->payment_cap['fixed_with_percentage_qty'],
+                    $vendor_idd
+                );
+            }
+
             if ($vendor->term_id == $vendor_id) {
 
                 if ($WCMp->vendor_caps->payment_cap['commission_type'] == 'fixed_with_percentage') {
