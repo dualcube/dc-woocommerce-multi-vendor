@@ -1255,6 +1255,7 @@ class WCMp_Order {
         if( $new_status == 'cancelled' ){
             $commission_id = get_post_meta( $order_id, '_commission_id', true );
             if( $commission_id ) wp_trash_post( $commission_id );
+            do_action( 'wcmp_cancel_order', $commission_id );
         }
     }
     
