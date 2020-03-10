@@ -70,7 +70,11 @@ class WCMp_Cron_Job {
             foreach ($commissions as $commission) {
                 $commission_id = $commission->ID;
                 $vendor_term_id = get_post_meta($commission_id, '_commission_vendor', true);
-                $commission_to_pay[$vendor_term_id][] = $commission_id;
+                $order_id = get_post_meta( $commission_id ,'_commission_order_id', true );
+                $order = wc_get_order( $order_id );
+                if( $order->get_status() != 'failed' ){
+                    $commission_to_pay[$vendor_term_id][] = $commission_id;
+                }
             }
         }
         foreach ($commission_to_pay as $vendor_term_id => $commissions) {
