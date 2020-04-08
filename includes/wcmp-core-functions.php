@@ -3041,7 +3041,7 @@ if (!function_exists('get_wcmp_spmv_products_map_data')) {
             $results = $wpdb->get_results("SELECT product_map_id , GROUP_CONCAT(product_id) as product_ids  FROM {$wpdb->prefix}wcmp_products_map");
         }
         if ($results) {
-            foreach ($result as $row) {
+            foreach ($results as $row) {
                 $products_map_data[$row->product_map_id ] = explode(',',$row->product_ids);
             }
         }
@@ -4128,7 +4128,7 @@ if (!function_exists('get_wcmp_more_spmv_products')) {
         $has_product_map_id = get_post_meta( $product_id, '_wcmp_spmv_map_id', true );
         if( $has_product_map_id ){
             $products_map_data_ids = get_wcmp_spmv_products_map_data( $has_product_map_id );
-            $mapped_products = array_diff( $products_map_data_ids, array( $product_id ) );
+            $mapped_products = array_diff( $products_map_data_ids[$has_product_map_id], array( $product_id ) );
             if( $mapped_products && count( $mapped_products ) >= 1 ){
                 $i = 0;
                 foreach ( $mapped_products as $p_id ) {

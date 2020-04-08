@@ -196,7 +196,7 @@ class WCMp_Product {
         $has_product_map_id = get_post_meta( $product->get_id(), '_wcmp_spmv_map_id', true );
         if( $has_product_map_id ){
             $products_map_data_ids = get_wcmp_spmv_products_map_data( $has_product_map_id );
-            $mapped_products = array_diff( $products_map_data_ids, array( $product->get_id() ) );
+            $mapped_products = array_diff( $products_map_data_ids[$has_product_map_id], array( $product->get_id() ) );
             $more_product_array = get_wcmp_more_spmv_products( $product->get_id() );
         }
         return array('results' => $mapped_products, 'more_product_array' => $more_product_array);
