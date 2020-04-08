@@ -3242,7 +3242,7 @@ if (!function_exists('get_wcmp_spmv_excluded_products_map_data')) {
                                 $product_map_id = get_post_meta($product_id, '_wcmp_spmv_map_id', true);
                                 if ($product_map_id) {
                                     $products_map_data_ids = get_wcmp_spmv_products_map_data($product_map_id);
-                                    $excludes = array_diff($products_map_data_ids, array($product_id));
+                                    $excludes = array_diff($products_map_data_ids[$product_map_id], array($product_id));
                                     if ($excludes) {
                                         foreach ($excludes as $id) {
                                             $exclude_spmv_products[$term->slug][] = $id;
@@ -3260,7 +3260,7 @@ if (!function_exists('get_wcmp_spmv_excluded_products_map_data')) {
                                 $product_map_id = get_post_meta($product_id, '_wcmp_spmv_map_id', true);
                                 if ($product_map_id) {
                                     $products_map_data_ids = get_wcmp_spmv_products_map_data($product_map_id);
-                                    $excludes = array_diff($products_map_data_ids, array($product_id));
+                                    $excludes = array_diff($products_map_data_ids[$product_map_id], array($product_id));
 
                                     if ($excludes) {
                                         foreach ($excludes as $id) {
@@ -3279,7 +3279,7 @@ if (!function_exists('get_wcmp_spmv_excluded_products_map_data')) {
                                 $product_map_id = get_post_meta($product_id, '_wcmp_spmv_map_id', true);
                                 if ($product_map_id) {
                                     $products_map_data_ids = get_wcmp_spmv_products_map_data($product_map_id);
-                                    $excludes = array_diff($products_map_data_ids, array($product_id));
+                                    $excludes = array_diff($products_map_data_ids[$product_map_id], array($product_id));
 
                                     if ($excludes) {
                                         foreach ($excludes as $id) {
