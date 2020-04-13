@@ -117,6 +117,10 @@ class WCMp_Product {
         }
         // Woocommerce Block 
         add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'woocommerce_blocks_product_grid_item_html' ), 99, 3 );
+        // product review to vendor
+        add_action( 'comment_post',array( $this, 'add_comment_rating_vendor' ), 10 );
+        // display vendor reply on woocommerce single product page
+        add_action( 'woocommerce_review_after_comment_text', array( $this, 'vendor_reply_comment' ), 10 );
     }
     
     public function override_wc_product_post_parent( $data, $postarr ){
@@ -1804,6 +1808,79 @@ class WCMp_Product {
             </li>";
         }
         return $html;
+    }
+
+    public function add_comment_rating_vendor( $comment_id ){
+        $vendor = get_wcmp_product_vendors( $_POST['comment_post_ID'] );
+        if ( isset( $_POST['rating'], $_POST['comment_post_ID'] ) && 'product' === get_post_type( absint( $_POST['comment_post_ID'] ) ) && $vendor ) {
+
+            if ( ! $_POST['rating'] || $_POST['rating'] > 5 || $_POST['rating'] < 0 ) { // WPCS: input var ok, CSRF ok, sanitization ok.
+                return;
+            }
+            if (get_transient('wcmp_dashboard_reviews_for_vendor_' . $vendor->id)) {
+                delete_transient('wcmp_dashboard_reviews_for_vendor_' . $vendor->id);
+            }
+
+            add_comment_meta( $comment_id, 'vendor_rating', intval( $_POST['rating'] ) );
+            add_comment_meta( $comment_id, 'vendor_rating_id', $vendor->id);  
+
+        }
+    }
+    
+    public function vendor_reply_comment( $comment ){
+        $comment_vendor = get_comment_meta( $comment->comment_ID, 'vendor_rating_id', true );
+        $vendor_term_id = get_user_meta( $comment_vendor , '_vendor_term_id', true );
+        $args = array(
+            'status' => 'approve',
+            'type' => 'wcmp_vendor_rating',
+            'parent' => $comment->comment_ID,
+            'meta_key' => 'vendor_rating_id',
+            'meta_value' => $comment_vendor,
+            );
+        $has_reply_comments = get_comments($args);
+        if($has_reply_comments) : ?>
+            <ul class="children">
+                <?php foreach ($has_reply_comments as $comment ) { 
+                    $rating   = intval( get_comment_meta( $comment->comment_ID, 'vendor_rating', true ) );
+                    $verified = wcmp_review_is_from_verified_owner( $comment, $vendor_term_id ); 
+                    ?>
+                <li <?php comment_class(); ?> id="li-comment-<?php echo $comment->comment_ID; ?>">
+                    <div id="comment-<?php echo $comment->comment_ID; ?>" class="comment_container">
+                <?php echo '<img width="60" height="60" class="avatar avatar-60 photo" srcset="" src="'.get_avatar_url ($comment->comment_author_email ).'" alt="">'; ?>
+
+                <div class="comment-text">
+                    <?php if ( $rating && get_option( 'woocommerce_enable_review_rating' ) === 'yes' ) : ?>
+                        <div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo sprintf( __( 'Rated %d out of 5', 'dc-woocommerce-multi-vendor' ), $rating ) ?>">
+                            <span style="width:<?php echo ( $rating / 5 ) * 100; ?>%"><strong itemprop="ratingValue"><?php echo $rating; ?></strong> <?php _e( 'out of 5', 'dc-woocommerce-multi-vendor' ); ?></span>
+                        </div>
+                    <?php endif; ?>
+                    <?php do_action( 'wcmp_vendor_review_before_comment_meta', $comment ); ?>
+                    <?php if ( $comment->comment_approved == '0' ) : ?>
+                        <p class="meta"><em><?php _e( 'Your comment is awaiting approval', 'dc-woocommerce-multi-vendor' ); ?></em></p>
+                    <?php else : ?>
+                        <p class="meta">
+                            <strong itemprop="author"><?php comment_author($comment->comment_ID); ?></strong> <?php
+
+                            if ( get_option( 'woocommerce_review_rating_verification_label' ) === 'yes' )
+                                if ( $verified )
+                                    echo '<em class="verified">(' . apply_filters('wcmp_varified_buyer_text_filter',__( 'verified buyer', 'dc-woocommerce-multi-vendor' )) . ')</em> ';
+
+                                ?>&ndash; <time itemprop="datePublished" datetime="<?php echo get_comment_date( 'c',$comment->comment_ID ); ?>"><?php echo get_comment_date( wc_date_format(), $comment->comment_ID ); ?></time>
+                        </p>
+
+                    <?php endif; ?>
+
+                    <?php do_action( 'wcmp_vendor_review_before_comment_text', $comment ); ?>
+
+                    <div itemprop="description" class="description"><?php echo $comment->comment_content; ?> <div style="height:10px; width:100%">&nbsp;</div></div>
+
+                    <?php do_action( 'wcmp_vendor_review_after_comment_text', $comment );?>
+                </div>
+                    </div>
+                </li>
+                <?php } ?>
+            </ul>
+        <?php endif; 
     }
     
 }

@@ -44,7 +44,7 @@ class WCMp_Vendor {
         } else {
             $args_default = array(
                 'status' => 'approve',
-                'type' => 'wcmp_vendor_rating',
+                'type' => array( 'wcmp_vendor_rating','review'),
                 'count' => false,
                 'number' => $posts_per_page,
                 'offset' => $offset,

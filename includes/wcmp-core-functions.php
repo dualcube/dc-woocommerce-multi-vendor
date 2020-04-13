@@ -963,7 +963,7 @@ if (!function_exists('wcmp_get_vendor_review_info')) {
         );
         $args_default = array(
             'status' => 'approve',
-            'type' => 'wcmp_vendor_rating',
+            'type' => array('wcmp_vendor_rating','review'),
             'meta_key' => 'vendor_rating_id',
             'meta_value' => get_wcmp_vendor_by_term($vendor_term_id)->id,
             'meta_query' => array(
