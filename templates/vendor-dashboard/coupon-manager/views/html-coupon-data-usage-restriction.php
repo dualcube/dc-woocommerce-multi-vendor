@@ -70,7 +70,7 @@ $vendor = apply_filters( 'wcmp_vendor_select_product_for_add_coupon' , get_wcmp_
                 <div class="col-md-6 col-sm-9 coupon-products-wrap">
                     <select id="products" class="form-control wc-enhanced-select" multiple="multiple" name="product_ids[]" data-placeholder="<?php esc_attr_e( 'Any products', 'dc-woocommerce-multi-vendor' ); ?>">
                         <?php
-                        $vendor_product_ids = $vendor->get_products( array( 'fields' => 'ids' ) );
+                        $vendor_product_ids = wp_list_pluck( $vendor->get_products_ids(), 'ID' );
                         $product_ids = $coupon->get_product_ids( 'edit' );
                         foreach ( $vendor_product_ids as $product_id ) {
                             $product = wc_get_product( $product_id );
@@ -93,7 +93,7 @@ $vendor = apply_filters( 'wcmp_vendor_select_product_for_add_coupon' , get_wcmp_
                     <select id="exclude_products" class="form-control wc-enhanced-select" multiple="multiple" name="exclude_product_ids[]" data-placeholder="<?php esc_attr_e( 'Search for a product&hellip;', 'woocommerce' ); ?>">
                         <?php
                         $product_ids = $coupon->get_excluded_product_ids( 'edit' );
-                        $vendor_product_ids = $vendor->get_products( array( 'fields' => 'ids' ) );
+                        $vendor_product_ids = wp_list_pluck( $vendor->get_products_ids(), 'ID' );
                         foreach ( $vendor_product_ids as $product_id ) {
                             $product = wc_get_product( $product_id );
                             if ( is_object( $product ) ) {

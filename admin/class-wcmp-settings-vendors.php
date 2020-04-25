@@ -160,7 +160,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 			$vendor_permalink = ''; 
 			$status = "";
 			if($vendor) {
-				$vendor_products = $vendor->get_products(array('fields' => 'ids'));
+				$vendor_products = $vendor->get_products_ids();
 				$vendor_permalink = $vendor->permalink;
 				$product_count = count($vendor_products);
 			}

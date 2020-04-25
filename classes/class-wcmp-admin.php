@@ -37,6 +37,11 @@ class WCMp_Admin {
         // Admin notice for advance frontend modules (Temp)
         add_action('admin_notices', array(&$this, 'advance_frontend_manager_notice'));
         $this->actions_handler();
+
+        // Adding Meta container admin shop_order pages
+        add_action( 'add_meta_boxes',array(&$this, 'refund_order_status_customer' ) );
+        // Save the data of the Meta field
+        add_action( 'save_post',array(&$this, 'mv_save_wc_order_other_fields' ), 10, 1 );
     }
     
     public function actions_handler(){
@@ -565,5 +570,85 @@ class WCMp_Admin {
         <?php 
         endif;
     }
+
+    
+    public function refund_order_status_customer()
+    {
+        add_meta_box( 'refund_status_customer', __('Customer refund status','woocommerce'),  array(&$this, 'customer_add_refund_order' ), 'shop_order', 'side', 'core' );
+    }
+    
+
+
+    // Adding Meta field in the meta container admin shop_order pages
+    
+    public function customer_add_refund_order()
+    {
+        global $post;
+
+        $meta_field_data = get_post_meta( $post->ID, '_customer_refund_order', true ) ? get_post_meta( $post->ID, '_customer_refund_order', true ) : '';
+
+        $refund_statuses = array( 'status_refund' => 'Refund Status' ,'refund_request' => 'Refund Requested' , 'refund_accept' => 'Refund Accepted' );
+
+        echo '<input type="hidden" name="refund_customer_meta_field_nonce" value="' . wp_create_nonce() . '">'
+        ?>
+        <select id="refund_order_customer" name="refund_order_customer">
+          <?php
+          foreach ($refund_statuses as $key => $value) {
+            ?>
+            <option value="<?php echo $key; ?>" <?php if($key == $meta_field_data ) echo 'selected="selected"'; ?> ><?php echo $value; ?></option>
+            <?php
+          }
+          ?>
+        </select>
+        <?php
+
+    }
+    
+
+    public function mv_save_wc_order_other_fields( $post_id ) {
+
+        // We need to verify this with the proper authorization (security stuff).
+        // Check if our nonce is set.
+        if ( ! isset( $_POST[ 'refund_customer_meta_field_nonce' ] ) ) {
+            return $post_id;
+        }
+        $nonce = $_REQUEST[ 'refund_customer_meta_field_nonce' ];
+
+        //Verify that the nonce is valid.
+        if ( ! wp_verify_nonce( $nonce ) ) {
+            return $post_id;
+        }
+
+        // If this is an autosave, our form has not been submitted, so we don't want to do anything.
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+            return $post_id;
+        }
+
+        // Check the user's permissions.
+        if ( 'page' == $_POST[ 'post_type' ] ) {
+
+            if ( ! current_user_can( 'edit_page', $post_id ) ) {
+                return $post_id;
+            }
+        } else {
+
+            if ( ! current_user_can( 'edit_post', $post_id ) ) {
+                return $post_id;
+            }
+        }
+        // --- Its safe for us to save the data ! --- //
+
+        // Sanitize user input  and update the meta field in the database.
+        update_post_meta( $post_id, '_customer_refund_order', $_POST[ 'refund_order_customer' ] );
+
+        if( $_POST['refund_order_customer'] == 'status_refund' || $_POST['refund_order_customer'] == 'refund_request'  ) return;
+
+        $_customer_user = get_post_meta( $post_id,'_customer_user', true );
+        $mail = WC()->mailer()->emails['WC_Email_Refund_Customer_order'];
+        $result = $mail->trigger( $_customer_user , $post_id  );
+    }
+
+
+
 
 }

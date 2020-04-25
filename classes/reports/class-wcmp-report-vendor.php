@@ -41,7 +41,7 @@ class WCMp_Report_Vendor extends WC_Admin_Report {
             $vendor_id = $_POST['vendor'];
             $vendor = get_wcmp_vendor_by_term($vendor_id);
             if ($vendor)
-                $products = $vendor->get_products();
+                $products = $vendor->get_products_ids();
             if (!empty($products)) {
                 foreach ($products as $product) {
                     $chosen_product_ids[] = $product->ID;

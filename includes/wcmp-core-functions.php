@@ -165,18 +165,25 @@ if (!function_exists('get_wcmp_vendors')) {
 
     /**
      * Get all vendors
-     * @return arr Array of vendors
+     * @param args Array of args
+     * @param return type `object`/`id'
+     * @return arr Array of ids/vendors
      */
-    function get_wcmp_vendors($args = array()) {
+    function get_wcmp_vendors($args = array(), $return = 'object') {
         $vendors_array = array();
         $args = wp_parse_args($args, array('role' => 'dc_vendor', 'fields' => 'ids', 'orderby' => 'registered', 'order' => 'ASC'));
         $user_query = new WP_User_Query($args);
-        if (!empty($user_query->results)) {
-            foreach ($user_query->results as $vendor_id) {
-                $vendors_array[] = get_wcmp_vendor($vendor_id);
+        if( $return === 'object' ){
+            if (!empty($user_query->results)) {
+                foreach ($user_query->results as $vendor_id) {
+                    $vendors_array[] = get_wcmp_vendor($vendor_id);
+                }
             }
+        }else{
+            $vendors_array = $user_query->results;
         }
-        return apply_filters('get_wcmp_vendors', $vendors_array);
+        
+        return apply_filters('get_wcmp_vendors', $vendors_array, $return);
     }
 
 }
@@ -1974,7 +1981,7 @@ if (!function_exists('wcmp_get_vendor_profile_completion')) {
             foreach ($progress_fields as $key => $value) {
                 $has_value = get_user_meta($vendor->id, $key, true);
                 if ($key == '_vendor_added_product') {
-                    if ($has_value || count($vendor->get_products()) > 0) {
+                    if ($has_value || count($vendor->get_products_ids()) > 0) {
                         $progress++;
                     } else {
                         $todo[] = $value;
@@ -3039,6 +3046,7 @@ if (!function_exists('get_wcmp_spmv_products_map_data')) {
         if ($map_id) {
             return isset($products_map_data[$map_id]) ? $products_map_data[$map_id] : array();
         }
+       
         return $products_map_data;
     }
 
@@ -3604,9 +3612,9 @@ if ( ! function_exists( 'wcmp_get_post_permalink_html' ) ) {
             $type = __('product', 'dc-woocommerce-multi-vendor');
         }
         if ( false === strpos( $view_link, 'preview=true' ) ) {
-            $return .= '<label>' . __( sprintf( __('View %s:', 'dc-woocommerce-multi-vendor'), $type ) ) . "</label>\n";
+            $return .= '<label>' . __( sprintf( __('View %s', 'dc-woocommerce-multi-vendor'), $type ) ) . ":</label>\n";
         } else {
-            $return .= '<label>' . __( sprintf( __('View %s:', 'dc-woocommerce-multi-vendor'), $type ) ) . "</label>\n";
+            $return .= '<label>' . __( sprintf( __('View %s', 'dc-woocommerce-multi-vendor'), $type ) ) . ":</label>\n";
         }
         $return .= '<span id="afm-' . $post_type . '-permalink"><a href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $display_link . "</a></span>";
 

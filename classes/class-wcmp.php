@@ -194,6 +194,8 @@ final class WCMp {
         $this->init_wcmp_rest_api();
         // Init Ledger
         $this->init_ledger();
+        // Init Ledger
+        $this->init_packages();
         
         if (!wp_next_scheduled('migrate_spmv_multivendor_table') && !get_option('spmv_multivendor_table_migrated', false)) {
             wp_schedule_event(time(), 'every_5minute', 'migrate_spmv_multivendor_table');
@@ -203,9 +205,14 @@ final class WCMp {
     
     // Initializing Rest API
     function init_wcmp_rest_api() {
-		include_once ($this->plugin_path . "/api/class-wcmp-rest-controller.php" );
-		new WCMp_REST_API();
-	}
+        include_once ($this->plugin_path . "/api/class-wcmp-rest-controller.php" );
+        new WCMp_REST_API();
+    }
+    
+    // Initializing Packages
+    function init_packages() {
+        include_once ($this->plugin_path . "/packages/Packages.php" );
+    }
 
     /**
      * plugin admin init callback
@@ -528,7 +535,20 @@ final class WCMp {
                     ),
                 );
                 break;
-
+            case 'wcmp-meta-boxes' :
+                $params = array(
+                    'coupon_meta' => array( 
+                        'coupon_code' => array(
+                            'generate_button_text' => esc_html__( 'Generate coupon code', 'woocommerce' ),
+                            'characters'           => apply_filters( 'wcmp_coupon_code_generator_characters', 'ABCDEFGHJKMNPQRSTUVWXYZ23456789' ),
+                            'char_length'          => apply_filters( 'wcmp_coupon_code_generator_character_length', 8 ),
+                            'prefix'               => apply_filters( 'wcmp_coupon_code_generator_prefix', '' ),
+                            'suffix'               => apply_filters( 'wcmp_coupon_code_generator_suffix', '' ),
+                        )
+                    )
+                );
+                break;
+                
             default:
                 $params = array('ajax_url' => $this->ajax_url());
         }

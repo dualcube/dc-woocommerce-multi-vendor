@@ -54,7 +54,7 @@ $subtotal = 0;
                 <div class="dropdown-order-statuses dropdown pull-left clearfix">
                     <span class="order-status-edit-button pull-left dropdown-toggle" data-toggle="dropdown"><u><?php _e( 'Edit', 'dc-woocommerce-multi-vendor' ); ?></u></span>
                     <input type="hidden" id="order_current_status" value="<?php echo 'wc-' . $order->get_status( 'edit' ); ?>" />
-                    <ul id="order_status" class="dropdown-menu dropdown-menu-right" style="margin-top:9px;z-index:1;">
+                    <ul id="order_status" class="dropdown-menu dropdown-menu-right" style="margin-top:9px;">
                             <?php
                             $statuses = apply_filters( 'wcmp_vendor_order_statuses', wc_get_order_statuses(), $order );
                             foreach ( $statuses as $status => $status_name ) {
@@ -81,6 +81,13 @@ $subtotal = 0;
             <!-- Downloadable product permissions -->
             <?php
             $WCMp->template->get_template( 'vendor-dashboard/vendor-orders/views/html-order-downloadable-permissions.php', array( 'order' => $order, 'vendor_order' => $vendor_order, 'vendor' => $vendor ) );
+            ?>    
+        </div>
+
+        <div class="col-md-8">
+            <!-- Refund customer request -->
+            <?php
+            $WCMp->template->get_template( 'vendor-dashboard/vendor-orders/views/html-order-refund-customer.php', array( 'order' => $order, 'vendor_order' => $vendor_order, 'vendor' => $vendor ) );
             ?>    
         </div>
         

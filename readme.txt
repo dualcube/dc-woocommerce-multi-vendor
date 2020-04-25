@@ -3,9 +3,9 @@ Contributors: Dualcube, greyparrots, purnendu, itzmekhokan
 Tags: multi vendor marketplace, woocommerce multivendor marketplace, multi seller store, product vendors, best marketplace plugin, multi seller, one product multi seller, woocommerce vendors, ebay, etsy, amazon, commission rate
 Donate link: https://wc-marketplace.com/donate
 Requires at least: 4.4
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 3.4.8
+Stable tag: 3.4.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -189,6 +189,38 @@ Ans. Obviously, you can! Join in on our [GitHub repository](https://github.com/d
 
 
 == Changelog ==
+= 3.4.11 - 2020-04-14 =
+* Fix - Subscription suborders issue. #67
+* Fix - Vendor per product shipping issues. #253
+* Fix - Shipping tax issue. #254
+* Fix - Templates files information header. #257
+* Fix - Default permalink settings conflict with vendor add product. #261
+* Updated - Language file.
+
+= 3.4.10 - 2020-03-11 =
+* Added - Generate coupon code supports in vendor dashboard.
+* Tweak - Query optimization for vendor products. #231
+* Fix - Undefine index issue in SPMV product query. #216
+* Fix - Banking overview pagination. #219
+* Fix - Admin new product email product link. #227
+* Fix - Order status change dropdown issue on mobile. #230
+* Fix - Coupon category issues. #232
+* Fix - Per product shipping issue. #233
+* Fix - Rest API vendor controller return filter name variable ref. #241
+* Fix - Commission mass payment issue for unsuccessful orders. #247
+* Dev - Added `wcmp_get_orders_query_args` filter . #238
+* Dev - Added `wcmp_vendor_product_excerpt_richedit` and `wcmp_vendor_product_description_richedit` filter . #245
+* Updated - Language file.
+
+= 3.4.9 - 2020-02-04 =
+* Added - WPML supports on vendor product list. #221
+* Tweak - Vendor dashboard widget withdrawable balance functionalities on transaction details.
+* Fix - Vendor dashboard product stats widget product link. #209
+* Fix - Backend vendor registration form builder state issue. #210
+* Fix - PHP-7.4 conflict syntax. #217
+* Fix - Decimal commission value on category wise commission settings in backend. #218
+* Updated - Language file.
+
 = 3.4.8 - 2020-01-14 =
 * Added - Banking overview updated on unpaid commission deletion. #162
 * Added - Order note in vendor new order email. #191

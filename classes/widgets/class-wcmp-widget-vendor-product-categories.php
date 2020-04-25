@@ -45,7 +45,7 @@ class WCMp_Widget_Vendor_Product_Categories extends WC_Widget {
         $hierarchical = isset( $instance['hierarchical'] ) ? $instance['hierarchical'] : $this->settings['hierarchical']['std'];
 
         $this->widget_start($args, $instance); 
-        $vendor_products = $vendor->get_products();
+        $vendor_products = $vendor->get_products_ids();
         $product_ids = wp_list_pluck($vendor_products, 'ID');
         $associated_terms = array();
         foreach ($product_ids as $product_id) {

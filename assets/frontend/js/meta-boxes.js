@@ -66,6 +66,39 @@
     
     product_meta_boxes.init();
     
+    var coupon_meta_boxes = {
+        $coupon_form_wrap: $('#wcmp-afm-add-coupon'),
+        init: function() {
+            // helper functions
+            this.insert_generate_coupon_code_button();
+            this.$coupon_form_wrap.on( 'click', '.generate-coupon-code', this.generate_coupon_code.bind(this) );
+        },
+        /**
+         * Insert generate coupon code buttom HTML.
+         */
+        insert_generate_coupon_code_button: function() {
+			this.$coupon_form_wrap.find( '#post_title' ).after(
+				'<a href="#" class="btn btn-secondary generate-coupon-code" style="margin-top: 6px;">' + wcmp_meta_boxes_script_data.coupon_meta.coupon_code.generate_button_text + '</a>'
+			);
+        },
+        /**
+         * Generate a random coupon code
+         */
+        generate_coupon_code: function( e ) {
+            e.preventDefault();
+            var $coupon_code_field = this.$coupon_form_wrap.find( '#post_title' ),
+                $result = '';
+            for ( var i = 0; i < wcmp_meta_boxes_script_data.coupon_meta.coupon_code.char_length; i++ ) {
+                $result += wcmp_meta_boxes_script_data.coupon_meta.coupon_code.characters.charAt(
+                    Math.floor( Math.random() * wcmp_meta_boxes_script_data.coupon_meta.coupon_code.characters.length )
+                );
+            }
+            $result = wcmp_meta_boxes_script_data.coupon_meta.coupon_code.prefix + $result + wcmp_meta_boxes_script_data.coupon_meta.coupon_code.suffix;
+            $coupon_code_field.focus().val( $result );
+        }
+    }
+    coupon_meta_boxes.init();
+    
     $( '#product_visiblity' ).find( '.catalog-visiblity-btn' ).click( function() { 
             $( '#product_visiblity' ).collapse('hide');
             var label = $( 'input[name=_visibility]:checked' ).attr( 'data-label' );

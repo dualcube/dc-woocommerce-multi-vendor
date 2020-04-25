@@ -587,6 +587,19 @@ class WCMp_Vendor_Hooks {
             $tracking_url = $_POST['tracking_url'];
             $vendor->set_order_shipped( $order_id, $tracking_id, $tracking_url );
         }
+        /********************** Refund customer request ****************************************/
+        if ( isset( $_POST['wcmp-submit-refund-customer-request'] ) ) {
+            $order_id = $_POST['order_id'];
+            update_post_meta( $order_id, '_customer_refund_order', $_POST[ 'refund_order_customer' ] );
+
+            if( $_POST['refund_order_customer'] == 'status_refund' || $_POST['refund_order_customer'] == 'refund_request'  ) return;
+
+            $_customer_user = get_post_meta( $order_id,'_customer_user', true );
+            $mail = WC()->mailer()->emails['WC_Email_Refund_Customer_order'];
+            $result = $mail->trigger( $_customer_user , $order_id  );
+        }
+        /********************** Refund customer request end ****************************************/
+
         $vendor_order = $wp->query_vars[get_wcmp_vendor_settings( 'wcmp_vendor_orders_endpoint', 'vendor', 'general', 'vendor-orders' )];
         if ( ! empty( $vendor_order ) ) {
             $order = wc_get_order( $vendor_order );

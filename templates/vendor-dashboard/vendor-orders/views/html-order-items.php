@@ -301,12 +301,12 @@ if ( wc_tax_enabled() ) {
 
                                         if (false !== $payment_gateway && $payment_gateway->can_refund_order($order)) {
                                             /* translators: refund amount, gateway name */
-                                            echo '<button type="button" class="button button-primary do-api-refund">' . sprintf(esc_html__('Refund %1$s via %2$s', 'woocommerce'), wp_kses_post($refund_amount), esc_html($gateway_name)) . '</button>';
+                                            //echo '<button type="button" class="button button-primary do-api-refund">' . sprintf(esc_html__('Refund %1$s via %2$s', 'woocommerce'), wp_kses_post($refund_amount), esc_html($gateway_name)) . '</button>';
                                         }
                                         ?>
                                         <?php /* translators: refund amount  */ ?>
                                         <button type="button" class="btn btn-default do-manual-refund tips" data-tip="<?php esc_attr_e('You will need to manually issue a refund through your payment gateway after using this.', 'woocommerce'); ?>"><?php printf(esc_html__('Refund %s manually', 'woocommerce'), wp_kses_post($refund_amount)); ?></button>
-                                        <button type="button" class="btn btn-default cancel-action"><?php esc_html_e('Cancel', 'woocommerce'); ?></button>
+                                        <button type="button" class="btn btn-secondary cancel-action"><?php esc_html_e('Cancel', 'woocommerce'); ?></button>
                                         <input type="hidden" id="refunded_amount" name="refunded_amount" value="<?php echo esc_attr($order->get_total_refunded()); ?>" />
                                         <div class="clear"></div>
                                     </div>

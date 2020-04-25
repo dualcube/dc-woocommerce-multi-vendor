@@ -21,8 +21,8 @@ do_action('before_wcmp_vendor_dashboard_products_qna_table');
             <div class="form-group">
                 <select id="show_qna_by_products" name="show_qna_by_products[]" class="form-control regular-select " multiple="multiple">
                     <?php
-                    if ($vendor->get_products()){
-                        foreach ($vendor->get_products() as $product) {
+                    if ($vendor->get_products_ids()){
+                        foreach ($vendor->get_products_ids() as $product) {
                             $product = wc_get_product($product->ID);
                             echo '<option value="' . esc_attr($product->get_id()) . '">' . esc_html($product->get_title()) . '</option>';
                         }

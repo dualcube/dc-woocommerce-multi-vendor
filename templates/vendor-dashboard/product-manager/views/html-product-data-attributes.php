@@ -3,19 +3,11 @@
 /**
  * Attribute product tab template
  *
- * Used by edit-product.php template
+  * Override this template by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-data-attributes.php
  *
- * This template can be overridden by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-data-attributes.php.
- *
- * HOWEVER, on occasion WCMp will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @author 		WC Marketplace
- * @package 	WCMp/templates/vendor dashboard/product manager/views
- * @version     3.3.0
+ * @author  WC Marketplace
+ * @package     WCMp/Templates
+ * @version   3.3.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

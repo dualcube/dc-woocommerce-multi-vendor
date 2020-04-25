@@ -257,7 +257,7 @@ class WCMp_Frontend {
                 'contents_cost' => array_sum(wp_list_pluck($split_package, 'line_total')),
                 'applied_coupons' => WC()->cart->get_applied_coupons(),
                 'user' => array(
-                    'ID' => get_current_vendor_id(),
+                    'ID' => $vendor_id,
                 ),
                 'destination' => array(
                     'country' => WC()->customer->get_shipping_country(),
@@ -278,7 +278,8 @@ class WCMp_Frontend {
      * @param sting $package_key as $vendor_id
      */
     public function add_meta_date_in_shipping_package($item, $package_key, $package, $order) {
-        $item->add_meta_data('vendor_id', $package_key, true);
+        $vendor_id = ( isset( $package['vendor_id'] ) && $package['vendor_id'] ) ? $package['vendor_id'] : $package_key;
+        $item->add_meta_data('vendor_id', $vendor_id, true);
         $package_qty = array_sum(wp_list_pluck($package['contents'], 'quantity'));
         $item->add_meta_data('package_qty', $package_qty, true);
         do_action('wcmp_add_shipping_package_meta_data');

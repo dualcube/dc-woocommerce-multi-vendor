@@ -645,7 +645,7 @@ class WCMp_Commission {
         if( $commissions->get_posts() ) :
             $commission_amount = $shipping_amount = $tax_amount = $total = 0;
             $commission_posts = apply_filters( 'wcmp_before_get_commissions_total_data_commission_posts', $commissions->get_posts(), $vendor_id, $args );
-            foreach ( $commissions->get_posts() as $commission_id ) {
+            foreach ( $commission_posts as $commission_id ) {
                 $commission_amount += self::commission_amount_totals( $commission_id, 'edit' );
                 $shipping_amount += self::commission_shipping_totals( $commission_id, 'edit' );
                 $tax_amount += self::commission_tax_totals( $commission_id, 'edit' );
@@ -1804,6 +1804,83 @@ class WCMp_Commission {
         <?php
         delete_transient('wcmp_comm_save_status_' .  absint($_GET['post']));
         }
+    }
+    
+    /**
+     * Get Unpaid commission totals data
+     * @param string $type
+     * @return array 
+     */
+    public static function get_unpaid_commissions_total_data( $type = 'withdrawable' ) {
+        global $WCMp;
+        $vendor = get_wcmp_vendor( get_current_user_id() );
+        if( !$vendor ) return false;
+        $vendor_id = $vendor->id;
+        $args = array(
+            'post_type' => 'dc_commission',
+            'post_status' => array('publish', 'private'),
+            'posts_per_page' => -1,
+            'fields' => 'ids',
+            'meta_query' => array(
+                'relation' => 'AND',
+                array(
+                    'key' => '_commission_vendor',
+                    'value' => absint( $vendor->term_id ),
+                    'compare' => '='
+                ),
+                array(
+                    'key' => '_paid_status',
+                    'value' => array('unpaid', 'partial_refunded'),
+                    'compare' => 'IN'
+                ),
+            ),
+	);
+   
+        $commissions = new WP_Query( apply_filters( 'wcmp_get_unpaid_commissions_total_data_query_args', $args, $type, $vendor ) );
+        if( $commissions->get_posts() ) :
+            $commission_amount = $shipping_amount = $tax_amount = $total = 0;
+            $commission_posts = apply_filters( 'wcmp_get_unpaid_commissions_total_data_query_posts', $commissions->get_posts(), $vendor );
+            foreach ( $commission_posts as $commission_id ) {
+                if( $type == 'withdrawable' ){
+                    $order_id = wcmp_get_commission_order_id( $commission_id );
+                    $order = wc_get_order( $order_id );
+                    if( $order ) {
+                        if ( is_commission_requested_for_withdrawals( $commission_id ) || in_array( $order->get_status('edit'), array( 'on-hold', 'pending', 'failed', 'refunded', 'cancelled' ) ) ) {
+                            continue; // calculate only available withdrawable balance
+                        }
+                    }
+                }
+                $commission_amount += self::commission_amount_totals( $commission_id, 'edit' );
+                $shipping_amount += self::commission_shipping_totals( $commission_id, 'edit' );
+                $tax_amount += self::commission_tax_totals( $commission_id, 'edit' );
+            }
+            $check_caps = apply_filters( 'wcmp_get_unpaid_commissions_total_data_vendor_check_caps', true, $vendor );
+                    
+            if( $check_caps && $vendor_id ){
+                $amount = array(
+                    'commission_amount' => $commission_amount,
+                );
+                if ($WCMp->vendor_caps->vendor_payment_settings('give_shipping') && !get_user_meta($vendor_id, '_vendor_give_shipping', true)) {
+                    $amount['shipping_amount'] = $shipping_amount;
+                } else {
+                    $amount['shipping_amount'] = 0;
+                }
+                if ($WCMp->vendor_caps->vendor_payment_settings('give_tax') && !get_user_meta($vendor_id, '_vendor_give_tax', true)) {
+                    $amount['tax_amount'] = $tax_amount;
+                } else {
+                    $amount['tax_amount'] = 0;
+                }
+                $amount['total'] = $amount['commission_amount'] + $amount['shipping_amount'] + $amount['tax_amount'];
+                return $amount;
+            }else{
+                return array(
+                    'commission_amount' => $commission_amount,
+                    'shipping_amount' => $shipping_amount,
+                    'tax_amount' => $tax_amount,
+                    'total' => $commission_amount + $shipping_amount + $tax_amount
+                );
+            }
+        endif;
     }
 
 }

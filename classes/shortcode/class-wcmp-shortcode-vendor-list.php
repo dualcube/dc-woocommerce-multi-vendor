@@ -53,8 +53,9 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
             } else {
                 $vendor_args = wp_parse_args($args, $default);
             }
-            if(get_query_var('paged')) :
-                $current_page = max( 1, get_query_var('paged') );
+            $query_paged = ( is_front_page() && get_query_var('page') ) ? get_query_var('page') : ( get_query_var('paged') ) ? get_query_var('paged') : false;
+            if( $query_paged ) :
+                $current_page = max( 1, $query_paged );
                 $offset = ($current_page - 1) * $vendor_args['number'];
                 $vendor_args['offset'] = $offset;
             endif;
@@ -154,7 +155,7 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
             $radius = apply_filters('wcmp_vendor_list_filter_radius_data', array(5,10,20,30,50));
             $data = apply_filters('wcmp_vendor_list_data', array(
                 'total'   => ceil($vendors_total/$query['number']),
-                'current' => max( 1, get_query_var('paged') ),
+                'current' => is_front_page() ? max( 1, ( get_query_var('page') ) ) : max( 1, get_query_var('paged') ),
                 'per_page' => $query['number'],
                 'base'    => get_pagenum_link(1) . '%_%',
                 'format'  => 'page/%#%/',

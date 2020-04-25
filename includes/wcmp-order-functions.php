@@ -30,7 +30,7 @@ function wcmp_get_orders($args = array(), $return_type = 'ids') {
 	'fields'           => 'ids',
     );
     $args = wp_parse_args($args, $default);
-    $query = new WP_Query( $args );
+    $query = new WP_Query( apply_filters( 'wcmp_get_orders_query_args', $args ) );
     if(strtolower($return_type) == 'object'){
         $orders = array();
         foreach ($query->get_posts() as $post_id) {
@@ -168,7 +168,7 @@ function get_wcmp_suborders( $order_id, $args = array(), $object = true ) {
  * @return object WCMp vendor order class object.
  */
 function get_wcmp_order_by_commission( $commission_id ) {
-    $order_id = get_post_meta( $commission_id, '_commission_order_id', true );
+    $order_id = wcmp_get_commission_order_id( $commission_id );
     if( $order_id ){
         $vendor_order = wcmp_get_order( $order_id );
         return $vendor_order;
@@ -192,4 +192,26 @@ function get_vendor_parent_shipping_item_id( $order_id, $vendor_id ) {
         }
     }
     return false;
+}
+
+/**
+ * Get commission order ID
+ *
+ * @param int $commission_id.
+ * @return order ID
+ */
+function wcmp_get_commission_order_id( $commission_id ) {
+    $order_id = get_post_meta( $commission_id, '_commission_order_id', true );
+    return ( $order_id ) ? $order_id : false;
+}
+
+/**
+ * Get order commission ID
+ *
+ * @param int $order_id.
+ * @return commission ID
+ */
+function wcmp_get_order_commission_id( $order_id ) {
+    $commission_id = get_post_meta( $order_id, '_commission_id', true );
+    return ( $commission_id ) ? $commission_id : false;
 }
