@@ -8,6 +8,9 @@ class WCMp_Settings {
     private $tabsection_payment = array();
     private $tabsection_vendor = array();
     private $tabsection_capabilities = array();
+    /*********************** refund tab ***************************/
+    private $tabsection_refund = array();
+    /*********************** refund tab ***************************/
     private $vendor_class_obj;
 
     /**
@@ -38,6 +41,11 @@ class WCMp_Settings {
         add_action( 'settings_page_payment_stripe_gateway_tab_init', array(&$this, 'payment_stripe_gateway_tab_init'), 10, 2);
         // Settings tabs capability
         add_action( 'settings_page_capabilities_product_tab_init', array( &$this, 'capabilites_product_tab_init' ), 10, 2 );
+
+        /********************************   Refund tab  start  ******************************************/
+        add_action( 'settings_page_RMA_refund_tab_init', array( &$this, 'RMA_refund_tab_init' ), 10, 2 );
+        /********************************   Refund tab  end  ******************************************/
+
 //        add_action('settings_page_capabilities_order_tab_init', array(&$this, 'capabilites_order_tab_init'), 10, 2);
 //        add_action('settings_page_capabilities_miscellaneous_tab_init', array(&$this, 'capabilites_miscellaneous_tab_init'), 10, 2);
         // Settings tabs others
@@ -98,21 +106,24 @@ class WCMp_Settings {
 
         // Assign priority incrmented by 1
         $wcmp_submenu_priority = array(
-        	'wc-reports&tab=wcmp_vendors' => 5,
-        	'edit.php?post_type=dc_commission' => 0,
-        	'edit.php?post_type=wcmp_vendor_notice' => 2,
-        	'edit.php?post_type=wcmp_university' => 3,
-        	'vendors' => 4,
-        	'wcmp-setting-admin' => 6,
-        	'wcmp-to-do' => 1,
-        	'wcmp-extensions' => 7,
-		);
+            'wc-reports&tab=wcmp_vendors' => 5,
+            'edit.php?post_type=dc_commission' => 0,
+            'edit.php?post_type=wcmp_vendor_notice' => 2,
+            'edit.php?post_type=wcmp_university' => 3,
+            'vendors' => 4,
+            'wcmp-setting-admin' => 6,
+            'wcmp-to-do' => 1,
+            'wcmp-extensions' => 7,
+        );
         
-		$this->tabs = $this->get_wcmp_settings_tabs();
+        $this->tabs = $this->get_wcmp_settings_tabs();
         $this->tabsection_general = $this->get_wcmp_settings_tabsections_general();
         $this->tabsection_payment = $this->get_wcmp_settings_tabsections_payment();
         $this->tabsection_vendor = $this->get_wcmp_settings_tabsections_vendor();
         $this->tabsection_capabilities = $this->get_wcmp_settings_tabsections_capabilities();
+        /******************** refund tab *******************************/
+        $this->tabsection_refund = $this->get_wcmp_settings_tabsections_refund();
+        /***************************** refund tab end ***********************************/
         // Add WCMp Help Tab
         add_action( 'load-' . $wcmp_settings_page, array( &$this, 'wcmp_settings_add_help_tab' ) );
         add_action( 'load-' . $wcmp_extension_page, array( &$this, 'wcmp_settings_add_help_tab' ) );
@@ -121,19 +132,19 @@ class WCMp_Settings {
         
         /* sort wcmp submenu */
         if ( isset( $submenu['wcmp'] ) ) {
-        	$wcmp_submenu_priority = apply_filters( 'wcmp_submenu_items', $wcmp_submenu_priority, $submenu['wcmp'] );
-        	$submenu_wcmp_sort = array();
-        	$submenu_wcmp_sort_duplicates = array();
-        	foreach($submenu['wcmp'] as $menu_items) {
-        		if(isset($wcmp_submenu_priority[$menu_items[2]]) && ($wcmp_submenu_priority[$menu_items[2]] >= 0) && !isset($submenu_wcmp_sort[$wcmp_submenu_priority[$menu_items[2]]])) $submenu_wcmp_sort[$wcmp_submenu_priority[$menu_items[2]]] = $menu_items;
-				else $submenu_wcmp_sort_duplicates[] = $menu_items;
-        	}
-        	
-        	ksort($submenu_wcmp_sort);
-        	
-        	$submenu_wcmp_sort = array_merge($submenu_wcmp_sort, $submenu_wcmp_sort_duplicates);
-        	
-        	$submenu['wcmp'] = $submenu_wcmp_sort;
+            $wcmp_submenu_priority = apply_filters( 'wcmp_submenu_items', $wcmp_submenu_priority, $submenu['wcmp'] );
+            $submenu_wcmp_sort = array();
+            $submenu_wcmp_sort_duplicates = array();
+            foreach($submenu['wcmp'] as $menu_items) {
+                if(isset($wcmp_submenu_priority[$menu_items[2]]) && ($wcmp_submenu_priority[$menu_items[2]] >= 0) && !isset($submenu_wcmp_sort[$wcmp_submenu_priority[$menu_items[2]]])) $submenu_wcmp_sort[$wcmp_submenu_priority[$menu_items[2]]] = $menu_items;
+                else $submenu_wcmp_sort_duplicates[] = $menu_items;
+            }
+            
+            ksort($submenu_wcmp_sort);
+            
+            $submenu_wcmp_sort = array_merge($submenu_wcmp_sort, $submenu_wcmp_sort_duplicates);
+            
+            $submenu['wcmp'] = $submenu_wcmp_sort;
         }
     }
 
@@ -199,22 +210,22 @@ class WCMp_Settings {
         $screen = get_current_screen();
         
         $option = 'per_page';
-		$args   = [
-			'label'   => __('Number of vendors per page:', 'dc-woocommerce-multi-vendor'),
-			'default' => 5,
-			'option'  => 'vendors_per_page'
-		];
-	
-		add_screen_option( $option, $args );
-		
-		$WCMp->admin->load_class( "settings-{$tab}", $WCMp->plugin_path, $WCMp->token );
-		$this->vendor_class_obj = new WCMp_Settings_WCMp_Vendors( $tab );
+        $args   = [
+            'label'   => __('Number of vendors per page:', 'dc-woocommerce-multi-vendor'),
+            'default' => 5,
+            'option'  => 'vendors_per_page'
+        ];
+    
+        add_screen_option( $option, $args );
+        
+        $WCMp->admin->load_class( "settings-{$tab}", $WCMp->plugin_path, $WCMp->token );
+        $this->vendor_class_obj = new WCMp_Settings_WCMp_Vendors( $tab );
     }
     
     function vendors_set_option($status, $option, $value) {
-		if ( 'vendors_per_page' == $option ) return $value;
-		return $status;
-	}
+        if ( 'vendors_per_page' == $option ) return $value;
+        return $status;
+    }
     
     public function wcmp_settings_add_help_tab() {
         global $WCMp;
@@ -268,7 +279,8 @@ class WCMp_Settings {
             'vendor'       => __( 'Vendor', 'dc-woocommerce-multi-vendor' ),
 //            'frontend' => __('Frontend', 'dc-woocommerce-multi-vendor'),
             'payment'      => __( 'Payment', 'dc-woocommerce-multi-vendor' ),
-            'capabilities' => __( 'Capabilities', 'dc-woocommerce-multi-vendor' )
+            'capabilities' => __( 'Capabilities', 'dc-woocommerce-multi-vendor' ),
+            'RMA'      => __( 'RMA', 'dc-woocommerce-multi-vendor' ),
         ) );
         return $tabs;
     }
@@ -321,6 +333,15 @@ class WCMp_Settings {
         ) );
         return $tabsection_capabilities;
     }
+
+    /************************* refund tab section *****************************************/
+    public function get_wcmp_settings_tabsections_refund() {
+        $tabsection_refund = apply_filters( 'wcmp_tabsection_refund', array(
+            'refund' => array( 'title' => __( 'Refund', 'dc-woocommerce-multi-vendor' ), 'icon' => 'dashicons-cart' ),
+        ) );
+        return $tabsection_refund;
+    }
+    /************************* refund tab section *****************************************/
 
     public function get_settings_tab_desc() {
         $tab_desc = apply_filters( 'wcmp_tabs_desc', array(
@@ -476,6 +497,16 @@ class WCMp_Settings {
                     do_action( "wcmp_{$tab}_{$tab_section}_settings_before_submit" );
                     do_settings_sections( "wcmp-{$tab}-{$tab_section}-settings-admin" );
                     submit_button();
+                } else if ( $tab == 'RMA' ) {
+                    if ( isset( $_GET['tab_section'] ) ) {
+                        $tab_section = $_GET['tab_section'];
+                    } else {
+                        $tab_section = 'refund';
+                    }
+                    settings_fields( "wcmp_{$tab}_{$tab_section}_settings_group" );
+                    do_action( "wcmp_{$tab}_{$tab_section}_settings_before_submit" );
+                    do_settings_sections( "wcmp-{$tab}-{$tab_section}-settings-admin" );
+                    submit_button();
                 } else if ( $tab == 'wcmp-addons' ) {
                     do_action( "settings_page_{$tab}_tab_init", $tab );
                 } else if ( isset( $_GET['tab_section'] ) && $_GET['tab_section'] && $_GET['tab_section'] != 'general' && $tab != 'general' && $tab != 'payment' ) {
@@ -521,7 +552,7 @@ class WCMp_Settings {
     public function wcmp_vendors() {
         ?>  
         <div class="wrap">
-        	<?php do_action( "settings_page_vendors_tab_init", 'vendors' ); ?>
+            <?php do_action( "settings_page_vendors_tab_init", 'vendors' ); ?>
             <?php do_action( 'dualcube_admin_footer' ); ?>
         </div>
         <?php
@@ -561,7 +592,7 @@ class WCMp_Settings {
                             <td class="forminp">
                                 <input type="text" name="report_title" id="report_title" value="" placeholder="Title" style="width:100%;">
                             </td>
-			</tr>
+            </tr>
                         <tr class="" valign="top">
                             <th scope="row" class="titledesc" style="padding-left:24px;">
                                 <label for="report_comment"><?php _e( 'Comment', 'dc-woocommerce-multi-vendor' ) ?></label>
@@ -569,7 +600,7 @@ class WCMp_Settings {
                             <td class="forminp">
                                 <textarea name="report_comment" id="report_comment" style="width:100%;"></textarea>
                             </td>
-			</tr>
+            </tr>
                         <tr class="" valign="top">
                             <th scope="row" class="titledesc" style="padding-left:24px;">
                                 <label for="report_attach"><?php _e( 'Attachments', 'dc-woocommerce-multi-vendor' ) ?></label>
@@ -582,13 +613,13 @@ class WCMp_Settings {
                                 $WCMp->wcmp_wp_fields->dc_generate_form_field($reportoptions);
                                 ?>
                             </td>
-			</tr>
+            </tr>
                         <tr class="" valign="top">
                             <td colspan="2">
                                 <?php wp_nonce_field( 'wcmp_split_report_bugs_nonce_action', 'wcmp_split_report_nonce' ); ?>
                                 <input type="submit" class="button button-primary" name="report_bug_submit" value="<?php _e( 'Submit issue', 'dc-woocommerce-multi-vendor' ) ?>"/>
                             </td>
-			</tr>
+            </tr>
                     </tbody>
                 </table>
                 
@@ -765,6 +796,15 @@ class WCMp_Settings {
         new WCMp_Settings_Capabilities_Product( $tab, $subsection );
     }
 
+    /************************ refund tab init ***************************************/
+    public function RMA_refund_tab_init( $tab, $subsection ) {
+        global $WCMp;
+        $WCMp->admin->load_class( "settings-{$tab}-{$subsection}", $WCMp->plugin_path, $WCMp->token );
+        new WCMp_Settings_RMA_refund( $tab, $subsection );
+    }
+    /************************ refund tab init  end ***************************************/
+
+
 //    public function capabilites_order_tab_init($tab, $subsection) {
 //        global $WCMp;
 //        $WCMp->admin->load_class("settings-{$tab}-{$subsection}", $WCMp->plugin_path, $WCMp->token);
@@ -852,7 +892,7 @@ class WCMp_Settings {
 
 
     public function is_wcmp_tab_has_subtab( $tab = 'general' ) {
-        return in_array( $tab, apply_filters( 'is_wcmp_tab_has_subtab', array( 'general', 'payment', 'vendor', 'capabilities' ), $tab ) );
+        return in_array( $tab, apply_filters( 'is_wcmp_tab_has_subtab', array( 'general', 'payment', 'vendor', 'capabilities','RMA' ), $tab ) );
     }
 
     public function get_wcmp_subtabs( $tab = 'general' ) {
@@ -866,6 +906,9 @@ class WCMp_Settings {
                 break;
             case 'capabilities':
                 $subtabs = $this->tabsection_capabilities;
+                break;
+            case 'RMA':
+                $subtabs = $this->tabsection_refund;
                 break;
             default :
                 $subtabs = $this->tabsection_general;

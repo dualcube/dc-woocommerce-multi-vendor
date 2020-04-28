@@ -139,4 +139,54 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
+    /***********************  Refund order module   ********************************/
+    
+    // clicking on others a text field will open
+    $(".others_reson_field").change(function(){
+        if( $(this).val() == frontend_customer_refund.last_value)
+        {
+          $("#text_fields_for_others").show();
+        }
+        else
+        {
+          $("#text_fields_for_others").hide(); 
+        }
+      });
+    // clicking on others a text field will open end
+
+    $('#wcmp_refund_order').on('click', function(){
+
+        var description = $('#woo_user_subject').val();
+        var refund_rason = $('input[name=reason_key]:checked').val();
+       
+        var others_reason = $('#text_fields_for_others').val();
+
+        
+        if (!$.isNumeric(refund_rason)) {
+            document.getElementById('msg_for_refund_error').innerHTML = frontend_customer_refund.error_reason_empty;
+            document.getElementById('msg_for_refund_error').focus();
+            return false;
+        }
+
+        if (description == '' || description == ' ') {
+            document.getElementById('msg_for_refund_error').innerHTML = frontend_customer_refund.error_fill_text;
+            return false;
+        }
+        jQuery('#msg_for_refund_error').html('');
+       
+        var data = {
+            action: 'customer_refund_order',
+            description: description,
+            order: frontend_customer_refund.order_id,
+            refund_rason: refund_rason,
+            others_reason: others_reason
+        }
+        block($('.block_from_sending_time' ));
+        $.post(frontend_js_script_data.ajax_url, data, function (response) {
+            unblock($( '.block_from_sending_time' ));
+            jQuery('#msg_for_refund_sucesss').html(frontend_customer_refund.sucess_msg);
+        });
+    });
+    
 });

@@ -66,6 +66,7 @@ class WCMp_Order {
             add_filter( 'woocommerce_order_item_get_formatted_meta_data', array($this, 'woocommerce_hidden_order_item_get_formatted_meta_data'), 99 );
             add_action( 'woocommerce_order_status_changed', array($this, 'wcmp_vendor_order_status_changed_actions'), 99, 3 );
             add_action( 'woocommerce_rest_shop_order_object_query', array($this, 'wcmp_exclude_suborders_from_rest_api_call'), 99, 2 );
+            add_action( 'woocommerce_order_details_after_customer_details',array($this, 'refund_order_from_customer') );
         }
     }
 
@@ -1268,5 +1269,133 @@ class WCMp_Order {
             $args['parent_exclude'] = ( isset( $args['parent_exclude'] ) && $args['parent_exclude'] ) ? $args['parent_exclude'][] = 0 : array( 0 );
         return apply_filters( 'wcmp_exclude_suborders_from_rest_api_call_query_args', $args, $request );
     }
+
+    
+    public function refund_order_from_customer( $order ){
+        global $WCMp;
+        if( !wcmp_get_order( $order->get_id() ) ) return;
+
+        $WCMp->library->load_bootstrap_script_lib();
+        $WCMp->library->load_bootstrap_style_lib();
+
+        $refund_reson_option = get_option( 'wcmp_RMA_refund_settings_name', true );
+        // refund days
+        $refund_days = $refund_reson_option['refund_days'];
+        // refund reasons
+        $refund_message_by_admin = $refund_reson_option['refund_order_msg'];
+        $massage_array = empty( $refund_message_by_admin ) ? array() : explode("||",$refund_message_by_admin) ;
+        array_push( $massage_array , "others" );
+        end($massage_array);
+        $key = key($massage_array);  
+
+        // enqueue frontend js 
+        wp_enqueue_script('frontend_js');
+        wp_localize_script(
+            'frontend_js', 'frontend_customer_refund', apply_filters('wcmp_refund_customer_localize_script_data', array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'order_id'=>  $order->get_id(),
+                'last_value' => $key,
+                'sucess_msg' => __( 'Your request has send successfully', 'dc-woocommerce-multi-vendor' ),
+                'error_fill_text' =>  __( 'Please enter your views', 'dc-woocommerce-multi-vendor' ),
+                'error_reason_empty' =>  __( 'Enter your reson of refund', 'dc-woocommerce-multi-vendor' )
+                )));
+
+        $meta_field_data = get_post_meta( $order->get_id(), '_customer_refund_order', true ) ? get_post_meta( $order->get_id(), '_customer_refund_order', true ) : '';
+
+        /******************************  Refund request within admin mentions date  **********************************/
+        $order->get_date_created()->format ('Y-m-d');
+        $OldDate = new DateTime($order->get_date_created()->format ('Y-m-d'));
+        $now = new DateTime(Date('Y-m-d'));
+
+        // title refund order section
+        ?> <h5><strong> <?php
+        echo apply_filters( 'wcmp_request_refund_customer_order_section', _e( 'Refund Order Section :' , 'dc-woocommerce-multi-vendor' ) );
+        ?> </strong></h5> <?php
+
+        // order status check
+        if( !in_array( $order->get_status() , $refund_reson_option) ) {
+            ?> <strong> <?php
+            echo apply_filters( 'wcmp_request_refund_customer_not_allowed', _e( 'Your Refund is not allowed for this order status' , 'dc-woocommerce-multi-vendor' ) );
+            ?> </strong> <?php
+            return;
+        }
+
+        // days check after
+        if( $OldDate->diff($now)->days >= $refund_days ){
+            ?> <strong> <?php
+            echo apply_filters( 'wcmp_request_refund_customer_days', _e( 'Your Refund Period is over. Please contact with your seller for further information' , 'dc-woocommerce-multi-vendor' ) );
+            ?> </strong> <?php
+            return;
+        }
+
+        // request is pending not accepted till now
+        if( $meta_field_data == 'refund_request' ){
+            ?> <strong> <?php
+            echo apply_filters( 'wcmp_request_refund_customer_pending', _e( 'Your Request Is pending' , 'dc-woocommerce-multi-vendor' ) );
+            ?> </strong> <?php
+            return;
+        }
+
+        // Request accepted
+        if( $meta_field_data == 'refund_accept' ){
+            ?> <strong> <?php
+            echo apply_filters( 'wcmp_request_refund_customer_accept', _e( 'Congratulation: **** Your Request is Accepted *** ' , 'dc-woocommerce-multi-vendor' ) );
+            ?> </strong> <?php
+            return;
+        }
+        ?>
+
+        <!--  Refund order popup  -->
+        <div class="container">
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><?php echo apply_filters( 'refund_order_text_customer' , __('Refund Order', 'dc-woocommerce-multi-vendor') ); ?></button>
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog" >
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="block_from_sending_time">
+
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title"> <?php echo __('Refund Request from : ', 'dc-woocommerce-multi-vendor'); ?> </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="msg_for_refund_error" style="color:#f00; text-align:center;"></p>
+                                <p id="msg_for_refund_sucesss" style="color:#0f0; text-align:center;"></p>      
+                                <strong> 
+                                    <?php
+                                    echo apply_filters( 'refund_reason_label', __('Please mention your refund reason : ', 'dc-woocommerce-multi-vendor') );
+                                    ?> 
+                                </strong>
+                                <div>
+                                    <?php foreach ( $massage_array as $reason_key => $reason ){
+                                        ?>
+                                        <div>
+                                            <input id="<?php echo esc_attr( $reason_key ); ?>"  type="radio" name="reason_key" value="<?php echo $reason_key; ?>" class="others_reson_field" />
+                                            <label for="<?php echo esc_attr( $reason_key ); ?>"><?php echo esc_html( $reason ); ?></label>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <input style="display:none;" type="text" name="reason_<?php echo esc_attr( $reason_key ); ?>" placeholder="<?php echo esc_attr( $reason ); ?>" class="others_reson_field" id="text_fields_for_others"/>
+                                </div>
+                                <strong> 
+                                    <?php echo __('Please Enter your message For us : ', 'dc-woocommerce-multi-vendor'); ?> </strong>
+                                    <input name="woo_user_subject" id="woo_user_subject"  type="text" placeholder="<?php echo __( 'Your thinking about us' , 'dc-woocommerce-multi-vendor' ); ?>" />
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo __('Close', 'dc-woocommerce-multi-vendor'); ?></button>
+                                <button type="button" id="wcmp_refund_order" class="btn btn-primary"><?php echo __('Send', 'dc-woocommerce-multi-vendor'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    
 
 }
