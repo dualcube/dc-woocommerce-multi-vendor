@@ -66,6 +66,8 @@ class WCMp_Order {
             add_filter( 'woocommerce_order_item_get_formatted_meta_data', array($this, 'woocommerce_hidden_order_item_get_formatted_meta_data'), 99 );
             add_action( 'woocommerce_order_status_changed', array($this, 'wcmp_vendor_order_status_changed_actions'), 99, 3 );
             add_action( 'woocommerce_rest_shop_order_object_query', array($this, 'wcmp_exclude_suborders_from_rest_api_call'), 99, 2 );
+            // for commission regenerate
+            add_action('woocommerce_before_order_object_save', 'custom_before_order_object_save', 10, 2);
         }
     }
 
@@ -1268,5 +1270,19 @@ class WCMp_Order {
             $args['parent_exclude'] = ( isset( $args['parent_exclude'] ) && $args['parent_exclude'] ) ? $args['parent_exclude'][] = 0 : array( 0 );
         return apply_filters( 'wcmp_exclude_suborders_from_rest_api_call_query_args', $args, $request );
     }
+    public function custom_before_order_object_save($order, $data_store) {
+        global $WCMp;
+        $is_vendor_order = ( $order ) ? wcmp_get_order( $order->get_id() ) : false;
+        if( $is_vendor_order ):
+
+        $items = $order->get_items();
+        foreach ($items as $item_id => $item) {
+            $variation_id = isset($item['variation_id']) && !empty($item['variation_id']) ? $item['variation_id'] : 0;
+            $item_commission = $WCMp->commission->get_item_commission($item['product_id'], $variation_id, $item, $order->get_id(), $item_id);
+            wc_update_order_item_meta( $item_id, '_vendor_item_commission', $item_commission  );
+        }
+        endif;
+    }
+
 
 }
