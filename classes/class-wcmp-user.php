@@ -470,6 +470,13 @@ class WCMp_User {
                 'value' => $vendor->instagram,
                 'class' => "user-profile-fields regular-text"
             ), // Text
+            // buddy press
+            "vendor_buddypress" => array(
+                'label' => __('BuddyPress Profile', 'dc-woocommerce-multi-vendor'),
+                'type' => 'text',
+                'value' => $vendor->buddypress,
+                'class' => "user-profile-fields regular-text"
+            ), // Text
             "vendor_image" => array(
                 'label' => __('Logo', 'dc-woocommerce-multi-vendor'),
                 'type' => 'upload',

@@ -503,6 +503,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 								"vendor_google_plus_profile" => array('label' => __('Google Plus', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_google_plus_profile', 'label_for' => 'vendor_google_plus_profile', 'name' => 'vendor_google_plus_profile', 'value' => $vendor_obj->google_plus_profile),
 								"vendor_youtube" => array('label' => __('YouTube', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_youtube', 'label_for' => 'vendor_youtube', 'name' => 'vendor_youtube', 'value' => $vendor_obj->youtube),
 								"vendor_instagram" => array('label' => __('Instagram', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_instagram', 'label_for' => 'vendor_instagram', 'name' => 'vendor_instagram', 'value' => $vendor_obj->instagram),
+								"vendor_buddypress" => array('label' => __('BuddyPress', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_buddypress', 'label_for' => 'vendor_buddypress', 'name' => 'vendor_buddypress', 'value' => $vendor_obj->buddypress),
 							);
 					
 					$payment_admin_settings = get_option('wcmp_payment_settings_name');

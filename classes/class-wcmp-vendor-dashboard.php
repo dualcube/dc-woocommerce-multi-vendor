@@ -1075,7 +1075,7 @@ Class WCMp_Admin_Dashboard {
                     update_user_meta($user_id, '_' . $fieldkey . '_code', $state_code);
                 } else {
                     // social url validation
-                    if (in_array($fieldkey, array('vendor_fb_profile', 'vendor_twitter_profile', 'vendor_google_plus_profile', 'vendor_linkdin_profile', 'vendor_youtube', 'vendor_instagram'))) {
+                    if (in_array($fieldkey, array('vendor_fb_profile', 'vendor_twitter_profile', 'vendor_google_plus_profile', 'vendor_linkdin_profile', 'vendor_youtube', 'vendor_instagram','vendor_buddypress'))) {
                         if (!empty($post[$fieldkey]) && filter_var($post[$fieldkey], FILTER_VALIDATE_URL)) {
                             update_user_meta($user_id, '_' . $fieldkey, $post[$fieldkey]);
                         } else {

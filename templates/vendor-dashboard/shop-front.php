@@ -412,7 +412,18 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_storefront_wp_editor_settings'
                             <input class="form-control" type="url"   name="vendor_instagram" value="<?php echo isset($vendor_instagram['value']) ? $vendor_instagram['value'] : ''; ?>">
                         </div>  
                     </div>
-
+    
+                    <?php $buddypress_option = get_option( 'wcmp_capabilities_product_settings_name' ,true );
+                    // Check backend setting for vendor capability
+                    if( array_key_exists('profile_sync', $buddypress_option) ) {
+                    ?>
+                    <div class="form-group">
+                        <label class="control-label col-sm-3 col-md-3 instagram"><?php _e('BuddyPress', 'dc-woocommerce-multi-vendor'); ?></label>
+                        <div class="col-md-6 col-sm-9">
+                            <input class="form-control" type="url"   name="vendor_buddypress" value="<?php echo isset($vendor_buddypress['value']) ? $vendor_buddypress['value'] : ''; ?>">
+                        </div>  
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>    

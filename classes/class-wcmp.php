@@ -73,6 +73,8 @@ final class WCMp {
         $this->init_cron_job();
         // Load Woo helper
         $this->load_woo_helper();
+        // BuddyPress Intregration
+        $this->BuddyPress_Intregration();
 
         // Intialize WCMp
         add_action('init', array(&$this, 'init'));
@@ -434,6 +436,13 @@ final class WCMp {
         if ( ! class_exists( 'WCMp_Woo_Helper' ) ) {
             require_once ( $this->plugin_path . 'includes/class-wcmp-woo-helper.php' );
         }
+    }
+
+    // Buddypress Intregration
+    public function BuddyPress_Intregration(){
+        // Init BuddyPress activity action class 
+        $this->load_class('buddypress');
+        $this->buddypress = new WCMp_buddyPress();
     }
 
     /**

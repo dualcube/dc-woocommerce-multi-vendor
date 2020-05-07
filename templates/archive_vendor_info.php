@@ -40,6 +40,7 @@ $template_class = apply_filters('can_vendor_edit_shop_template', false) && get_u
             $vendor_google_plus_profile = get_user_meta($vendor_id, '_vendor_google_plus_profile', true);
             $vendor_youtube = get_user_meta($vendor_id, '_vendor_youtube', true);
             $vendor_instagram = get_user_meta($vendor_id, '_vendor_instagram', true);
+            $vendor_buddypress = get_user_meta( $vendor_id, '_vendor_buddypress', true );
             ?>
             <?php if ($vendor_fb_profile) { ?> <a target="_blank" href="<?php echo esc_url($vendor_fb_profile); ?>"><i class="wcmp-font ico-facebook-icon"></i></a><?php } ?>
             <?php if ($vendor_twitter_profile) { ?> <a target="_blank" href="<?php echo esc_url($vendor_twitter_profile); ?>"><i class="wcmp-font ico-twitter-icon"></i></a><?php } ?>
@@ -47,6 +48,7 @@ $template_class = apply_filters('can_vendor_edit_shop_template', false) && get_u
             <?php if ($vendor_google_plus_profile) { ?> <a target="_blank" href="<?php echo esc_url($vendor_google_plus_profile); ?>"><i class="wcmp-font ico-google-plus-icon"></i></a><?php } ?>
             <?php if ($vendor_youtube) { ?> <a target="_blank" href="<?php echo esc_url($vendor_youtube); ?>"><i class="wcmp-font ico-youtube-icon"></i></a><?php } ?>
             <?php if ($vendor_instagram) { ?> <a target="_blank" href="<?php echo esc_url($vendor_instagram); ?>"><i class="wcmp-font ico-instagram-icon"></i></a><?php } ?>
+            <?php if ($vendor_buddypress) { ?> <a target="_blank" href="<?php echo esc_url($vendor_buddypress); ?>"><i class="wcmp-font ico-instagram-icon"></i></a><?php } ?>
         </div>
         <?php endif; ?>
 

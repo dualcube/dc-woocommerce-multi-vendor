@@ -452,6 +452,7 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
 			'_vendor_linkdin_profile' => isset($request['social']['linkdin']) ? $request['social']['linkdin'] : '',
 			'_vendor_youtube' => isset($request['social']['youtube']) ? $request['social']['youtube'] : '',
 			'_vendor_instagram' => isset($request['social']['instagram']) ? $request['social']['instagram'] : '',
+			'_vendor_buddypress' => isset($request['social']['buddypress']) ? $request['social']['buddypress'] : '',
 			'_vendor_payment_mode' => isset($request['payment']['payment_mode']) ? $request['payment']['payment_mode'] : '',
 			'_vendor_bank_account_type' => isset($request['payment']['bank_account_type']) ? $request['payment']['bank_account_type'] : '',
 			'_vendor_bank_name' => isset($request['payment']['bank_name']) ? $request['payment']['bank_name'] : '',

@@ -56,6 +56,13 @@ class WCMp_Settings_Capabilities_Product {
                         "downloadable" => array( 'title' => __( 'Downloadable', 'dc-woocommerce-multi-vendor' ), 'type' => 'checkbox', 'id' => 'downloadable', 'label_for' => 'downloadable', 'name' => 'downloadable', 'value' => 'Enable' ), // Checkbox
                         )
                     )
+                ),
+                // Buddypress sync option
+                "default_buddypress_settings_section_type_option" => array( "title"  => __( 'BuddyPress Sync Options ', 'dc-woocommerce-multi-vendor' ), // Section one
+                    "fields" => apply_filters( "wcmp_vendor_buddypress_options", array(
+                        "profile_sync" => array('title' => __('Vendor Capability Sync', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'profile_sync', 'label_for' => 'profile_sync', 'name' => 'profile_sync', 'value' => 'Enable' ,'desc' => __('Ignore if BuddyPress is not active' , 'dc-woocommerce-multi-vendor' ) ), // Select
+                        )
+                    )
                 )
             )
         );
@@ -117,6 +124,10 @@ class WCMp_Settings_Capabilities_Product {
         }
         if ( isset( $input['downloadable'] ) ) {
             $new_input['downloadable'] = sanitize_text_field( $input['downloadable'] );
+        }
+        // BuddyPress option
+        if ( isset( $input['profile_sync'] ) ) {
+            $new_input['profile_sync'] = sanitize_text_field( $input['profile_sync'] );
         }
         if ( ! $hasError ) {
             add_settings_error(
