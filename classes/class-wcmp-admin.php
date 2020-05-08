@@ -544,7 +544,7 @@ class WCMp_Admin {
              *
              * @since 3.5.0
              */
-            $recalculate = apply_filters( 'wcmp_regenerate_order_commissions_by_new_commission_rate', 'false', $order );
+            $recalculate = apply_filters( 'wcmp_regenerate_order_commissions_by_new_commission_rate', false, $order );
             // Calculate commission
             WCMp_Commission::calculate_commission($commission_id, $order, $recalculate);
             update_post_meta($commission_id, '_paid_status', 'unpaid');

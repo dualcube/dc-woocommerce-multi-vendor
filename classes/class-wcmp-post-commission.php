@@ -171,7 +171,7 @@ class WCMp_Commission {
                     $parent_order_id = wp_get_post_parent_id( $order->get_id() );
                     $parent_order = wc_get_order( $parent_order_id );
                     $variation_id = isset($item['variation_id']) && !empty($item['variation_id']) ? $item['variation_id'] : 0;
-                    $item_commission = $WCMp->commission->get_item_commission($item['product_id'], $variation_id, $item, $order_id, $item_id);
+                    $item_commission = $WCMp->commission->get_item_commission($item['product_id'], $variation_id, $item, $order->get_id(), $item_id);
                     $commission_values = $WCMp->commission->get_commission_amount($item['product_id'], $has_vendor->term_id, $variation_id, $item_id, $parent_order);
                     $commission_rate = array('mode' => $WCMp->vendor_caps->payment_cap['revenue_sharing_mode'], 'type' => $WCMp->vendor_caps->payment_cap['commission_type']);
                     $commission_rate['commission_val'] = isset($commission_values['commission_val']) ? $commission_values['commission_val'] : 0;
