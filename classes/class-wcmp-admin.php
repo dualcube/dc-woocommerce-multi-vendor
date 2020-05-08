@@ -570,24 +570,15 @@ class WCMp_Admin {
         <?php 
         endif;
     }
-
-    
-    public function refund_order_status_customer()
-    {
+    public function refund_order_status_customer(){
         add_meta_box( 'refund_status_customer', __('Customer refund status','woocommerce'),  array(&$this, 'customer_add_refund_order' ), 'shop_order', 'side', 'core' );
     }
-    
-
-
     // Adding Meta field in the meta container admin shop_order pages
-    
-    public function customer_add_refund_order()
-    {
+    public function customer_add_refund_order(){
         global $post;
-
         $meta_field_data = get_post_meta( $post->ID, '_customer_refund_order', true ) ? get_post_meta( $post->ID, '_customer_refund_order', true ) : '';
 
-        $refund_statuses = array( 'status_refund' => 'Refund Status' ,'refund_request' => 'Refund Requested' , 'refund_accept' => 'Refund Accepted' );
+        $refund_statuses = array( 'status_refund' => __('Refund Status','dc-woocommerce-multi-vendor') ,'refund_request' => __('Refund Requested', 'dc-woocommerce-multi-vendor') , 'refund_accept' => __('Refund Accepted','dc-woocommerce-multi-vendor') , 'refund_reject' => __('Refund Rejected','dc-woocommerce-multi-vendor') );
 
         echo '<input type="hidden" name="refund_customer_meta_field_nonce" value="' . wp_create_nonce() . '">'
         ?>
@@ -601,13 +592,8 @@ class WCMp_Admin {
           ?>
         </select>
         <?php
-
     }
-    
-
     public function mv_save_wc_order_other_fields( $post_id ) {
-
-        // We need to verify this with the proper authorization (security stuff).
         // Check if our nonce is set.
         if ( ! isset( $_POST[ 'refund_customer_meta_field_nonce' ] ) ) {
             return $post_id;
@@ -618,12 +604,10 @@ class WCMp_Admin {
         if ( ! wp_verify_nonce( $nonce ) ) {
             return $post_id;
         }
-
         // If this is an autosave, our form has not been submitted, so we don't want to do anything.
         if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
             return $post_id;
         }
-
         // Check the user's permissions.
         if ( 'page' == $_POST[ 'post_type' ] ) {
 
@@ -642,10 +626,13 @@ class WCMp_Admin {
         update_post_meta( $post_id, '_customer_refund_order', $_POST[ 'refund_order_customer' ] );
 
         if( $_POST['refund_order_customer'] == 'status_refund' || $_POST['refund_order_customer'] == 'refund_request'  ) return;
-
+        $vendor_id = get_post_meta( $post_id,'_vendor_id', true ) ? get_post_meta( $post_id,'_vendor_id', true ) : false;
         $_customer_user = get_post_meta( $post_id,'_customer_user', true );
         $mail = WC()->mailer()->emails['WC_Email_Refund_Customer_order'];
-        $result = $mail->trigger( $_customer_user , $post_id  );
+        // send to customer
+        $mail->trigger( $_customer_user , $post_id  );
+        // send to vendor
+        $mail->trigger( $vendor_id , $post_id  );
     }
 
 }

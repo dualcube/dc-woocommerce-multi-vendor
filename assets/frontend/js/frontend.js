@@ -144,12 +144,9 @@ jQuery(document).ready(function ($) {
     
     // clicking on others a text field will open
     $(".others_reson_field").change(function(){
-        if( $(this).val() == frontend_customer_refund.last_value)
-        {
+        if( $(this).val() == frontend_customer_refund.last_value){
           $("#text_fields_for_others").show();
-        }
-        else
-        {
+        }else{
           $("#text_fields_for_others").hide(); 
         }
       });

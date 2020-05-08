@@ -83,6 +83,13 @@ $subtotal = 0;
             $WCMp->template->get_template( 'vendor-dashboard/vendor-orders/views/html-order-downloadable-permissions.php', array( 'order' => $order, 'vendor_order' => $vendor_order, 'vendor' => $vendor ) );
             ?>    
         </div>
+
+         <div class="col-md-8">
+            <!-- Refund customer request -->
+            <?php
+            $WCMp->template->get_template( 'vendor-dashboard/vendor-orders/views/html-order-refund-customer.php', array( 'order' => $order, 'vendor_order' => $vendor_order, 'vendor' => $vendor ) );
+            ?>    
+        </div>
         
         <div class="col-md-4">
             <?php

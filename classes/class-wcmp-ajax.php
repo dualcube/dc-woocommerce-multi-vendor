@@ -135,6 +135,8 @@ class WCMp_Ajax {
         
         // ledger book
         add_action('wp_ajax_wcmp_vendor_banking_ledger_list', array($this, 'wcmp_vendor_banking_ledger_list'));
+        //refund customer order
+        add_action('wp_ajax_customer_refund_order', array($this, 'customer_refund_order'));
     }
 
     /**
@@ -4032,6 +4034,36 @@ class WCMp_Ajax {
             wp_send_json($json_data);
             die;
         }
+    }
+
+    public function customer_refund_order(){
+
+        $order = $_POST['order'];
+        $order_details = wc_get_order( $order );
+        $refund_rason = $_POST['refund_rason'];
+        $description = $_POST['description'];
+        $others_reason = $_POST['others_reason'];
+        
+        $refund_details = array(
+            'refund_rason' => $refund_rason,
+            'description' => $description,
+            'others_reason' => $others_reason
+            );
+
+        $user_by = get_user_by( 'email', get_option('admin_email') );
+        $admin_id = $user_by->data->ID;
+        $vendor_id = get_post_meta( $order,'_vendor_id',true );
+
+        update_post_meta( $order, '_customer_refund_order', 'refund_request' );
+
+        $mail = WC()->mailer()->emails['WC_Email_Refund_Customer_order'];
+        $result = $mail->trigger( $admin_id , $order , $refund_details );
+        $result = $mail->trigger( $vendor_id , $order , $refund_details );
+
+
+        $comment_id = $order_details->add_order_note(__('customer refund ', 'dc-woocommerce-multi-vendor'));
+        // update comment author & email
+        wp_update_comment(array('comment_ID' => $comment_id ));
     }
 
 }

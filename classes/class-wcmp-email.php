@@ -41,6 +41,7 @@ class WCMp_Email {
         include( 'emails/class-wcmp-email-vendor-orders-stats-report.php' );
         include( 'emails/class-wcmp-email-vendor-contact-widget.php' );
         include( 'emails/class-wcmp-email-send-report-abuse.php' );
+        include( 'emails/class-wcmp-email-refund-customer-order.php' );
         
         $wcmp_email = array();
         $wcmp_email['WC_Email_Vendor_New_Account'] = new WC_Email_Vendor_New_Account();

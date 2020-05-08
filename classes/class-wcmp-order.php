@@ -1275,12 +1275,15 @@ class WCMp_Order {
         global $WCMp;
         if( !wcmp_get_order( $order->get_id() ) ) return;
 
+        // add bootstrap for model
         $WCMp->library->load_bootstrap_script_lib();
         $WCMp->library->load_bootstrap_style_lib();
 
+        // get fields data from backend example : date , reason
         $refund_reson_option = get_option( 'wcmp_RMA_refund_settings_name', true );
         // refund days
-        $refund_days = $refund_reson_option['refund_days'];
+        $defaut_refund_dates = apply_filters( 'wcmp_default_refund_days' , 100 );
+        $refund_days = $refund_reson_option['refund_days'] ? $refund_reson_option['refund_days'] : $defaut_refund_dates ;
         // refund reasons
         $refund_message_by_admin = $refund_reson_option['refund_order_msg'];
         $massage_array = empty( $refund_message_by_admin ) ? array() : explode("||",$refund_message_by_admin) ;
@@ -1302,17 +1305,12 @@ class WCMp_Order {
 
         $meta_field_data = get_post_meta( $order->get_id(), '_customer_refund_order', true ) ? get_post_meta( $order->get_id(), '_customer_refund_order', true ) : '';
 
-        /******************************  Refund request within admin mentions date  **********************************/
-        $order->get_date_created()->format ('Y-m-d');
-        $OldDate = new DateTime($order->get_date_created()->format ('Y-m-d'));
-        $now = new DateTime(Date('Y-m-d'));
-
         // title refund order section
         ?> <h5><strong> <?php
         echo apply_filters( 'wcmp_request_refund_customer_order_section', _e( 'Refund Order Section :' , 'dc-woocommerce-multi-vendor' ) );
         ?> </strong></h5> <?php
 
-        // order status check
+        // order status check from backend setting
         if( !in_array( $order->get_status() , $refund_reson_option) ) {
             ?> <strong> <?php
             echo apply_filters( 'wcmp_request_refund_customer_not_allowed', _e( 'Your Refund is not allowed for this order status' , 'dc-woocommerce-multi-vendor' ) );
@@ -1320,10 +1318,22 @@ class WCMp_Order {
             return;
         }
 
+        // Refund request within admin mentions date  
+        $order->get_date_created()->format ('Y-m-d');
+        $OldDate = new DateTime($order->get_date_created()->format ('Y-m-d'));
+        $now = new DateTime(Date('Y-m-d'));
         // days check after
         if( $OldDate->diff($now)->days >= $refund_days ){
             ?> <strong> <?php
             echo apply_filters( 'wcmp_request_refund_customer_days', _e( 'Your Refund Period is over. Please contact with your seller for further information' , 'dc-woocommerce-multi-vendor' ) );
+            ?> </strong> <?php
+            return;
+        }
+
+        // request is pending not accepted till now
+        if( $meta_field_data == 'refund_reject' ){
+            ?> <strong> <?php
+            echo apply_filters( 'wcmp_request_refund_customer_reject', _e( 'Sorry!! Your Request Is Reject' , 'dc-woocommerce-multi-vendor' ) );
             ?> </strong> <?php
             return;
         }
@@ -1348,9 +1358,9 @@ class WCMp_Order {
         <!--  Refund order popup  -->
         <div class="container">
             <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><?php echo apply_filters( 'refund_order_text_customer' , __('Refund Order', 'dc-woocommerce-multi-vendor') ); ?></button>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#refund_order_model"><?php echo apply_filters( 'refund_order_text_customer' , __('Refund Order', 'dc-woocommerce-multi-vendor') ); ?></button>
             <!-- Modal -->
-            <div class="modal fade" id="myModal" role="dialog" >
+            <div class="modal fade" id="refund_order_model" role="dialog" >
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -1397,5 +1407,4 @@ class WCMp_Order {
         <?php
     }
     
-
 }

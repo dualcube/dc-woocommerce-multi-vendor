@@ -53,7 +53,7 @@ class WCMp_Settings_RMA_refund {
                     "fields" => array_merge($automatic_method, array(
                         "refund_days"                => array( 'title' => __( 'Refund Days Limit', 'dc-woocommerce-multi-vendor' ), 'type' => 'number', 'id' => 'refund_days', 'label_for' => 'refund_days', 'text' => __( 'Number of Days for the refund period.', 'dc-woocommerce-multi-vendor' ), 'name' => 'refund_days' ), // Checkbox
                         
-                        'refund_order_msg' => array('title' => __('Refund Massage', 'dc-woocommerce-multi-vendor'), 'type' => 'textarea', 'name' => 'refund_order_msg', 'id' => 'refund_order_msg', 'label_for' => 'refund_order_msg', 'rows' => 4, 'cols' => 40, 'raw_value' => true, 'hints' => __('Refund order massage', 'dc-woocommerce-multi-vendor'),'placeholder' => __('Enter every message with || ', 'dc-woocommerce-multi-vendor') )
+                        'refund_order_msg' => array('title' => __('Refund Massage', 'dc-woocommerce-multi-vendor'), 'type' => 'textarea', 'name' => 'refund_order_msg', 'id' => 'refund_order_msg', 'label_for' => 'refund_order_msg', 'rows' => 4, 'cols' => 40, 'raw_value' => true, 'hints' => __('Refund order massage', 'dc-woocommerce-multi-vendor'),'placeholder' => __('Enter every option with || seperated ', 'dc-woocommerce-multi-vendor') )
                     )
                     ),
                 ),
