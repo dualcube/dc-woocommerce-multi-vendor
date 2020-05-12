@@ -338,7 +338,7 @@ class WCMp_Report {
                     //for vendor logged in only
                     if (is_user_wcmp_vendor($current_user)) {
                         $vendor = get_wcmp_vendor($current_user);
-                        $vendor_products = $vendor->get_products();
+                        $vendor_products = $vendor->get_products_ids();
                         $existsids = array();
                         foreach ($vendor_products as $vendor_product) {
                             $existsids[] = ( $vendor_product->ID );

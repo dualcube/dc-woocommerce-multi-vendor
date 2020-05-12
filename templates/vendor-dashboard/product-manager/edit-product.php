@@ -46,6 +46,9 @@ global $WCMp;
                                 ),
                                 'editor_css'    => '<style>#wp-product_excerpt-editor-container .wp-editor-area{height:100px; width:100%;}</style>',
                             );
+                            if( !apply_filters( 'wcmp_vendor_product_excerpt_richedit', true ) ) {
+                                $settings['tinymce'] = $settings['quicktags'] = $settings['media_buttons'] = false;
+                            }
                             wp_editor( htmlspecialchars_decode( $product_object->get_short_description( 'edit' ) ), 'product_excerpt', $settings );
                             ?>  
                         </div>
@@ -65,6 +68,9 @@ global $WCMp;
                                 ),
                                 'editor_css'    => '<style>#wp-product_description-editor-container .wp-editor-area{height:175px; width:100%;}</style>',
                             );
+                            if( !apply_filters( 'wcmp_vendor_product_description_richedit', true ) ) {
+                                $settings['tinymce'] = $settings['quicktags'] = $settings['media_buttons'] = false;
+                            }
                             wp_editor( $product_object->get_description( 'edit' ), 'product_description', $settings );
                             ?>
                         </div>

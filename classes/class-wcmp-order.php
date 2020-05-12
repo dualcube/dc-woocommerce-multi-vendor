@@ -93,8 +93,9 @@ class WCMp_Order {
      * @param sting $package_key as $vendor_id
      */
     public function add_meta_date_in_shipping_package($item, $package_key, $package, $order) {
-        if (!wcmp_get_order($order->get_id()) && is_user_wcmp_vendor($package_key)) {
-            $item->add_meta_data('vendor_id', $package_key, true);
+        $vendor_id = ( isset( $package['vendor_id'] ) && $package['vendor_id'] ) ? $package['vendor_id'] : $package_key;
+        if (!wcmp_get_order($order->get_id()) && is_user_wcmp_vendor($vendor_id)) {
+            $item->add_meta_data('vendor_id', $vendor_id, true);
             $package_qty = array_sum(wp_list_pluck($package['contents'], 'quantity'));
             $item->add_meta_data('package_qty', $package_qty, true);
             do_action('wcmp_add_shipping_package_meta_data');
@@ -519,10 +520,11 @@ class WCMp_Order {
         if(!$migration){
         
             foreach ($packages as $package_key => $package) {
-                if ($package_key == $vendor_id && isset($chosen_shipping_methods[$package_key], $package['rates'][$chosen_shipping_methods[$package_key]])) {
+                $pkg_vendor_id = ( isset( $package['vendor_id'] ) && $package['vendor_id'] ) ? $package['vendor_id'] : $package_key;
+                if ($pkg_vendor_id == $vendor_id && isset($chosen_shipping_methods[$package_key], $package['rates'][$chosen_shipping_methods[$package_key]])) {
                     $shipping_rate = $package['rates'][$chosen_shipping_methods[$package_key]];
                     $item = new WC_Order_Item_Shipping();
-                    $item->legacy_package_key = $package_key; // @deprecated For legacy actions.
+                    $item->legacy_package_key = $pkg_vendor_id; // @deprecated For legacy actions.
                     $item->set_props(
                             array(
                                 'method_title' => $shipping_rate->label,
@@ -539,7 +541,7 @@ class WCMp_Order {
                         $item->add_meta_data($key, $value, true);
                     }
 
-                    $item->add_meta_data('vendor_id', $package_key, true);
+                    $item->add_meta_data('vendor_id', $pkg_vendor_id, true);
                     $package_qty = array_sum(wp_list_pluck($package['contents'], 'quantity'));
                     $item->add_meta_data('package_qty', $package_qty, true);
                     // add parent item_id in meta
@@ -1254,6 +1256,7 @@ class WCMp_Order {
         if( !$order_id || !is_wcmp_vendor_order( $order_id ) ) return;
         if( $new_status == 'cancelled' ){
             $commission_id = get_post_meta( $order_id, '_commission_id', true );
+            do_action( 'wcmp_vendor_order_on_cancelled_commission', $commission_id, $order_id );
             if( $commission_id ) wp_trash_post( $commission_id );
         }
     }

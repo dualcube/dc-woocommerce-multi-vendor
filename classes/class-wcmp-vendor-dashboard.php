@@ -1409,7 +1409,7 @@ Class WCMp_Admin_Dashboard {
             $this->wcmp_add_dashboard_widget('wcmp_vendor_pending_shipping', __('Pending Shipping', 'dc-woocommerce-multi-vendor'), array(&$this, 'wcmp_vendor_pending_shipping'));
         endif;
         if (current_user_can('edit_products')) {
-            $this->wcmp_add_dashboard_widget('wcmp_vendor_product_stats', __('Product Stats', 'dc-woocommerce-multi-vendor'), array(&$this, 'wcmp_vendor_product_stats'), 'side', '', array('action' => array('title' => __('Add Product', 'dc-woocommerce-multi-vendor'), 'link' => esc_url(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_add_product_endpoint', 'vendor', 'general', 'add-product'))))));
+            $this->wcmp_add_dashboard_widget('wcmp_vendor_product_stats', __('Product Stats', 'dc-woocommerce-multi-vendor'), array(&$this, 'wcmp_vendor_product_stats'), 'side', '', array('action' => array('title' => __('Add Product', 'dc-woocommerce-multi-vendor'), 'link' => apply_filters( 'wcmp_vendor_dashboard_add_product_url', wcmp_get_vendor_dashboard_endpoint_url( get_wcmp_vendor_settings( 'wcmp_add_product_endpoint', 'vendor', 'general', 'add-product' ))))));
             $this->wcmp_add_dashboard_widget('wcmp_vendor_product_sales_report', __('Product Sales Report', 'dc-woocommerce-multi-vendor'), array(&$this, 'wcmp_vendor_product_sales_report'));
         }
         if (get_wcmp_vendor_settings('is_sellerreview', 'general') == 'Enable') {
@@ -1567,29 +1567,29 @@ Class WCMp_Admin_Dashboard {
         }
 
         public function wcmp_customer_review() {
-            global $WCMp;
+            global $WCMp, $wpdb;
             $WCMp->template->get_template('vendor-dashboard/dashboard-widgets/wcmp_customer_review.php');
         }
 
         public function wcmp_vendor_product_stats($args = array()) {
-            global $WCMp;
+            global $WCMp, $wpdb;
             $publish_products_count = $pending_products_count = $draft_products_count = $trashed_products_count = 0;
             $vendor = get_wcmp_vendor(get_current_user_id());
             $args = array('post_status' => array('publish', 'pending', 'draft', 'trash'));
             $product_stats = array();
             if($vendor) :
-                $products = $vendor->get_products($args);
+                $where = "AND ({$wpdb->prefix}posts.post_status = 'publish' OR {$wpdb->prefix}posts.post_status = 'draft' OR {$wpdb->prefix}posts.post_status = 'pending' OR {$wpdb->prefix}posts.post_status = 'trash')";
+                $products = $vendor->get_products_ids( array( 'where' => $where ) );
                 $product_stats['total_products'] = count($products);
-                foreach ($products as $key => $value) {
-                    if ($value->post_status == 'publish')
+                foreach ( $products as $product) {
+                    if ( get_post_status( $product->ID ) == 'publish' )
                         $publish_products_count += 1;
-                    if ($value->post_status == 'pending')
+                    if ( get_post_status( $product->ID ) == 'pending' )
                         $pending_products_count += 1;
-                    if ($value->post_status == 'draft')
+                    if ( get_post_status( $product->ID ) == 'draft' )
                         $draft_products_count += 1;
-                    if ($value->post_status == 'trash') {
+                    if ( get_post_status( $product->ID ) == 'trash' )
                         $trashed_products_count += 1;
-                    }
                 }
             endif;
             $product_stats['publish_products_count'] = $publish_products_count;
@@ -1617,17 +1617,7 @@ Class WCMp_Admin_Dashboard {
             $start_date = isset($requestData['from_date']) ? $requestData['from_date'] : date('01-m-Y');
             $end_date = isset($requestData['to_date']) ? $requestData['to_date'] : date('t-m-Y');
             $transaction_details = $WCMp->transaction->get_transactions($vendor->term_id);
-            //$unpaid_orders = get_wcmp_vendor_order_amount(array('commission_status' => 'unpaid'), $vendor->id);
-            $args = array(
-                'meta_query' => array(
-                    array(
-                        'key' => '_commission_vendor',
-                        'value' => absint($vendor->term_id),
-                        'compare' => '='
-                    ),
-                ),
-            );
-            $unpaid_commission_total = WCMp_Commission::get_commissions_total_data( $args, $vendor->id );
+            $unpaid_commission_total = WCMp_Commission::get_unpaid_commissions_total_data( 'withdrawable' );
 
             $count = 0; // varible for counting 5 transaction details
             foreach ($transaction_details as $transaction_id => $details) {
@@ -1793,7 +1783,7 @@ Class WCMp_Admin_Dashboard {
                 $product->set_date_created( current_time( 'timestamp', true ) );
             }
 
-            $title = ( is_product_wcmp_spmv($product_id) && isset( $_POST['original_post_title'] ) ) ? wc_clean( $_POST['original_post_title'] ) : isset( $_POST['post_title'] ) ? wc_clean( $_POST['post_title'] ) : '';
+            $title = ( ( is_product_wcmp_spmv($product_id) && isset( $_POST['original_post_title'] ) ) ? wc_clean( $_POST['original_post_title'] ) : isset( $_POST['post_title'] ) ) ? wc_clean( $_POST['post_title'] ) : '';
 
             if ( isset( $_POST['status'] ) && $_POST['status'] === 'draft' ) {
                 $status = 'draft';
@@ -2009,7 +1999,8 @@ Class WCMp_Admin_Dashboard {
                 wp_redirect( apply_filters( 'wcmp_vendor_save_product_redirect_url', wcmp_get_vendor_dashboard_endpoint_url( get_wcmp_vendor_settings( 'wcmp_edit_product_endpoint', 'vendor', 'general', 'edit-product' ), $post_id ) ) );
                 exit;
             } else {
-                wc_add_notice( $post_id->get_error_message(), 'error' );
+                $error_msg = ( $post_id->get_error_code() === 'empty_content' ) ? __( 'Content, title, and excerpt are empty.', 'dc-woocommerce-multi-vendor' ) : $post_id->get_error_message();
+                wc_add_notice( $error_msg, 'error' );
             }
         }
     }
@@ -2032,12 +2023,9 @@ Class WCMp_Admin_Dashboard {
             wp_die( -1 );
         }
 
-        if ( empty( $_POST['post_title'] ) || empty( $_POST['product_ids'] ) ) {
+        if ( empty( $_POST['post_title'] ) ) {
             if ( empty( $_POST['post_title'] ) ) {
                 wc_add_notice( __( "Coupon code can't be empty.", 'dc-woocommerce-multi-vendor' ), 'error' );
-            }
-            if ( empty( $_POST['product_ids'] ) ) {
-                wc_add_notice( __( 'Select atleast one product.', 'dc-woocommerce-multi-vendor' ), 'error' );
             }
             return;
         }
@@ -2551,7 +2539,7 @@ Class WCMp_Admin_Dashboard {
             <p>
                 <?php
                 printf(
-                    __( '%s offers follows payments for you.', 'dc-woocommerce-multi-vendor' ),
+                    __( '%s offers the following payment methods for you.', 'dc-woocommerce-multi-vendor' ),
                     wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES )
                 );
                 ?>

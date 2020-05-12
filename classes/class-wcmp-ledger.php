@@ -18,6 +18,7 @@ class WCMp_Ledger {
         add_action( 'wcmp_create_commission_refund_after_commission_note', array( $this, 'wcmp_create_commission_refund_after_commission_note' ), 10, 4 );
         add_action( 'wcmp_transaction_update_meta_data', array( $this, 'wcmp_transaction_update_meta_data' ), 10, 3 );
         add_action( 'before_delete_post', array( $this, 'before_commission_delete' ), 99 );
+        add_action( 'wcmp_vendor_order_on_cancelled_commission', array( $this, 'before_commission_delete' ), 99 );
         // for BW order migration
         add_action( 'wcmp_orders_migration_order_created', array( $this, 'wcmp_orders_migration_order_created' ), 10, 2 );
     }

@@ -119,8 +119,8 @@ class WCMp_Product_QNA {
      */
     public function get_Vendor_Questions( $vendor, $unanswer = true ) {
         $vendor_questions = array();
-        if($vendor && $vendor->get_products()){ 
-            foreach ($vendor->get_products() as $product) { 
+        if($vendor && $vendor->get_products_ids()){ 
+            foreach ($vendor->get_products_ids() as $product) { 
                 $product_questions = $this->get_Questions($product->ID, "ORDER BY ques_created DESC");
                 if($product_questions){
                     foreach ($product_questions as $question) {

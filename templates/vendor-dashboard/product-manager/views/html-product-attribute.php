@@ -2,13 +2,11 @@
 
 /**
  * Add Attribute template
- * Used by html-product-data-attributes.php template
- * Used by WCMp_AFM_Ajax->add_product_attribute_callback()
- * Not overridable
+ * Override this template by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-attribute.php
  *
- * @author 		WC Marketplace
- * @package 	WCMp_AFM/views/products/booking
- * @version     3.0.0
+ * @author  WC Marketplace
+ * @package     WCMp/Templates
+ * @version   3.3.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

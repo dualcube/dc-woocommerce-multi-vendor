@@ -40,6 +40,8 @@ class WCMp_Settings_Vendor_Dashboard {
                     "fields" => array(
                         "wcmp_dashboard_site_logo" => array('title' => __('Site Logo', 'dc-woocommerce-multi-vendor'), 'type' => 'upload', 'id' => 'wcmp_dashboard_site_logo', 'label_for' => 'wcmp_dashboard_site_logo', 'name' => 'wcmp_dashboard_site_logo', 'hints' => __('Used as site logo on vendor dashboard pages', 'dc-woocommerce-multi-vendor')),
                         "google_api_key" => array('title' => __('Google Map API key', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'google_api_key', 'label_for' => 'google_api_key', 'name' => 'google_api_key', 'hints' => __('Used for vendor store maps','dc-woocommerce-multi-vendor'), 'desc' => __('<a href="https://developers.google.com/maps/documentation/javascript/get-api-key#get-an-api-key" target="_blank">Click here to generate key</a>','dc-woocommerce-multi-vendor')),
+                        "vendor_list_template" => array('title' => __('Apply the new look (Introduced on version 3.5)
+                        ', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'vendor_list_template', 'label_for' => 'vendor_list_template', 'text' => __('Enable it to get new vendor list template.', 'dc-woocommerce-multi-vendor'), 'name' => 'vendor_list_template', 'value' => 'Enable'), // Checkbox
                         "vendor_color_scheme_picker" => array('title' => __('Dashboard Color Scheme', 'dc-woocommerce-multi-vendor'), 'class' => 'vendor_color_scheme_picker', 'type' => 'color_scheme_picker', 'id' => 'vendor_color_scheme_picker', 'label_for' => 'vendor_color_scheme_picker', 'name' => 'vendor_color_scheme_picker', 'dfvalue' => 'outer_space_blue', 'options' => array('outer_space_blue' => array('label' => __('Outer Space', 'dc-woocommerce-multi-vendor'), 'color' => array('#202528', '#333b3d','#3f85b9', '#316fa8')), 'green_lagoon' => array('label' => __('Green Lagoon', 'dc-woocommerce-multi-vendor'), 'color' => array('#171717', '#212121', '#009788','#00796a')), 'old_west' => array('label' => __('Old West', 'dc-woocommerce-multi-vendor'), 'color' => array('#46403c', '#59524c', '#c7a589', '#ad8162')), 'wild_watermelon' => array('label' => __('Wild Watermelon', 'dc-woocommerce-multi-vendor'), 'color' => array('#181617', '#353130', '#fd5668', '#fb3f4e'))))
                     ),
                 ),
@@ -75,6 +77,9 @@ class WCMp_Settings_Vendor_Dashboard {
         }
         if(isset($input['google_api_key'])){
             $new_input['google_api_key'] = $input['google_api_key'];
+        }
+        if(isset($input['vendor_list_template'])){
+            $new_input['vendor_list_template'] = $input['vendor_list_template'];
         }
         if(isset($input['vendor_color_scheme_picker'])){
             $new_input['vendor_color_scheme_picker'] = sanitize_text_field($input['vendor_color_scheme_picker']);

@@ -1091,7 +1091,7 @@ class WCMp_Ajax {
 
         if ($vendor_id) {
             if ($vendor)
-                $products = $vendor->get_products();
+                $products = $vendor->get_products_ids();
             if (!empty($products)) {
                 foreach ($products as $product) {
                     $chosen_product_ids[] = $product->ID;
@@ -1825,7 +1825,7 @@ class WCMp_Ajax {
                         );
                     }
                 } else {
-                    do_action('wcmp_products_list_do_handle_bulk_actions', $vendor->get_products(), $filterActionData['bulk_actions'], $filterActionData['selected_products'], $filterActionData, $requestData);
+                    do_action('wcmp_products_list_do_handle_bulk_actions', $vendor->get_products_ids(), $filterActionData['bulk_actions'], $filterActionData['selected_products'], $filterActionData, $requestData);
                 }
             }
             $df_post_status = apply_filters('wcmp_vendor_dashboard_default_product_list_statues', array('publish', 'pending', 'draft'), $requestData, $vendor);
@@ -1893,6 +1893,15 @@ class WCMp_Ajax {
                     $row = array();
                     $product = wc_get_product($product_single->ID);
                     $edit_product_link = '';
+
+                    /* check if the product ID is the one of the current language in WPML */ 
+                    if ( function_exists('icl_object_id') ) { // WPML activated
+                        $correct_product_id = apply_filters( 'wpml_object_id',$product_single->ID , 'product', false, ICL_LANGUAGE_CODE );
+                        if( $correct_product_id != $product_single->ID ){
+                            continue; // skip the current loop and go to the next product
+                        }
+                    }
+                    
                     if ((current_vendor_can('edit_published_products') && get_wcmp_vendor_settings('is_edit_delete_published_product', 'capabilities', 'product') == 'Enable') || in_array($product->get_status(), apply_filters('wcmp_enable_edit_product_options_for_statuses', array('draft', 'pending')))) {
                         $edit_product_link = esc_url(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_edit_product_endpoint', 'vendor', 'general', 'edit-product'), $product->get_id()));
                     }
@@ -2053,7 +2062,7 @@ class WCMp_Ajax {
                         if ($diff < $commission_threshold_time) {
                             continue;
                         }
-                        if (is_commission_requested_for_withdrawals($commission_id) || in_array($order->get_status('edit'), array('on-hold', 'pending', 'failed', 'refunded'))) {
+                        if (is_commission_requested_for_withdrawals($commission_id) || in_array($order->get_status('edit'), array('on-hold', 'pending', 'failed', 'refunded', 'cancelled'))) {
                             $disabled_reqested_withdrawals = 'disabled';
                         } else {
                             $disabled_reqested_withdrawals = '';
@@ -2717,7 +2726,7 @@ class WCMp_Ajax {
             if ($vendor) {
                 $vendor_term_id = get_user_meta($vendor_id, '_vendor_term_id', true);
 
-                $vendor_products = $vendor->get_products();
+                $vendor_products = $vendor->get_products_ids();
 
                 $vendor_review_info = wcmp_get_vendor_review_info($vendor_term_id);
                 if (isset($vendor_review_info['total_rating'])) {
@@ -3822,7 +3831,7 @@ class WCMp_Ajax {
             
             if (is_user_wcmp_vendor(get_current_user_id() ) ) {
                 $vendor = get_wcmp_vendor(get_current_user_id() );
-                $vendor_product_ids = wp_list_pluck( $vendor->get_products(), 'ID' );
+                $vendor_product_ids = wp_list_pluck( $vendor->get_products_ids(), 'ID' );
                 $ids = array_intersect( $ids, (array) $vendor_product_ids );
             }
 
@@ -3870,7 +3879,7 @@ class WCMp_Ajax {
         
         if (is_user_wcmp_vendor(get_current_user_id() ) ) {
             $vendor = get_wcmp_vendor(get_current_user_id() );
-            $vendor_product_ids = wp_list_pluck( $vendor->get_products(), 'ID' );
+            $vendor_product_ids = wp_list_pluck( $vendor->get_products_ids(), 'ID' );
             $ids = array_intersect( $ids, (array) $vendor_product_ids );
         }
 
@@ -3964,7 +3973,7 @@ class WCMp_Ajax {
             $vendor = get_wcmp_vendor(get_current_vendor_id());
             $requestData = $_REQUEST;
             $data_store = $WCMp->ledger->load_ledger_data_store();
-            $vendor_ledgers = $data_store->get_ledger( array( 'vendor_id' => $vendor->id ), '', $requestData );
+            $vendor_all_ledgers = $data_store->get_ledger( array( 'vendor_id' => $vendor->id ), '', $requestData );
             $initial_balance = $ending_balance = $total_credit = $total_debit = 0;
             // get initial balance
             $inital_data = end( $vendor_ledgers );
@@ -3972,6 +3981,7 @@ class WCMp_Ajax {
             //get ending balance
             $ending_data = reset( $vendor_ledgers );
             $ending_balance = ( $ending_data->balance && $ending_data->balance != '' ) ? $ending_data->balance : 0;
+            $vendor_ledgers = array_slice( $vendor_all_ledgers, $requestData['start'], $requestData['length'] );
             $data = array();
             if ( $vendor_ledgers ) {
                 foreach ($vendor_ledgers as $ledger ) {
@@ -4015,8 +4025,8 @@ class WCMp_Ajax {
                 "total_credit" => wc_price( $total_credit ),
                 "total_debit" => wc_price( $total_debit ),
                 "draw" => intval($requestData['draw']), // for every request/draw by clientside , they send a number as a parameter, when they recieve a response/data they first check the draw number, so we are sending same number in draw. 
-                "recordsTotal" => intval(count($data)), // total number of records
-                "recordsFiltered" => intval(count($data)), // total number of records after searching, if there is no searching then totalFiltered = totalData
+                "recordsTotal" => intval(count($vendor_all_ledgers)), // total number of records
+                "recordsFiltered" => intval(count($vendor_all_ledgers)), // total number of records after searching, if there is no searching then totalFiltered = totalData
                 "data" => $data   // total data array
             );
             wp_send_json($json_data);

@@ -1292,7 +1292,8 @@ class WCMp_Product {
         if (get_transient('wcmp_spmv_exclude_products_data')) {
             $spmv_excludes = get_transient('wcmp_spmv_exclude_products_data');
             $excluded_order = (get_wcmp_vendor_settings('singleproductmultiseller_show_order', 'general')) ? get_wcmp_vendor_settings('singleproductmultiseller_show_order', 'general') : 'min-price';
-            $q->set('post__not_in', $spmv_excludes[$excluded_order]);
+            $post__not_in = ( isset( $spmv_excludes[$excluded_order] ) ) ? $spmv_excludes[$excluded_order] : array();
+            $q->set('post__not_in', $post__not_in );
         }
     }
 
@@ -1456,7 +1457,7 @@ class WCMp_Product {
         <?php if ('fixed' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed') || 'percent' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed')): ?>
             <tr class="form-field">
                 <th scope="row" valign="top"><label for="commision"><?php _e('Commission', 'dc-woocommerce-multi-vendor'); ?></label></th>
-                <td><input type="number" class="short" style="" name="commision" id="commision" value="<?php echo $commision; ?>" placeholder=""></td>
+                <td><input type="text" class="short" style="" name="commision" id="commision" value="<?php echo $commision; ?>" placeholder=""></td>
             </tr>
         <?php endif; ?>
         <?php if ('fixed_with_percentage' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed') || 'fixed_with_percentage_qty' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed')): ?>
@@ -1576,7 +1577,7 @@ class WCMp_Product {
      */
     public function wcmp_gtin_product_search( $query  ) {
         global $wpdb;
-        $search_keyword = (isset($query->query['s']) && !empty($query->query['s'])) ? $query->query['s'] : (isset($_REQUEST['s']) && !empty($_REQUEST['s'])) ? $_REQUEST['s'] : '';
+        $search_keyword = ((isset($query->query['s']) && !empty($query->query['s'])) ? $query->query['s'] : (isset($_REQUEST['s']) && !empty($_REQUEST['s']))) ? $_REQUEST['s'] : '';
         if( empty($search_keyword) || !isset( $query->query['post_type'] ) || $query->query['post_type'] != 'product'){
             return;
         }

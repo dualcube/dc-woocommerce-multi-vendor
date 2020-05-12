@@ -3,19 +3,11 @@
 /**
  * General product tab template
  *
- * Used by edit-product.php template
+  * Override this template by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-data-general.php
  *
- * This template can be overridden by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-data-general.php.
- *
- * HOWEVER, on occasion WCMp will need to update template files and you
- * (the theme developer) will need to copy the new files to your theme to
- * maintain compatibility. We try to do this as little as possible, but it does
- * happen. When this occurs the version of the template file will be bumped and
- * the readme will list any important changes.
- *
- * @author 		WC Marketplace
- * @package 	WCMp/templates/vendor dashboard/product manager/views
- * @version     3.3.0
+ * @author  WC Marketplace
+ * @package     WCMp/Templates
+ * @version   3.3.0
  */
 defined( 'ABSPATH' ) || exit;
 global $WCMp;
@@ -137,7 +129,7 @@ global $WCMp;
                 <div class="form-group">
                     <label class="control-label col-sm-3 col-md-3" for="_download_limit">
                         <?php echo __( 'Download limit', 'woocommerce' ); ?>
-                        <span class="img_tip" data-desc="<?php esc_attr_e( sprintf( _x( 'Leave blank for unlimited re-downloads.', 'woocommerce-subscriptions' ) ) ); ?>"></span>
+                        <span class="img_tip" data-desc="<?php esc_attr_e( 'Leave blank for unlimited re-downloads.', 'woocommerce' ) ?>"></span>
                     </label>
                     <div class="col-md-6 col-sm-9">
                         <input class="form-control" type="text" id="_download_limit" placeholder="<?php _e( 'Unlimited', 'woocommerce' ); ?>" name="_download_limit" value="<?php echo -1 === $product_object->get_download_limit( 'edit' ) ? '' : $product_object->get_download_limit( 'edit' ); ?>" />
@@ -146,7 +138,7 @@ global $WCMp;
                 <div class="form-group">
                     <label class="control-label col-sm-3 col-md-3" for="_download_expiry">
                         <?php echo __( 'Download expiry', 'woocommerce' ); ?>
-                        <span class="img_tip" data-desc="<?php esc_attr_e( 'Enter the number of days before a download link expires, or leave blank.', 'woocommerce-product-bundles' ) ?>"></span> 
+                        <span class="img_tip" data-desc="<?php esc_attr_e( 'Enter the number of days before a download link expires, or leave blank.', 'woocommerce' ) ?>"></span> 
                     </label>
                     <div class="col-md-6 col-sm-9">
                         <input class="form-control" type="text" placeholder="<?php _e( 'Never', 'woocommerce' ); ?>" id="_download_expiry" name="_download_expiry" value="<?php echo -1 === $product_object->get_download_expiry( 'edit' ) ? '' : $product_object->get_download_expiry( 'edit' ); ?>" />

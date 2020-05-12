@@ -324,7 +324,7 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
         $response = rest_ensure_response( $vendor_object );
         $response->add_links( $this->prepare_links( $vendor_object, $request ) );
         
-        return apply_filters( 'wcmp_rest_prepare_{$this->post_type}_method', $response, $method, $request );
+        return apply_filters( "wcmp_rest_prepare_{$this->post_type}_method", $response, $method, $request );
     }
     
     /**

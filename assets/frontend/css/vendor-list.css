@@ -24,6 +24,118 @@ i.wcmp-font {
 }
  
 
+.ico-buddypress_icon:before {
+  content: "\e919";
+}
+.ico-call_icon:before {
+  content: "\e91a";
+}
+.ico-share_icon:before {
+  content: "\e91b";
+}
+.ico-at_icon:before {
+  content: "\e91c";
+}
+.ico-export:before {
+  content: "\e917";
+  color: #5d5e5e;
+}
+.ico-import:before {
+  content: "\e918";
+  color: #5d5e5e;
+}
+.ico-add-booking:before {
+  content: "\e910";
+  color: #5d5e5e;
+}
+.ico-message:before {
+  content: "\e911";
+  color: #5d5e5e;
+}
+.ico-notification:before {
+  content: "\e912";
+  color: #5d5e5e;
+}
+.ico-quote:before {
+  content: "\e913";
+  color: #5d5e5e;
+}
+.ico-rental:before {
+  content: "\e914";
+  color: #5d5e5e;
+}
+.ico-resources:before {
+  content: "\e915";
+  color: #5d5d5d;
+}
+.ico-subscriptions:before {
+  content: "\e916";
+  color: #5d5e5e;
+}
+.ico-attachment-icon:before {
+  content: "\e90c";
+  color: #5d5e5e;
+}
+.ico-close-icon:before {
+  content: "\e90d";
+  color: #5d5e5e;
+}
+.ico-emoji-icon:before {
+  content: "\e90e";
+}
+.ico-send-icon:before {
+  content: "\e90f";
+}
+.ico-store-icon:before {
+  content: "\e90a";
+  color: #5d5e5e;
+}
+.ico-location-icon2:before {
+  content: "\e90b";
+  color: #5d5e5e;
+}
+.ico-facebook-icon:before {
+  content: "\e902";
+  color: #5d5e5e;
+}
+.ico-google-plus-icon:before {
+  content: "\e903";
+  color: #5d5e5e;
+}
+.ico-instagram-icon:before {
+  content: "\e904";
+  color: #5d5e5e;
+}
+.ico-linkedin-icon:before {
+  content: "\e905";
+  color: #5d5e5e;
+}
+.ico-twitter-icon:before {
+  content: "\e908";
+  color: #5d5e5e;
+}
+.ico-youtube-icon:before {
+  content: "\e909";
+  color: #5d5d5d;
+}
+.ico-badge-icon:before {
+  content: "\e900";
+  color: #5d5d5d;
+}
+.ico-call-icon:before {
+  content: "\e901";
+  color: #5d5e5e;
+}
+.ico-location-icon:before {
+  content: "\e906";
+  color: #585857;
+}
+.ico-mail-icon:before {
+  content: "\e907";
+  color: #585857;
+}
+
+
 .ico-store-icon:before {
     content: "\e90a";
     color: #5d5e5e;
@@ -32,14 +144,12 @@ i.wcmp-font {
     content: "\e90b";
     color: #5d5e5e;
 }
-  
-
-#wcmp-store-conatiner *{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-size: 15px;
-    word-wrap: break-word;
+#wcmp-store-conatiner*{
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ font-size: 15px;
+ word-wrap: break-word;
 }
 #wcmp-store-conatiner .wcmp-store-list img{
     max-width: 100%;

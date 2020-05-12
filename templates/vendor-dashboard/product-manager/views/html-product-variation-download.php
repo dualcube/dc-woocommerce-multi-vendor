@@ -2,12 +2,11 @@
 
 /**
  * Add Downloadable file for each variations
- * Used by html-product-variations.php
- * Not overridable
+  * Override this template by copying it to yourtheme/dc-product-vendor/vendor-dashboard/product-manager/views/html-product-variation-download.php
  *
- * @author 		WC Marketplace
- * @package 	WCMp_AFM/views/products/woocommerce
- * @version     3.0.0
+ * @author  WC Marketplace
+ * @package     WCMp/Templates
+ * @version   3.3.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

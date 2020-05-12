@@ -227,7 +227,7 @@ app.controller('postbox_menu',['$scope', 'vendor_registration_service', function
                 break;
             case 'vendor_state':
                 // add dependancies with vendor country
-                if ($.inArray('vendor_country', $.map(formJson, function(v) { return v.type; })) > -1) {
+                if (jQuery.inArray('vendor_country', jQuery.map(formJson, function(v) { return v.type; })) > -1) {
                     formJson.push({
                         id: jsonLength,
                         type: type,

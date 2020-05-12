@@ -146,7 +146,7 @@ class WCMp_Coupon {
 
 		if ( is_user_wcmp_vendor($current_userid) ) {
 			$vendor = get_wcmp_vendor($current_userid);
-				$vendor_products = $vendor->get_products();
+				$vendor_products = $vendor->get_products_ids();
 				if(!empty($vendor_products)) {
 					foreach( $vendor_products as $vendor_product ) {
 						if( isset( $products[ $vendor_product->ID ] ) ){

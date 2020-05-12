@@ -62,11 +62,12 @@ class WCMp_Shipping_Gateway {
      */
     public static function load_class($class_name = '', $dir = '') {
         global $WCMp;
-        if ('' != $class_name && '' != $WCMp->token) {
+        if ('' != $class_name && defined( 'WCMp_PLUGIN_TOKEN' ) ) {
+            $token = WCMp_PLUGIN_TOKEN;
             if($dir)
-                require_once ('shipping-gateways/' . trailingslashit( $dir ) . 'class-' . esc_attr($WCMp->token) . '-' . esc_attr($class_name) . '.php');
+                require_once ('shipping-gateways/' . trailingslashit( $dir ) . 'class-' . esc_attr($token) . '-' . esc_attr($class_name) . '.php');
             else
-                require_once ('shipping-gateways/class-' . esc_attr($WCMp->token) . '-' . esc_attr($class_name) . '.php');
+                require_once ('shipping-gateways/class-' . esc_attr($token) . '-' . esc_attr($class_name) . '.php');
         }
     }
     

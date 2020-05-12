@@ -779,7 +779,7 @@ class WCMp_User {
         }
         $vendor = get_wcmp_vendor($user_id);
         if ($vendor) {
-            $product_count = count($vendor->get_products());
+            $product_count = count($vendor->get_products_ids());
             return "<a href='edit.php?post_type=product&dc_vendor_shop=" . $vendor->page_slug . "'><strong>{$product_count}</strong></a>";
         } else {
             return "<strong></strong>";
@@ -951,7 +951,7 @@ class WCMp_User {
 
             if (isset($_POST['reassign_user']) && !empty($_POST['reassign_user']) && ( $_POST['delete_option'] == 'reassign' )) {
                 if (is_user_wcmp_vendor(absint($_POST['reassign_user']))) {
-                    if ($products = $vendor->get_products(array('fields' => 'ids'))) {
+                    if ($products = wp_list_pluck( $vendor->get_products_ids(), 'ID' )) {
                         foreach ($products as $product_id) {
                             $new_vendor = get_wcmp_vendor(absint($_POST['reassign_user']));
                             wp_set_object_terms($product_id, absint($new_vendor->term_id), $WCMp->taxonomy->taxonomy_name);
