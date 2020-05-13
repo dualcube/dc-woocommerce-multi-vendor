@@ -125,6 +125,7 @@ class WCMp_REST_API {
 		$this->load_controller_class('products');
 		$this->load_controller_class('coupons');
 		$this->load_controller_class('orders');
+		$this->load_controller_class('vendor-reviews');
 	}
 
 	/**
@@ -141,6 +142,7 @@ class WCMp_REST_API {
 		$controllers = array(
 			// v1 controllers.
 			'WCMp_REST_API_Vendors_Controller',
+			'WCMp_REST_API_Vendor_Reviews_Controller'
 		);
 
 		foreach ( $controllers as $controller ) {
