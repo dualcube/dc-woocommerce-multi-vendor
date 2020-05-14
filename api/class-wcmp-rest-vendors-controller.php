@@ -467,7 +467,113 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
 		foreach($vendor_meta_key_list as $key => $value) {
 			if($value != '') update_user_meta($user_id, $key, $value);
 		}
+		// Check for cover/store images, upload it and set it.
+		if ( isset( $request['images'] ) ) {
+			$vendor = $this->set_vendor_images( $user_id, $request['images'] );
+		}
     }
+
+    /**
+	 * Set vendor images.
+	 *
+	 * @throws WC_REST_Exception REST API exceptions.
+	 * @param WC_vendor $vendor vendor instance.
+	 * @param array      $images  Images data.
+	 * @return WC_vendor
+	 *  Request Example:
+		{
+			"login": "abc",
+			"email": "abc@example.com",
+			"images": [
+				{
+					"src": "http://demo.woothemes.com/woocommerce/wp-content/uploads/sites/56/2013/06/T_2_front.jpg",
+					"position": "cover"
+				}
+			]
+		}
+	 */
+	protected function set_vendor_images( $vendor, $images ) {
+		if ( is_array( $images ) ) {
+
+			foreach ( $images as $image ) {
+
+				$attachment_id = isset( $image['id'] ) ? absint( $image['id'] ) : 0;
+
+				if ( 0 === $attachment_id && isset( $image['src'] ) ) {
+					$upload = wc_rest_upload_image_from_url( esc_url_raw( $image['src'] ) );
+
+					if ( is_wp_error( $upload ) ) {
+						if ( ! apply_filters( 'wcmp_rest_suppress_image_upload_error', false, $upload, $vendor, $images ) ) {
+							throw new WC_REST_Exception( 'wcmp_vendor_image_upload_error', $upload->get_error_message(), 400 );
+						} else {
+							continue;
+						}
+					}
+
+					$attachment_id = wc_rest_set_uploaded_image_as_attachment( $upload, $vendor );
+				}
+
+				if ( ! wp_attachment_is_image( $attachment_id ) ) {
+					throw new WC_REST_Exception( 'wcmp_vendor_invalid_image_id', sprintf( __( '#%s is an invalid image ID.', 'woocommerce' ), $attachment_id ), 400 );
+				}
+
+				// For crop section start
+				$cropped == false;
+				if ( isset( $image['position'] ) && 'store' === $image['position'] ) {
+					$cropped = wp_crop_image( $attachment_id, 0, 0, 1000,1000, 100, 100 );
+				} elseif ( isset( $image['position'] ) && 'cover' === $image['position'] ) {
+					$cropped = wp_crop_image( $attachment_id, 0, 0, 1920,622, 1200, 390 );
+				}
+
+				if (!$cropped || is_wp_error($cropped)) {
+					wp_send_json_error(array('message' => __('Image could not be processed. Please go back and try again.', 'dc-woocommerce-multi-vendor')));
+				}
+
+        		$cropped = apply_filters('wcmp_rest_create_file_in_uploads', $cropped, $attachment_id); 
+
+				$parent = get_post($attachment_id);
+				$parent_url = $parent->guid;
+				$url = str_replace(basename($parent_url), basename($cropped), $parent_url);
+
+				$size = @getimagesize($cropped);
+				$image_type = ( $size ) ? $size['mime'] : 'image/jpeg';
+
+				$object = array(
+					'ID' => $attachment_id,
+					'post_title' => basename($cropped),
+					'post_content' => $url,
+					'post_mime_type' => $image_type,
+					'guid' => $url
+					);
+				// Its override actual image with cropped one
+				if( !apply_filters( 'wcmp_crop_image_override_with_original', false, $attachment_id, $_POST ) ) unset($object['ID']); 
+
+				$attachment_id = wp_insert_attachment($object, $cropped);
+
+				$metadata = wp_generate_attachment_metadata($attachment_id, $cropped);
+				wp_update_attachment_metadata($attachment_id, $metadata);
+
+				/************* crop section end **************************/
+
+				if ( isset( $image['position'] ) && 'store' === $image['position'] ) {
+					update_user_meta( $vendor, '_vendor_image', $attachment_id );
+				} elseif ( isset( $image['position'] ) && 'cover' === $image['position'] ) {
+					update_user_meta( $vendor, '_vendor_banner', $attachment_id );
+				}
+
+				// Set the image alt if present.
+				if ( ! empty( $image['alt'] ) ) {
+					update_post_meta( $attachment_id, '_wp_attachment_image_alt', wc_clean( $image['alt'] ) );
+				}
+
+				// Set the image name if present.
+				if ( ! empty( $image['name'] ) ) {
+					wp_update_post( array( 'ID' => $attachment_id, 'post_title' => $image['name'] ) );
+				}
+			}
+		} 
+		return $vendor;
+	}
     
     /**
      * Get details for a single vendor for response
