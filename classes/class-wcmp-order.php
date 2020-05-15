@@ -878,7 +878,7 @@ class WCMp_Order {
                     $create_refund = $suborder_total_refund > 0 ? true : false;
                 }
 
-                if ($create_vendor_refund && $create_refund) {
+                if ($create_vendor_refund && $create_refund && $suborder_total_refund != 0) {
                     // Create the refund object
                     $refund = wc_create_refund(array(
                         'amount' => $suborder_total_refund,
