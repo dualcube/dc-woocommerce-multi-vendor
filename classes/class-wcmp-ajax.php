@@ -72,6 +72,9 @@ class WCMp_Ajax {
         // search filter vendors from widget
         add_action('wp_ajax_vendor_list_by_search_keyword', array($this, 'vendor_list_by_search_keyword'));
         add_action('wp_ajax_nopriv_vendor_list_by_search_keyword', array($this, 'vendor_list_by_search_keyword'));
+        //search filter vendor product from widget
+         add_action('wp_ajax_vendor_product_list_by_search_keyword', array($this, 'wcmp_widget_vendor_product_search'));
+        add_action('wp_ajax_nopriv_vendor_product_list_by_search_keyword', array($this, 'wcmp_widget_vendor_product_search'));
 
         add_action('wp_ajax_wcmp_product_tag_add', array(&$this, 'wcmp_product_tag_add'));
 
@@ -4181,6 +4184,73 @@ class WCMp_Ajax {
             wp_send_json($json_data);
             die;
         }
+    }
+
+    public function wcmp_widget_vendor_product_search() {
+    global $WCMp,$woocommerce;
+    // check vendor_product_search_nonce
+        if ( !isset( $_POST['vendor_search_nonce'] ) || !wp_verify_nonce( $_POST['vendor_search_nonce'], 'wcmp_widget_vendor_product_search_form' ) ) {
+            die();
+        }
+        $html = '';
+        isset( $_POST['vendor_id'] ) ? $post_author = absint( $_POST['vendor_id'] ) : die();
+        // set argument for fetch vendor products
+        $args1 = array(
+                'author' => $post_author ,
+                'post_type' => 'product' ,
+                'post_status' => 'publish' ,
+                'posts_per_page' => -1
+            );
+        if ( isset( $_POST['s'] ) && sanitize_text_field( $_POST['s'] ) ) {
+            // set argument for keyword search
+            $args2= array(
+                's' =>  esc_attr( $_POST['s'] ) 
+            );
+            $args = array_merge( $args1 , $args2 );
+            $products = wc_get_products( $args );
+            if ( $products ) {
+                foreach( $products as $product ) {   
+                    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product->get_id()), 'single-post-thumbnail' );
+                   $html .= '<div style=" width: 100%; margin-bottom: 20px; clear: both; display: block;">
+                        <div style=" width: 75%;  display: inline-block;">
+                        <a href="'. esc_attr( $product->get_permalink() ) .'">
+                        '. wp_kses_post( $product->get_name() ) .
+                        '</a><br>
+                        '. $product->get_price_html() .'
+                        </div>
+                        <div style=" width: 25%;  display: inline;  float: right;">     
+                        <img width="50" height="50" class="product_img" style="display: inline;" src="'. $image[0] .'" data-id="'. $product->get_id() .'">
+                        </div>
+                        </div>';
+                }
+            }else{
+                $html .= '<div style=" width: 100%; margin-bottom: 5px; clear: both; display: block;">
+                        <div style="display: inline;  padding: 10px;">
+                        ' . __( 'No Product Matched!', 'dc-woocommerce-multi-vendor' ) . '
+                        </div>
+                        </div>';
+            }
+        } else {
+            $products = wc_get_products( $args1 );
+            if ( $products ) {
+                foreach( $products as $product ) {   
+                    $image = wp_get_attachment_image_src( get_post_thumbnail_id( $product->get_id() ), 'single-post-thumbnail' );
+                    $html .= '<div style=" width: 100%; margin-bottom: 20px; clear: both; display: block;">
+                        <div style=" width: 75%;  display: inline-block;">
+                        <a href="'. esc_attr( $product->get_permalink() ) .'">
+                        '. wp_kses_post( $product->get_name() ) .
+                        '</a><br>
+                        '. $product->get_price_html() .'
+                        </div>
+                        <div style=" width: 25%;  display: inline;  float: right;">     
+                        <img width="50" height="50" class="product_img" style="display: inline;" src="'. $image[0] .'" data-id="'. $product->get_id() .'">
+                        </div>
+                        </div>';
+                }
+            }  
+        }
+        echo $html;
+        die();
     }
 
 }

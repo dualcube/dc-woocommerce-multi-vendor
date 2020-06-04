@@ -91,6 +91,20 @@ jQuery(document).ready(function ($) {
 
     });
 
+    $('#wcmp_widget_vendor_product_search .search_keyword').on('input', function () {
+        
+        var vendor_product_search_data = {
+            action: 'vendor_product_list_by_search_keyword',
+            s: $(this).val(),
+            vendor_id: $('.wcmp_widget_vendor_id').val(),
+            vendor_search_nonce: $('#wcmp_vendor_product_search_nonce').val()
+        }
+        $.post(frontend_js_script_data.ajax_url, vendor_product_search_data, function (response) {
+            $('#wcmp_widget_vendor_product_list').html('');
+            $('#wcmp_widget_vendor_product_list').html(response);
+        });
+    });
+
     $('#vendor_sort_type').change(function () {
         if ($(this).val() == 'category') {
             $('#vendor_sort_category').show();
