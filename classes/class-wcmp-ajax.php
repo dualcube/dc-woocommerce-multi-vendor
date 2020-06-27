@@ -1543,6 +1543,10 @@ class WCMp_Ajax {
             $user = new WP_User(absint($user_id));
             if (is_user_wcmp_vendor($user)) {
                 update_user_meta($user_id, '_vendor_turn_off', 'Enable');
+                if( apply_filters( 'wcmp_suspend_vendor_email_sent' , true ) ){
+                    $email_vendor_suspend = WC()->mailer()->emails['WC_Email_Suspend_Vendor_Account'];
+                    $email_vendor_suspend->trigger($user_id);
+                }
             }
         }
         if (isset($redirect) && $redirect)
