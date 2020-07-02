@@ -24,12 +24,15 @@ class WCMp_Widget_Init {
         require_once ('widgets/class-wcmp-widget-vendor-location.php');
         require_once ('widgets/class-wcmp-widget-vendor-product-categories.php');
         require_once ('widgets/class-wcmp-widget-vendor-top-rated-products.php');
+         require_once ('widgets/class-wcmp-widget-vendor-product-search.php');
+
         register_widget('DC_Widget_Vendor_Info');
         register_widget('DC_Widget_Vendor_List');
         register_widget('DC_Widget_Quick_Info_Widget');
         register_widget('DC_Woocommerce_Store_Location_Widget');
         register_widget('WCMp_Widget_Vendor_Product_Categories');
         register_widget('WCMp_Widget_Vendor_Top_Rated_Products');
+        register_widget('DC_Widget_Vendor_Product_search');
     }
 
     /**
