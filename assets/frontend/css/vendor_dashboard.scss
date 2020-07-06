@@ -1720,16 +1720,16 @@ table.table-bordered.no-th-border {
 		}
 	}
 }
-@-moz-document {
-	url-prefix() {
-		table.table-bordered tbody { border-top: solid 2px #d3dbe2;
-	}
-}
-} {
-	table.table-outer-border {
-		border: 1px solid #ddd;
-	}
-}
+// @-moz-document {
+// 	url-prefix() {
+// 		table.table-bordered tbody { border-top: solid 2px #d3dbe2;
+// 	}
+// }
+// } {
+// 	table.table-outer-border {
+// 		border: 1px solid #ddd;
+// 	}
+// }
 table.table-outer-border {
 	.table-outer-border {
 		thead {

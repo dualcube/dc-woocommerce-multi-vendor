@@ -254,7 +254,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         'js',
         'css',
-        'i18n'
+        // 'i18n'
     ]);
 
     grunt.registerTask('js', [
@@ -267,7 +267,7 @@ module.exports = function (grunt) {
         'sass',
         'cssmin',
         'postcss',
-        'rtlcss',
+        // 'rtlcss',
     ]);
 
     // Only an alias to 'default' task.
