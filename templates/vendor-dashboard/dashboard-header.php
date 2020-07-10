@@ -29,7 +29,7 @@ $site_logo = get_wcmp_vendor_settings('wcmp_dashboard_site_logo', 'vendor', 'das
 
 <!-- Top bar -->
 <div class="top-navbar white-bkg">
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-default p-0">
         <div class="topbar-left pull-left pos-rel">
             <div class="site-logo text-center pos-middle">
                 <a href="<?php echo apply_filters('wcmp_vendor_dashboard_header_site_url', site_url(), $vendor); ?>">
