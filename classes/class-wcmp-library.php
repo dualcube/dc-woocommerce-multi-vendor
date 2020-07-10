@@ -161,12 +161,12 @@ class WCMp_Library {
     }
 
     public function load_bootstrap_style_lib() {
-        wp_register_style('wcmp-bootstrap-style', $this->bootstrap_lib_url . 'css/bootstrap.min.css', array(), '3.3.7');
+        wp_register_style('wcmp-bootstrap-style', $this->bootstrap_lib_url . 'css/bootstrap.min.css', array(), '4.5.0');
         wp_enqueue_style('wcmp-bootstrap-style');
     }
 
     public function load_bootstrap_script_lib() {
-        wp_register_script('wcmp-bootstrap-script', $this->bootstrap_lib_url . 'js/bootstrap.min.js', array('jquery'), '3.3.7');
+        wp_register_script('wcmp-bootstrap-script', $this->bootstrap_lib_url . 'js/bootstrap.min.js', array('jquery'), '4.5.0');
         if (!defined('WCMP_UNLOAD_BOOTSTRAP_LIB')) {
             wp_enqueue_script('wcmp-bootstrap-script');
         }
