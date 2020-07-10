@@ -39,7 +39,7 @@ do_action('wcmp_before_vendor_dashboard_navigation');
                 <ul class="nav" id="side-menu">
                     <?php foreach ($nav_items as $key => $item): ?>
                         <?php if (current_user_can($item['capability']) || $item['capability'] === true): ?>
-                            <li class="<?php if(!empty($item['submenu'])){ echo 'hasmenu';} ?>">
+                            <li class="nav-item <?php if(!empty($item['submenu'])){ echo 'hasmenu';} ?>">
                                 <?php if(array_key_exists($WCMp->endpoints->get_current_endpoint(), $item['submenu'])){ $force_active = true;} else {$force_active = false;}?>
                                 <a href="<?php echo esc_url($item['url']); ?>" target="<?php echo $item['link_target'] ?>" data-menu_item="<?php echo $key ?>" class="<?php echo implode(' ', array_map('sanitize_html_class', wcmp_get_vendor_dashboard_nav_item_css_class($key, $force_active))); ?>">
                                     <i class="<?php echo $item['nav_icon'] ?>"></i> 

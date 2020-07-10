@@ -3611,6 +3611,13 @@ ul.nav {
 .btm-nav-fixed {
 	margin-top: 19px;
 }
+
+.sidebar-nav {
+	.nav-item {
+		width: 100%;
+	}
+}
+
 .sidebar {
 	color: #9a9a9a;
 	background-color: #333b3d;

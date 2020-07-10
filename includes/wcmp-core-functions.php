@@ -827,6 +827,7 @@ if (!function_exists('wcmp_get_vendor_dashboard_nav_item_css_class')) {
     function wcmp_get_vendor_dashboard_nav_item_css_class($endpoint, $force_active = false) {
         global $wp;
         $cssClass = array(
+            'nav-link',
             'wcmp-venrod-dashboard-nav-link',
             'wcmp-venrod-dashboard-nav-link--' . $endpoint
         );
