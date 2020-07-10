@@ -1508,7 +1508,7 @@ Class WCMp_Admin_Dashboard {
         $args = array_merge($default, $args);
         if (!empty($title)) {
             ?>
-            <div class="panel-heading">
+            <div class="panel-heading d-flex">
                 <h3 class="pull-left">
             <?php if (!empty($args['icon'])) : ?>
                         <span class="icon_stand dashicons-before <?php echo $args['icon']; ?>"></span>

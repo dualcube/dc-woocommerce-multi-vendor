@@ -107,7 +107,7 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_storefront_wp_editor_settings'
         </div>
 
         <div class="panel panel-default panel-pading pannel-outer-heading">
-            <div class="panel-heading">
+            <div class="panel-heading d-flex">
                 <h3><?php _e('General', 'dc-woocommerce-multi-vendor'); ?></h3>
             </div>
             <div class="panel-body panel-content-padding">
@@ -365,7 +365,7 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_storefront_wp_editor_settings'
         </div>
 
         <div class="panel panel-default pannel-outer-heading">
-            <div class="panel-heading">
+            <div class="panel-heading d-flex">
                 <h3><?php _e('Social Media', 'dc-woocommerce-multi-vendor'); ?></h3>
             </div>
             <div class="panel-body panel-content-padding form-horizontal">
@@ -419,7 +419,7 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_storefront_wp_editor_settings'
 
 <?php if (apply_filters('can_vendor_edit_shop_template', false)): ?>
             <div class="panel panel-default panel-pading">
-                <div class="panel-heading">
+                <div class="panel-heading d-flex">
                     <h3><?php _e('Shop Template', 'dc-woocommerce-multi-vendor'); ?></h3>
                 </div>
                 <div class="panel-body">

@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 global $WCMp;
 ?>
 <div class="panel panel-default panel-pading pannel-outer-heading cust-refund-request">
-    <div class="panel-heading">
+    <div class="panel-heading d-flex">
         <h3><?php _e('Customer Refund Request', 'dc-woocommerce-multi-vendor'); ?></h3>
     </div>
     <div class="panel-body panel-content-padding">

@@ -44,7 +44,7 @@ if ( wc_tax_enabled() ) {
     }
 </style>
 <div class="wcmp_order_items_wrapper panel panel-default panel-pading pannel-outer-heading order-detail-table-wrap">
-    <div class="panel-heading">
+    <div class="panel-heading d-flex">
         <h3><?php _e('Items', 'woocommerce'); ?></h3>
     </div>
     <div class="panel-body">

@@ -21,7 +21,7 @@ $vendor_shipping_data = get_user_meta($vendor->id, 'vendor_shipping_data', true)
 <div class="col-md-12">
     <form name="vendor_shipping_form" class="wcmp_shipping_form form-horizontal" method="post">
         <div class="panel panel-default panel-pading pannel-outer-heading">
-            <div class="panel-heading">
+            <div class="panel-heading d-flex">
                 <h3><?php _e('Shipping zones', 'dc-woocommerce-multi-vendor'); ?></h3>
             </div>
             <div class="panel-body">

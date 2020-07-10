@@ -41,11 +41,44 @@ $site_logo = get_wcmp_vendor_settings('wcmp_dashboard_site_logo', 'vendor', 'das
                 </a>
             </div>
         </div>
-        <ul class="nav pull-right top-user-nav">
+
+        <?php
+        if ($vendor)
+            $header_nav = $WCMp->vendor_dashboard->dashboard_header_nav();
+        else
+            $header_nav = false;
+
+        if ($header_nav) :
+            sksort($header_nav, 'position', true);
+            ?>
+            <ul class="nav navbar-top-links navbar-right ml-auto">
+                        <?php
+                        foreach ($header_nav as $key => $nav):
+                            if (current_user_can($nav['capability']) || $nav['capability'] === true):
+                                ?>
+                        <li class="notification-link <?php if (!empty($nav['class'])) echo $nav['class']; ?>">
+                            <a href="<?php echo esc_url($nav['url']); ?>" target="<?php echo $nav['link_target']; ?>" title="<?php echo $nav['label']; ?>">
+                                <i class="<?php echo $nav['nav_icon']; ?>"></i> <span class="hidden-sm hidden-xs"><?php echo $nav['label']; ?></span>
+                        <?php
+                        if ($key == 'announcement') :
+                            $vendor_announcements = $vendor->get_announcements();
+                            if (isset($vendor_announcements['unread']) && count($vendor_announcements['unread']) > 0) {
+                                echo '<span class="notification-blink">'.count($vendor_announcements['unread']).'</span>';
+                            }
+                        endif;
+                        ?>
+                            </a>
+                        </li>
+            <?php
+        endif;
+    endforeach;
+    ?>
+            </ul>     
+
+            <ul class="nav top-user-nav">
             <li class="dropdown login-user">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="d-block dropdown-toggle" data-toggle="dropdown">
                     <i class="wcmp-font ico-user-icon"></i>
-                    <span><i class="wcmp-font ico-down-arrow-icon"></i></span>
                 </a>
                 <ul class="dropdown-menu dropdown-user dropdown-menu-right">
                     <li class="sidebar-logo text-center"> 
@@ -85,39 +118,6 @@ $site_logo = get_wcmp_vendor_settings('wcmp_dashboard_site_logo', 'vendor', 'das
                 <!-- /.dropdown -->
             </li>
         </ul>
-
-        <?php
-        if ($vendor)
-            $header_nav = $WCMp->vendor_dashboard->dashboard_header_nav();
-        else
-            $header_nav = false;
-
-        if ($header_nav) :
-            sksort($header_nav, 'position', true);
-            ?>
-            <ul class="nav navbar-top-links navbar-right pull-right btm-nav-fixed">
-                        <?php
-                        foreach ($header_nav as $key => $nav):
-                            if (current_user_can($nav['capability']) || $nav['capability'] === true):
-                                ?>
-                        <li class="notification-link <?php if (!empty($nav['class'])) echo $nav['class']; ?>">
-                            <a href="<?php echo esc_url($nav['url']); ?>" target="<?php echo $nav['link_target']; ?>" title="<?php echo $nav['label']; ?>">
-                                <i class="<?php echo $nav['nav_icon']; ?>"></i> <span class="hidden-sm hidden-xs"><?php echo $nav['label']; ?></span>
-                        <?php
-                        if ($key == 'announcement') :
-                            $vendor_announcements = $vendor->get_announcements();
-                            if (isset($vendor_announcements['unread']) && count($vendor_announcements['unread']) > 0) {
-                                echo '<span class="notification-blink">'.count($vendor_announcements['unread']).'</span>';
-                            }
-                        endif;
-                        ?>
-                            </a>
-                        </li>
-            <?php
-        endif;
-    endforeach;
-    ?>
-            </ul>     
 <?php endif; ?>
         <!-- /.navbar-top-links -->
     </div>

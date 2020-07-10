@@ -66,7 +66,7 @@ $title = in_array( $post_status, array( "publish", "draft" ) ) ? $post->post_tit
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default pannel-outer-heading">
-                    <div class="panel-heading">
+                    <div class="panel-heading d-flex">
                         <h3 class="pull-left"><?php esc_html_e( 'Coupon data', 'woocommerce' ); ?></h3>
                     </div>
                     <div class="panel-body panel-content-padding form-group-wrapper">

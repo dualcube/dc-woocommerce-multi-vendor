@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 global $WCMp;
 ?>
 <div class="cat-step3">
-    <div class="panel-heading">
+    <div class="panel-heading d-flex">
         <h1>
             <?php if( !get_wcmp_vendor_settings('is_singleproductmultiseller', 'general') == 'Enable' && get_wcmp_vendor_settings('is_disable_marketplace_plisting', 'general') != 'Enable' ) : ?>
             <span class="primary-color"><span><?php _e( 'Step 2 of', 'dc-woocommerce-multi-vendor' );?></span> <?php _e( '2:', 'dc-woocommerce-multi-vendor' );?></span> 

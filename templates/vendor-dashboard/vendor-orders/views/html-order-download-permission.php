@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div class="wc-metabox closed">
-        <div class="panel-heading">
+        <div class="panel-heading d-flex">
             <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent="#vorder-dwnld-accordion" href="#collapse-<?php echo esc_attr( $download->get_id() ); ?>">
                     <strong>

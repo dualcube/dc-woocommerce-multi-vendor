@@ -34,7 +34,7 @@ if (is_user_logged_in() && is_user_wcmp_vendor($current_vendor_id) && !current_u
         <div class="select-cat-step-wrapper">
             <div class="cat-step1" >
                 <div class="panel panel-default pannel-outer-heading mt-0">
-                    <div class="panel-heading">
+                    <div class="panel-heading d-flex">
                         <h1><span class="primary-color"><span><?php _e( 'Step 1 of', 'dc-woocommerce-multi-vendor' );?></span> <?php _e( '2:', 'dc-woocommerce-multi-vendor' );?></span> <?php _e('Select a product category', 'dc-woocommerce-multi-vendor'); ?></h1>
                         <h3><?php _e('Once a category is assigned to a product, it cannot be altered.', 'dc-woocommerce-multi-vendor'); ?></h3>
                     </div>
@@ -97,7 +97,7 @@ if (is_user_logged_in() && is_user_wcmp_vendor($current_vendor_id) && !current_u
                 </div>
             </div>
             <div class="panel panel-custom mt-15 product-search-panel searched-products-name-gtin-panel">
-                <div class="panel-heading"><?php _e('Your search results:', 'dc-woocommerce-multi-vendor'); ?></div>
+                <div class="panel-heading d-flex"><?php _e('Your search results:', 'dc-woocommerce-multi-vendor'); ?></div>
                 <div class="panel-body search-result-holder p-0 searched-result-products-name-gtin"></div>
             </div>          
         </div>

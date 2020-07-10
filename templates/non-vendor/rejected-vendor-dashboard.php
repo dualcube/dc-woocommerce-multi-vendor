@@ -16,7 +16,7 @@ echo '<div class="col-md-12 text-center"><div class="panel wcmp-rejected-vendor-
 $wcmp_vendor_rejection_notes = unserialize( get_user_meta( get_current_user_id(), 'wcmp_vendor_rejection_notes', true ) );
 
 if(is_array($wcmp_vendor_rejection_notes) && count($wcmp_vendor_rejection_notes) > 0) {
-	echo '<div class="col-md-12"><div class="panel panel-default pannel-outer-heading"><div class="panel-heading"><h3>' . __('Notes from our reviewer', 'dc-woocommerce-multi-vendor') . '</h3></div>';
+	echo '<div class="col-md-12"><div class="panel panel-default pannel-outer-heading"><div class="panel-heading d-flex"><h3>' . __('Notes from our reviewer', 'dc-woocommerce-multi-vendor') . '</h3></div>';
 	echo '<div class="panel-body panel-content-padding"><div class="note-clm-wrap">';
 	foreach($wcmp_vendor_rejection_notes as $time => $notes) {
 		echo '<div class="note-clm"><p class="note-description">' . $notes['note'] . '</p><p class="note_time note-meta">On ' . date( "Y-m-d", $time ) . '</p></div>';

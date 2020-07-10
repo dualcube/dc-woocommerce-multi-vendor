@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 global $WCMp;
 ?>
 <div class="panel panel-default panel-pading pannel-outer-heading download-product-permission">
-    <div class="panel-heading">
+    <div class="panel-heading d-flex">
         <h3><?php _e('Downloadable product permissions', 'woocommerce'); ?></h3>
     </div>
     <div class="order_download_permissions wc-metaboxes-wrapper panel-body panel-content-padding">

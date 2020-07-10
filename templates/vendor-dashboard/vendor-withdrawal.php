@@ -35,7 +35,7 @@ $withdrawal_list_table_headers = apply_filters('wcmp_datatable_vendor_withdrawal
 <?php endif; ?>
 <div class="col-md-12">
     <div class="panel panel-default">
-        <h3 class="panel-heading"><?php _e('Withdrawal Orders', 'dc-woocommerce-multi-vendor'); ?></h3>
+        <h3 class="panel-heading d-flex"><?php _e('Withdrawal Orders', 'dc-woocommerce-multi-vendor'); ?></h3>
         <div class="panel-body">
             <form method="post" name="get_paid_form">
                 <table id="vendor_withdrawal" class="table table-striped table-bordered" width="100%">

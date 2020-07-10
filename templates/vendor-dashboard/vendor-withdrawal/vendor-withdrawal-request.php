@@ -28,7 +28,7 @@ if ( !$transaction || (isset($transaction->post_type) && $transaction->post_type
 ?>
 <div class="col-md-12">
     <div class="panel panel-default">
-        <h3 class="panel-heading"><?php echo apply_filters('wcmp_thankyou_transaction_received_text', sprintf(__('Withdrawal #%s details', 'dc-woocommerce-multi-vendor'), $transaction_id), $transaction_id); ?></h3>
+        <h3 class="panel-heading d-flex"><?php echo apply_filters('wcmp_thankyou_transaction_received_text', sprintf(__('Withdrawal #%s details', 'dc-woocommerce-multi-vendor'), $transaction_id), $transaction_id); ?></h3>
         <div class="panel-body">
             <?php $transaction = get_post($transaction_id);
             $amount = (float) get_post_meta($transaction_id, 'amount', true) - (float) get_post_meta($transaction_id, 'transfer_charge', true) - (float) get_post_meta($transaction_id, 'gateway_charge', true);

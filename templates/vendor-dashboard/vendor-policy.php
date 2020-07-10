@@ -31,7 +31,7 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_policies_wp_editor_settings', 
         <?php do_action('wcmp_before_vendor_policy'); ?>
         <?php if (apply_filters('wcmp_vendor_can_overwrite_policies', true) && get_wcmp_vendor_settings('is_policy_on', 'general') == 'Enable'): ?>
             <div class="panel panel-default pannel-outer-heading">
-                <div class="panel-heading">
+                <div class="panel-heading d-flex">
                     <h3><?php _e('Policy Details', 'dc-woocommerce-multi-vendor'); ?></h3>
                 </div>
                 <div class="panel-body panel-content-padding">
@@ -61,7 +61,7 @@ $_wp_editor_settings = apply_filters('wcmp_vendor_policies_wp_editor_settings', 
         <?php endif; ?>
         <?php if (apply_filters('wcmp_vendor_can_overwrite_customer_support', true) && get_wcmp_vendor_settings('is_customer_support_details', 'general') == 'Enable') { ?>
             <div class="panel panel-default pannel-outer-heading">
-                <div class="panel-heading">
+                <div class="panel-heading d-flex">
                     <h3><?php _e('Customer Support Details', 'dc-woocommerce-multi-vendor'); ?></h3>
                 </div>
                 <div class="panel-body panel-content-padding">

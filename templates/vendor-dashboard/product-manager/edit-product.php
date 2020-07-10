@@ -236,7 +236,7 @@ global $WCMp;
                 ?>
                 <?php if($post->post_status == 'pending') { ?>
                 <div class="panel panel-default pannel-outer-heading order-action">
-                    <div class="panel-heading">
+                    <div class="panel-heading d-flex">
                         <?php esc_html_e( 'Rejection Note', 'dc-woocommerce-multi-vendor' ); ?>
                     </div>
                     <div class="panel-body panel-content-padding form-group-wrapper"> 
@@ -285,7 +285,7 @@ global $WCMp;
                 $product_categories = wcmp_get_product_terms_HTML( 'product_cat', $post->ID, apply_filters( 'wcmp_vendor_can_add_product_category', false, get_current_user_id() ) ); ?>
                 <?php if ( $product_categories ) : ?>
                     <div class="panel panel-default pannel-outer-heading">
-                        <div class="panel-heading">
+                        <div class="panel-heading d-flex">
                             <h3 class="pull-left"><?php esc_html_e( 'Product categories', 'woocommerce' ); ?></h3>
                         </div>
                         <div class="panel-body panel-content-padding form-group-wrapper"> 
@@ -299,7 +299,7 @@ global $WCMp;
                 <?php $product_tags = wcmp_get_product_terms_HTML( 'product_tag', $post->ID, apply_filters( 'wcmp_vendor_can_add_product_tag', true, get_current_user_id() ), false ); ?>
                 <?php if ( $product_tags ) : ?>
                     <div class="panel panel-default pannel-outer-heading">
-                        <div class="panel-heading">
+                        <div class="panel-heading d-flex">
                             <h3 class="pull-left"><?php esc_html_e( 'Product tags', 'woocommerce' ); ?></h3>
                         </div>
                         <div class="panel-body panel-content-padding form-group-wrapper">
@@ -320,7 +320,7 @@ global $WCMp;
                         if ( in_array( $taxonomy->name, array( 'product_cat', 'product_tag' ) ) ) continue;
                         if ( $taxonomy->public && $taxonomy->show_ui && $taxonomy->meta_box_cb ) { ?>
                             <div class="panel panel-default pannel-outer-heading">
-                                <div class="panel-heading">
+                                <div class="panel-heading d-flex">
                                     <h3 class="pull-left"><?php echo $taxonomy->label; ?></h3>
                                 </div>
                                 <div class="panel-body panel-content-padding form-group-wrapper">

@@ -16,7 +16,7 @@ $vendor_profile_image = get_user_meta($user->ID, '_vendor_profile_image', true);
     <form method="post" name="profile_settings_form" class="wcmp_profile_form form-horizontal">
         <?php do_action('wcmp_before_vendor_dashboard_profile'); ?>
 		<div class="panel panel-default pannel-outer-heading">
-			<div class="panel-heading">
+			<div class="panel-heading d-flex">
 				<h3><?php _e('Personal Information', 'dc-woocommerce-multi-vendor'); ?></h3>
 			</div>
 			<div class="panel-body panel-content-padding">

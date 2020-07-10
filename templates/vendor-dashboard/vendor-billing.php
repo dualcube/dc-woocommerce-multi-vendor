@@ -32,7 +32,7 @@ $vendor_payment_mode_select = apply_filters('wcmp_vendor_payment_mode', $payment
 <div class="col-md-12">
     <form method="post" name="shop_settings_form" class="wcmp_billing_form">
         <div class="panel panel-default pannel-outer-heading">
-            <div class="panel-heading">
+            <div class="panel-heading d-flex">
                 <h3><?php _e('Payment Method', 'dc-woocommerce-multi-vendor'); ?></h3>
             </div>                     
             <div class="panel-body panel-content-padding">

@@ -3398,6 +3398,9 @@ ul.nav {
 			a {
 				padding: 7px 15px;
 				margin: 0;
+				display: flex;
+				font-size: 14px;
+				align-items: center;
 				&:hover {
 					background-color: transparent;
 					color: #3f85b9;
@@ -3579,7 +3582,6 @@ ul.nav {
 }
 .top-user-nav {
 	height: 100%;
-	width: 100px;
 	>li {
 		height: 100%;
 		a.dropdown-toggle {

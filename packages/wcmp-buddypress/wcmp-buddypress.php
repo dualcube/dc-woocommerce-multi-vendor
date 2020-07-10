@@ -320,7 +320,7 @@ class WCMp_BuddyPress {
     	if( !array_key_exists('profile_sync', $buddypress_option) ) return;
     	?>
 		<div class="panel panel-default pannel-outer-heading">
-		<div class="panel-heading">
+		<div class="panel-heading d-flex">
 			<h3><?php _e('BuddyPress Setting', 'dc-woocommerce-multi-vendor'); ?></h3>
 		</div>
 		<div class="panel-body panel-content-padding form-horizontal">

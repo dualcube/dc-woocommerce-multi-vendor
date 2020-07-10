@@ -15,7 +15,7 @@ global $WCMp;
     <div class="panel panel-default panel-pading">
         <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
             <div class="wcmp_form1 ">
-                <div class="panel-heading">
+                <div class="panel-heading d-flex">
                     <h3><?php _e('Select Date Range :', 'dc-woocommerce-multi-vendor'); ?></h3> 
                     <div class="form-group">
                         <span class="date-inp-wrap">

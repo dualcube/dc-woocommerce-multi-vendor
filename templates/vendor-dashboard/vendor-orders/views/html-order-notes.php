@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
 global $WCMp;
 ?>
 <div class="panel panel-default panel-pading pannel-outer-heading order-action">
-    <div class="panel-heading">
+    <div class="panel-heading d-flex">
         <?php _e('Order notes :', 'dc-woocommerce-multi-vendor'); ?>
     </div>
     <div class="panel-body">
