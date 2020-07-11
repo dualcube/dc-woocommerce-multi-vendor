@@ -27,6 +27,43 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
                 'order'     => $args['order'],
                 'number'    => 12,
             );
+             // category attribute
+            if (!empty($args['tax_query'])) {
+                $pro_args = array(
+                    'posts_per_page' => -1,
+                    'post_type' => 'product',
+                    'tax_query' => $args['tax_query']
+                    );
+                $products = get_posts($pro_args);
+                $product_ids = wp_list_pluck($products, 'ID');
+                foreach ($product_ids as $product_id) {
+                    $vendor = get_wcmp_product_vendors($product_id);
+                    if ($vendor && !in_array($vendor->id, $block_vendors)) {
+                        $include_vendors[] = $vendor->id;
+                    }
+                }
+                $args['include'] = $include_vendors;
+            }
+            // city attribute
+            $city_vendors = array();
+            $city_vendors_id = array();
+            if (!empty($args['by_city'])) {
+                foreach ($args['by_city'] as $city_key) {
+                    $vendor_city = new WCMp_Vendor_Query(array(
+                        'number' => -1,
+                        'meta_key' => '_vendor_city',
+                        'meta_value' => $city_key
+                        ));
+                    $city_vendors[] = wp_list_pluck( $vendor_city->get_results(), 'ID' );
+                }
+                foreach ($city_vendors as $key_city => $value_city ) {
+                    foreach ($value_city as $key_k => $value_v) {
+                        $city_vendors_id[] = $value_v;
+                    }
+                }
+                $args['include'] = $city_vendors_id;
+            }
+
             if (isset($request['vendor_sort_type']) && $request['vendor_sort_type'] == 'category' && isset($request['vendor_sort_category'])) {
                 $pro_args = array(
                     'posts_per_page' => -1,
@@ -90,7 +127,7 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
             wp_enqueue_script('wcmp_vendor_list');
             wp_style_add_data('wcmp_vendor_list', 'rtl', 'replace');
             wp_enqueue_style('wcmp_vendor_list');
-            extract(shortcode_atts(array('orderby' => 'registered', 'order' => 'ASC'), $atts));
+            extract(shortcode_atts(array('orderby' => 'registered', 'order' => 'ASC','category' => '','city' => ''), $atts));
             $order_by = isset($_REQUEST['vendor_sort_type']) ? $_REQUEST['vendor_sort_type'] : $orderby;
             
             $query = apply_filters('wcmp_vendor_list_vendors_query_args', array(
@@ -101,6 +138,21 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
             if($order_by == 'name'){
                 $query['meta_key'] = '_vendor_page_title';
                 $query['orderby'] = 'meta_value';
+            }
+            // category attribute
+            if (!empty($category)) {
+                $query['tax_query'] = array(
+                    array(
+                        'taxonomy' => 'product_cat',
+                        'terms' => array_map('sanitize_title', explode(',',$atts['category'])),
+                        'field' => 'slug',
+                        'operator' => 'IN'
+                        )
+                    );
+            }
+            // city attribute
+            if (!empty($city)) {
+                $query['by_city'] = array_map('sanitize_title', explode(',',$atts['city']));
             }
             // backward supports
             $query = apply_filters('wcmp_vendor_list_get_wcmp_vendors_args', $query, $order_by, $_REQUEST, $atts);
