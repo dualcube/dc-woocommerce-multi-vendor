@@ -15,6 +15,7 @@ global $WCMp;
 $transactions_list_table_headers = apply_filters('wcmp_datatable_vendor_transactions_list_table_headers', array(
     'select_transaction'  => array('label' => '', 'class' => 'text-center'),
     'date'      => array('label' => __( 'Date', 'dc-woocommerce-multi-vendor' )),
+    'order_id'      => array('label' => __( 'Order IDs', 'dc-woocommerce-multi-vendor' )),
     'transaction_id'    => array('label' => __( 'Transc.ID', 'dc-woocommerce-multi-vendor' )),
     'commission_ids'=> array('label' => __( 'Commission IDs', 'dc-woocommerce-multi-vendor' )),
     'fees'  => array('label' => __( 'Fee', 'dc-woocommerce-multi-vendor' )),

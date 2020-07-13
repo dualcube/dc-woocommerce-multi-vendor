@@ -2277,11 +2277,15 @@ class WCMp_Ajax {
                     $trans_post = get_post($transaction_id);
                     $order_ids = $commssion_ids = '';
                     $commission_details = get_post_meta($transaction_id, 'commission_detail', true);
+                    $order_id = array();
+                    foreach ($commission_details as $commission_detail)
+                        $order_id[] = get_post_meta( $commission_detail , '_commission_order_id', true );
                     $transfer_charge = get_post_meta($transaction_id, 'transfer_charge', true);
                     $transaction_amt = get_post_meta($transaction_id, 'amount', true) - get_post_meta($transaction_id, 'transfer_charge', true) - get_post_meta($transaction_id, 'gateway_charge', true);
                     $row = array();
                     $row ['select_transaction'] = '<input name="transaction_ids[]" value="' . $transaction_id . '"  class="select_transaction" type="checkbox" >';
                     $row ['date'] = wcmp_date($trans_post->post_date);
+                    $row ['order_id'] = '#'. implode(', #', $order_id);
                     $row ['transaction_id'] = '<a href="' . esc_url(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_transaction_details_endpoint', 'vendor', 'general', 'transaction-details'), $transaction_id)) . '">#' . $transaction_id . '</a>';
                     $row ['commission_ids'] = '#' . implode(', #', $commission_details);
                     $row ['fees'] = isset($transfer_charge) ? wc_price($transfer_charge) : wc_price(0);
