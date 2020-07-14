@@ -14,7 +14,6 @@ if (!defined('ABSPATH'))
 class DC_Widget_Quick_Info_Widget extends WP_Widget {
 
     public $response = array();
-
     /**
      * Construct
      */
@@ -143,6 +142,8 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
         $instance['title'] = isset($new_instance['title']) ? strip_tags($new_instance['title']) : '';
         $instance['description'] = isset($new_instance['description']) ? strip_tags($new_instance['description']) : '';
         $instance['hide_from_guests'] = isset($new_instance['hide_from_guests']) ? $new_instance['hide_from_guests'] : false;
+        $instance['enable_recaptcha_v2'] = isset($new_instance['enable_recaptcha_v2']) ? $new_instance['enable_recaptcha_v2'] : false;
+        $instance['recaptcha_v2_script'] = isset($new_instance['recaptcha_v2_script']) ? ($new_instance['recaptcha_v2_script']) : '';
         $instance['submit_label'] = isset($new_instance['submit_label']) ? strip_tags($new_instance['submit_label']) : __('Submit', 'dc-woocommerce-multi-vendor');
         return $instance;
     }
@@ -159,6 +160,8 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
             'title' => __('Quick Info', 'dc-woocommerce-multi-vendor'),
             'description' => __('Do you need more information? Write to us!', 'dc-woocommerce-multi-vendor'),
             'hide_from_guests' => '',
+            'enable_recaptcha_v2' =>'',
+            'recaptcha_v2_script' =>'',
             'submit_label' => __('Submit', 'dc-woocommerce-multi-vendor'),
         );
 
@@ -184,7 +187,19 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
                 <input type="checkbox" id="<?php echo $this->get_field_id('hide_from_guests'); ?>" name="<?php echo $this->get_field_name('hide_from_guests'); ?>" value="1" <?php checked($instance['hide_from_guests'], 1, true) ?> class="widefat" />
             </label>
         </p>
-        <?php
+        <p>
+            <label for="<?php echo $this->get_field_id('enable_recaptcha_v2'); ?>"><?php _e('Enable Recaptcha', 'dc-woocommerce-multi-vendor') ?>:
+                <input type="checkbox" id="<?php echo $this->get_field_id('enable_recaptcha_v2'); ?>" name="<?php echo $this->get_field_name('enable_recaptcha_v2'); ?>" value="1" <?php checked($instance['enable_recaptcha_v2'], 1, true) ?> class="widefat" />
+            </label>
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id('recaptcha_v2_script'); ?>"><?php _e('Recaptcha Script (v2)', 'dc-woocommerce-multi-vendor') ?>:
+                <textarea id="<?php echo $this->get_field_id('recaptcha_v2_script'); ?>" name="<?php echo $this->get_field_name('recaptcha_v2_script'); ?>" class="widefat" rows="3">
+                    <?php echo $instance['recaptcha_v2_script']; ?>
+                </textarea> 
+            </label>
+        </p>
+    <?php
     }
 
     /**
@@ -195,8 +210,8 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
      * @author WC Marketplace
      */
     function send_mail() {
-        if ($this->check_form()) {
 
+        if ($this->check_form() ) { 
             /* === Sanitize Form Value === */
             $vendor = get_wcmp_vendor($_POST['quick_info']['vendor_id']);
             
@@ -209,7 +224,7 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
             }
             wp_redirect($_POST['_wp_http_referer']);
             exit;
-        }
+        }    
     }
 
     /**
@@ -218,6 +233,12 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
      * @return bool
      */
     function check_form() {
+        if( isset( $_POST['enable_recaptcha'] ) ){
+            if ( isset( $_POST['g-recaptcha-response'] ) && empty( $_POST['g-recaptcha-response'] ) ){
+                wc_add_notice(__( 'Please Verify Recaptcha', 'dc-woocommerce-multi-vendor' ), 'error' );
+                return false;
+            }
+        }
         return
                 !empty($_POST['dc_vendor_quick_info_submitted']) &&
                 wp_verify_nonce($_POST['dc_vendor_quick_info_submitted'], 'dc_vendor_quick_info_submitted') &&
@@ -225,7 +246,7 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
                 !empty($_POST['quick_info']['email']) &&
                 !empty($_POST['quick_info']['message']) &&
                 !empty($_POST['quick_info']['vendor_id']) &&
-                empty($_POST['quick_info']['spam']);
+                empty($_POST['quick_info']['spam']);                 
     }
 
 }
