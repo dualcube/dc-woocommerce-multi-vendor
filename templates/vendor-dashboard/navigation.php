@@ -25,13 +25,6 @@ do_action('wcmp_before_vendor_dashboard_navigation');
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button data-toggle="collapse-side" data-target="#side-collapse" type="button" class="navbar-toggle pull-left larr collapsed">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-    </div>
     <!-- /.navbar-header -->
     <div class="navbar-default sidebar side-collapse" id="side-collapse" role="navigation">
         <div class="mCustomScrollbar" data-mcs-theme="minimal-dark">

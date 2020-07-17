@@ -1793,6 +1793,41 @@ table.table-outer-border {
 		height: 100%;
 	}
 }
+.sidebar-nav {
+    .nav,
+    .nav-item {
+        width: 100%;
+    }
+}
+.login-user {
+    width: 100%;
+
+    .dropdown-toggle {
+        &::after {
+            display: none;
+        }
+    }
+
+    .dropdown-user {
+        margin-right: 0 !important;
+    }
+}
+
+.navbar-default .navbar-toggle {
+    position: absolute;
+}
+
+.navbar.navbar {
+    display: flex !important;
+}
+
+.navbar-top-links {
+    margin-top: 0 !important;
+
+    @media screen and (max-width: 868px) {
+        display: none !important;
+    }
+}
 .breadcrumb {
 	background-color: transparent;
 	padding: 0;

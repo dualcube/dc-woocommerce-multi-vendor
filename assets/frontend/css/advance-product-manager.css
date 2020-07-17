@@ -57,6 +57,7 @@ div[class^="col-md"] .date-inp-wrap {
       margin: 3px 3.33% 8px 0;
       border-radius: 2px;
       position: relative;
+      -webkit-box-sizing: border-box;
       box-sizing: border-box;
       text-align: center; }
       #product_images_container ul li.image img {
@@ -166,37 +167,27 @@ div[class^="col-md"] .date-inp-wrap {
 table.dataTable thead .sorting:after {
   bottom: auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
 
 table.dataTable thead .sorting_asc:after {
   bottom: auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
 
 table.dataTable thead .sorting_desc:after {
   bottom: auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
 
 table.dataTable thead .sorting_asc_disabled:after {
   bottom: auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
 
 table.dataTable thead .sorting_desc_disabled:after {
   bottom: auto;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
 
 .dc-wp-fields-uploader .button.ele_hide {
   display: none !important; }
@@ -488,6 +479,7 @@ body div.dataTables_wrapper div.dataTables_length select {
   text-align: center;
   border-radius: 3px;
   padding: .618em 1em;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
   #tiptip_content code {
     padding: 1px;
@@ -501,6 +493,7 @@ body div.dataTables_wrapper div.dataTables_length select {
   text-align: center;
   border-radius: 3px;
   padding: .618em 1em;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
   .chart-tooltip code {
     padding: 1px;
@@ -514,6 +507,7 @@ body div.dataTables_wrapper div.dataTables_length select {
   text-align: center;
   border-radius: 3px;
   padding: .618em 1em;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   max-width: 20em;
   line-height: 1.8em;
@@ -593,9 +587,7 @@ body div.dataTables_wrapper div.dataTables_length select {
     top: 50%;
     left: 0;
     right: 0;
-    -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-            transform: translateY(-50%); }
+    transform: translateY(-50%); }
     .product-gallery-wrapper figure .gallery-img-placeholder i {
       font-size: 55px;
       color: #cfcfcf; }
@@ -623,9 +615,7 @@ body div.dataTables_wrapper div.dataTables_length select {
       top: 50%;
       left: 0;
       right: 0;
-      -webkit-transform: translateY(-50%);
-          -ms-transform: translateY(-50%);
-              transform: translateY(-50%);
+      transform: translateY(-50%);
       font-size: 45px;
       color: #cfcfcf; }
 
@@ -635,9 +625,7 @@ body div.dataTables_wrapper div.dataTables_length select {
     position: absolute;
     top: 5px;
     right: 5px;
-    -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-            transform: rotate(45deg); }
+    transform: rotate(45deg); }
     .gal-img-wrap .remove-img .wcmp-font {
       background: #fff;
       border-radius: 50%;
@@ -715,15 +703,11 @@ body div.dataTables_wrapper div.dataTables_length select {
   height: 63px;
   overflow: hidden; }
   .product-tab-nav-holder ul {
-    display: -webkit-box;
     display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-            flex-flow: row wrap;
-    -webkit-box-pack: start;
-            justify-content: flex-start;
-    -webkit-box-align: end;
-            align-items: flex-end;
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: flex-end;
     position: relative;
     z-index: 1;
     border: 0; }
@@ -739,7 +723,6 @@ body div.dataTables_wrapper div.dataTables_length select {
         border-color: transparent;
         background: #bfc3c4;
         margin: 0;
-        -webkit-transition: background-color 0.3s;
         transition: background-color 0.3s;
         padding: 13px 22px; }
         .product-tab-nav-holder ul li a:hover {
@@ -780,7 +763,6 @@ body div.dataTables_wrapper div.dataTables_length select {
     width: calc(100% - 150px); }
 
 .product-variations-wrapper .wc-metabox .variation-title .ico-up-arrow-icon::before {
-  -webkit-transition: all 0.3s;
   transition: all 0.3s; }
 
 .product-variations-wrapper .wc-metabox .variation-title[aria-expanded='true'] .ico-up-arrow-icon::before {
@@ -849,9 +831,7 @@ body div.dataTables_wrapper div.dataTables_length select {
       left: 50%;
       top: 50%;
       background: #999999;
-      -webkit-transform: translateY(-50%) translateX(-50%);
-          -ms-transform: translateY(-50%) translateX(-50%);
-              transform: translateY(-50%) translateX(-50%);
+      transform: translateY(-50%) translateX(-50%);
       border-radius: 50%;
       height: 50px;
       width: 50px;
@@ -894,9 +874,7 @@ body div.dataTables_wrapper div.dataTables_length select {
   left: 50%;
   top: 50%;
   background: #999999;
-  -webkit-transform: translateY(-50%) translateX(-50%);
-      -ms-transform: translateY(-50%) translateX(-50%);
-          transform: translateY(-50%) translateX(-50%);
+  transform: translateY(-50%) translateX(-50%);
   border-radius: 50%;
   height: 50px;
   width: 50px;
@@ -1139,7 +1117,6 @@ label {
 .sub-tab-wrapper {
   border: 1px solid #e2e1e1;
   overflow: hidden;
-  display: -webkit-box;
   display: flex; }
 
 .sub-tab-nav {
@@ -1196,7 +1173,6 @@ label {
   background: #ddd; }
 
 .nav-tabs {
-  -webkit-transition: all 0.3s;
   transition: all 0.3s; }
 
 .tab-nav-direction-wrapper {
@@ -1284,3 +1260,5 @@ label {
     padding: 40px 10px 20px; }
   .row-padding {
     padding: 10px; } }
+
+/*# sourceMappingURL=../../../none */

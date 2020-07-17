@@ -29,7 +29,7 @@ $site_logo = get_wcmp_vendor_settings('wcmp_dashboard_site_logo', 'vendor', 'das
 
 <!-- Top bar -->
 <div class="top-navbar white-bkg">
-    <div class="navbar navbar-default p-0">
+    <div class="navbar navbar-light p-0">
         <div class="topbar-left pull-left pos-rel">
             <div class="site-logo text-center pos-middle">
                 <a href="<?php echo apply_filters('wcmp_vendor_dashboard_header_site_url', site_url(), $vendor); ?>">
@@ -40,6 +40,11 @@ $site_logo = get_wcmp_vendor_settings('wcmp_dashboard_site_logo', 'vendor', 'das
                     } ?>
                 </a>
             </div>
+        </div>
+        <div class="navbar-header mr-auto">
+            <button class="navbar-toggler" type="button" data-toggle="collapse-side" data-target="#side-collapse" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
 
         <?php

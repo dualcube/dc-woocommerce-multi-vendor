@@ -56,9 +56,7 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   max-height: 90vh;
   overflow: auto;
   text-align: left;
@@ -119,3 +117,5 @@
   border: 1px solid #ddd; }
   .wcmp-report-abouse-wrapper .toggle-content .close {
     display: none; }
+
+/*# sourceMappingURL=../../../none */
