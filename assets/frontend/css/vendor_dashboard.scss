@@ -2598,11 +2598,6 @@ button.button {
 	box-shadow: none;
 	line-height: 20px;
 }
-button.btn {
-	padding: 3px 5px 4px;
-	box-shadow: none;
-	line-height: 20px;
-}
 select.input-sm {
 	padding: 3px 5px 4px;
 	box-shadow: none;
@@ -8290,18 +8285,6 @@ select[name="wcmp-vendor-orders_length"] {
 					}
 				}
 			}
-		}
-	}
-	form[name="wcmp_vendor_dashboard_orders"] {
-		button.btn {
-			height: 30px;
-			padding: 3px 8px;
-		}
-	}
-	.datatable-date-filder {
-		button.btn {
-			height: 30px;
-			padding: 3px 8px;
 		}
 	}
 	.frontend_product_manager_product_types {
