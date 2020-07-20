@@ -336,6 +336,7 @@ a.wcmp_vendor_detail {
     text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.4);
     width: auto; }
   .wcmp_vendor_banner_template.template3 .vendor_img_add {
+    display: -webkit-box;
     display: flex; }
   .wcmp_vendor_banner_template.template3 .description_data {
     margin-top: 15px; }

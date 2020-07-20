@@ -5,128 +5,6 @@ Vendor registration css
     Created on : 1 Aug, 2016, 4:51:14 PM
     Author     : WC Marketplace
 */
-
-
-.wcmp_regi_main{
-    font-family: 'Open Sans', sans-serif !important;
-    font-weight: 400;
-    width: 100%;
-}
-
-
-
-@media (max-width: 911px){
-    .wcmp_regi_main{
-        width: 90% !important;
-        margin: 0 5%!important;
-    }
-}
-
-
-.wcmp_regi_main .reg_header1{
-    font-weight: 700;
-    font-size: 22px;
-    color: #888899;
-    /*border-bottom: 1px dashed #888899;*/
-    text-transform: uppercase;
-}
-
-
-.wcmp_regi_main .wcmp_regi_form_box{
-    width: 100%;
-    padding: 10px;
-    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
-    margin: 20px 0 20px 0;
-}
-
-.clearboth{
-    clear: both;
-}
-
-.wcmp_regi_main .reg_header2{
-    font-weight: 700;
-    font-size: 16px;
-    color: #888899;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-    border-bottom: 1px dashed #ddd;
-    text-transform: uppercase;
-}
-.wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-12{
-    width: 98%;
-    margin: 1%;
-    float: left;
-}
-.wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-6{
-    width: 48%;
-    margin: 1%;
-    float: left;
-}
-.wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-4{
-    width: 31.2%;
-    margin: 1%;
-    float: left;
-}
-
-@media (max-width: 911px){
-    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-12,
-    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-6,
-    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-4{
-        width: 98%;
-        margin: 1%;
-    }
-}
-
-.wcmp_regi_main .wcmp_regi_form_box label{
-    font-weight: 700;
-    font-size: 14px;
-    color: #888899;
-}
-
-.wcmp_regi_main .wcmp_regi_form_box p{
-    margin: 0;
-    padding: 0 5px;
-    font-size: 14px;
-    color: #888899;
-    line-height: 27px;
-    border-bottom: 1px solid #fafafa;
-}
-
-.wcmp_regi_main .wcmp_regi_form_box p input[type="checkbox"],
-.wcmp_regi_main .wcmp_regi_form_box p input[type="radio"]{
-    display: inline-block;
-    margin: 2px;
-    vertical-align: middle;
-}
-
-.wcmp_regi_main .wcmp_regi_form_box input[type="text"],
-.wcmp_regi_main .wcmp_regi_form_box input[type="url"],
-.wcmp_regi_main .wcmp_regi_form_box input[type="password"],
-.wcmp_regi_main .wcmp_regi_form_box input[type="email"],
-.wcmp_regi_main .wcmp_regi_form_box input[type="file"],
-.wcmp_regi_main .wcmp_regi_form_box textarea{
-    width: 100%;
-    background: #fafafa;
-    border: 1px solid #eee;
-    height: 38px;
-    line-height: 38px;
-    color: #888899;
-    font-family: 'Open Sans', sans-serif !important;
-}
-.wcmp_regi_main .wcmp_regi_form_box textarea{
-    height: 100px;
-    line-height: 17px;
-}
-.wcmp_regi_main .wcmp_regi_form_box .select_box{
-    width: 100%;
-    background: #fafafa;
-    border: 1px solid #eee;
-    height: 38px;
-    line-height: 38px;
-    position: relative;
-    color: #888899;
-    font-family: 'Open Sans', sans-serif !important;
-}
 /*.wcmp_regi_main .wcmp_regi_form_box .select_box:after {
     background: #fafafa none repeat scroll 0 0;
     border-radius: 5px;
@@ -142,65 +20,153 @@ Vendor registration css
     text-align: center;
     width: 30px;
 }*/
-.wcmp_regi_main .wcmp_regi_form_box .select_box select{
-    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    border: medium none;
-    height: 36px;
-    line-height: 36px;
-    vertical-align: top;
-    padding: 0 7px;
-    width: 99%;
-    font-size: 14px;
-    font-family: 'Open Sans', sans-serif !important;
-    color: #888899 ;
-}
-.wcmp_regi_main .wcmp_regi_form_box .select_box select:focus{
-    outline: none;
-}
-
-@-moz-document url-prefix() {
-    select,
-    select:-moz-focusring , 
-        select::-moz-focus-inner { 
-        color: transparent !important; 
-        text-shadow: 0 0 0 rgba(0,0,0,0.3) !important;
-        background-image: none !important; 
-        border:0; 
-    }
-    select option[selected]{
-        color: #888899 !important;
-        text-shadow: 0 0 0 #000 !important;
-    }
-}
-
-.wcmp_regi_main .wcmp_regi_form_box .wcmp_regi_file_holder{
+.wcmp_regi_main {
+  font-family: 'Open Sans', sans-serif !important;
+  font-weight: 400;
+  width: 100%; }
+  .wcmp_regi_main .reg_header1 {
+    font-weight: 700;
+    font-size: 22px;
+    color: #888899;
+    text-transform: uppercase; }
+  .wcmp_regi_main .wcmp_regi_form_box {
     width: 100%;
-    position: relative;
-}
-.wcmp_regi_main .wcmp_regi_form_box .wcmp_regi_file_holder span{
+    padding: 10px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    margin: 20px 0 20px 0; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-12 {
+      width: 98%;
+      margin: 1%;
+      float: left; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-6 {
+      width: 48%;
+      margin: 1%;
+      float: left; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-4 {
+      width: 31.2%;
+      margin: 1%;
+      float: left; }
+    .wcmp_regi_main .wcmp_regi_form_box label {
+      font-weight: 700;
+      font-size: 14px;
+      color: #888899; }
+    .wcmp_regi_main .wcmp_regi_form_box p {
+      margin: 0;
+      padding: 0 5px;
+      font-size: 14px;
+      color: #888899;
+      line-height: 27px;
+      border-bottom: 1px solid #fafafa; }
+      .wcmp_regi_main .wcmp_regi_form_box p input[type="checkbox"] {
+        display: inline-block;
+        margin: 2px;
+        vertical-align: middle; }
+      .wcmp_regi_main .wcmp_regi_form_box p input[type="radio"] {
+        display: inline-block;
+        margin: 2px;
+        vertical-align: middle; }
+    .wcmp_regi_main .wcmp_regi_form_box input[type="text"] {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important; }
+    .wcmp_regi_main .wcmp_regi_form_box input[type="url"] {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important; }
+    .wcmp_regi_main .wcmp_regi_form_box input[type="password"] {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important; }
+    .wcmp_regi_main .wcmp_regi_form_box input[type="email"] {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important; }
+    .wcmp_regi_main .wcmp_regi_form_box input[type="file"] {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important;
+      height: auto; }
+    .wcmp_regi_main .wcmp_regi_form_box textarea {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important;
+      height: 100px;
+      line-height: 17px; }
+    .wcmp_regi_main .wcmp_regi_form_box .select_box {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #eee;
+      height: 38px;
+      line-height: 38px;
+      position: relative;
+      color: #888899;
+      font-family: 'Open Sans', sans-serif !important; }
+      .wcmp_regi_main .wcmp_regi_form_box .select_box select {
+        background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+        border: medium none;
+        height: 36px;
+        line-height: 36px;
+        vertical-align: top;
+        padding: 0 7px;
+        width: 99%;
+        font-size: 14px;
+        font-family: 'Open Sans', sans-serif !important;
+        color: #888899; }
+        .wcmp_regi_main .wcmp_regi_form_box .select_box select:focus {
+          outline: none; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp_regi_file_holder span {
+      color: #888899;
+      font-size: 14px;
+      left: 10px;
+      position: absolute;
+      top: 5px;
+      z-index: 10; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp_regi_file_holder::after {
+      background: #fafafa none repeat scroll 0 0;
+      border-radius: 5px;
+      color: #888899;
+      content: "";
+      height: 36px;
+      left: 1px;
+      line-height: 38px;
+      pointer-events: none;
+      position: absolute;
+      text-align: center;
+      top: 1px;
+      width: 99%; }
+  .wcmp_regi_main .reg_header2 {
+    font-weight: 700;
+    font-size: 16px;
     color: #888899;
-    font-size: 14px;
-    left: 10px;
-    position: absolute;
-    top: 5px;
-    z-index: 10;
-}
-.wcmp_regi_main .wcmp_regi_form_box .wcmp_regi_file_holder::after {
-    background: #fafafa none repeat scroll 0 0;
-    border-radius: 5px;
-    color: #888899;
-    content: "";
-    height: 36px;
-    left: 1px;
-    line-height: 38px;
-    pointer-events: none;
-    position: absolute;
-    text-align: center;
-    top: 1px;
-    width: 99%;
-}
-
-.wcmp_regi_main .button{
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+    text-transform: uppercase; }
+  .wcmp_regi_main .button {
     width: auto;
     background: #5b5b5b;
     padding: 0 20px;
@@ -209,15 +175,25 @@ Vendor registration css
     height: 38px;
     line-height: 36px;
     color: #fff;
-    font-family: 'Open Sans', sans-serif !important;
-}
-.wcmp_regi_main .button:hover{
-    background: #111;
-}
+    font-family: 'Open Sans', sans-serif !important; }
+    .wcmp_regi_main .button:hover {
+      background: #111; }
+    .wcmp_regi_main .button:focus {
+      outline: none; }
 
-.wcmp_regi_main .button:focus{
-    outline: none;
-} 
-.wcmp_regi_main .wcmp_regi_form_box input[type="file"]{
-    height: auto;
-}
+.clearboth {
+  clear: both; }
+
+@media (max-width: 911px) {
+  .wcmp_regi_main {
+    width: 90% !important;
+    margin: 0 5% !important; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-12 {
+      width: 98%;
+      margin: 1%; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-6 {
+      width: 98%;
+      margin: 1%; }
+    .wcmp_regi_main .wcmp_regi_form_box .wcmp-regi-4 {
+      width: 98%;
+      margin: 1%; } }
