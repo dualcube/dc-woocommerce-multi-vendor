@@ -165,7 +165,7 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
             'description' => __('Do you need more information? Write to us!', 'dc-woocommerce-multi-vendor'),
             'hide_from_guests' => '',
             'enable_google_recaptcha' => false,
-            'google_recaptcha_type' => 'v2',
+            'google_recaptcha_type' => 'default',
             'recaptcha_v2_scripts' => '',
             'recaptcha_v3_sitekey' => '',
             'recaptcha_v3_secretkey' => '',
@@ -202,6 +202,7 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
         <p class="wcmp-widget-vquick-info-captcha-type">
             <label for="<?php echo $this->get_field_id('google_recaptcha_type'); ?>"><?php _e('Google Recaptcha Type', 'dc-woocommerce-multi-vendor') ?>:
                 <select id="<?php echo $this->get_field_id('google_recaptcha_type'); ?>" name="<?php echo $this->get_field_name('google_recaptcha_type'); ?>" >
+                    <option value="default" <?php selected( $instance['google_recaptcha_type'], 'v2' ); ?>><?php _e( 'Choose type', 'dc-woocommerce-multi-vendor' ); ?></option>
                     <option value="v2" <?php selected( $instance['google_recaptcha_type'], 'v2' ); ?>><?php _e( 'reCAPTCHA v2', 'dc-woocommerce-multi-vendor' ); ?></option>
                     <option value="v3" <?php selected( $instance['google_recaptcha_type'], 'v3' ); ?>><?php _e( 'reCAPTCHA v3', 'dc-woocommerce-multi-vendor' ); ?></option>
                 </select>
@@ -224,6 +225,42 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
                 <input type="text" id="<?php echo $this->get_field_id('recaptcha_v3_secretkey'); ?>" name="<?php echo $this->get_field_name('recaptcha_v3_secretkey'); ?>" value="<?php echo $instance['recaptcha_v3_secretkey']; ?>" class="widefat" />
             </label>
         </p>
+        <script>
+            jQuery('.wcmp-widget-vquick-info-captcha-wrap').hide();
+            jQuery('.wcmp-widget-vquick-info-captcha-type').hide();
+            jQuery('.wcmp-widget-enable-grecaptcha').change(function () {
+                if (jQuery(this).is(':checked')) {
+                    jQuery('.wcmp-widget-vquick-info-captcha-type').show();
+                } else {
+                    jQuery('.wcmp-widget-vquick-info-captcha-type').hide();
+                // remove capta setting
+                jQuery('.wcmp-widget-vquick-info-captcha-wrap').hide();
+                }
+            });
+            jQuery(document).on('change', '.wcmp-widget-vquick-info-captcha-type select', function () { 
+                if (jQuery(this).val() == 'v2') {
+
+                    jQuery('.wcmp-widget-vquick-info-captcha-wrap.v2').show();
+                    jQuery('.wcmp-widget-vquick-info-captcha-wrap.v3').hide();
+                }else{
+
+                    jQuery('.wcmp-widget-vquick-info-captcha-wrap.v2').hide();
+                    jQuery('.wcmp-widget-vquick-info-captcha-wrap.v3').show();
+
+                }
+            }).trigger('change');
+
+            var select_id = "<?php print_r( $instance['google_recaptcha_type'] ) ?>";
+            if ( select_id == 'v2') {
+                jQuery('.wcmp-widget-vquick-info-captcha-type').show();
+                jQuery('.wcmp-widget-vquick-info-captcha-wrap.v2').show();
+                jQuery('.wcmp-widget-vquick-info-captcha-wrap.v3').hide();
+            } else if (select_id == 'v3'){
+                jQuery('.wcmp-widget-vquick-info-captcha-type').show();
+                jQuery('.wcmp-widget-vquick-info-captcha-wrap.v2').hide();
+                jQuery('.wcmp-widget-vquick-info-captcha-wrap.v3').show();
+            }
+        </script>
         <?php
     }
 
