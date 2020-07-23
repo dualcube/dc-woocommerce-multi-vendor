@@ -3855,7 +3855,8 @@ input[type=radio] {
   border-radius: 3px;
   border-radius: 50%;
   line-height: 10px;
-  margin: 3px 4px 4px 0; }
+  left: 0;
+  top: -1px; }
   input[type=radio]:focus {
     border-color: #cecdcd;
     box-shadow: none;
