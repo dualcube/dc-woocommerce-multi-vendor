@@ -3370,12 +3370,14 @@ class WCMp_Ajax {
         global $WCMp;
         $zone_id = isset($_POST['zoneId']) ? absint($_POST['zoneId']) : 0;
         $method_id = isset($_POST['methodId']) ? $_POST['methodId'] : '';
+        $instance_id = isset($_POST['instanceId']) ? $_POST['instanceId'] : '';
         if ($zone_id) {
             if( !class_exists( 'WCMP_Shipping_Zone' ) ) {
                 $WCMp->load_vendor_shipping();
             }
             $zones = WCMP_Shipping_Zone::get_zone($zone_id);
             $vendor_shipping_methods = $zones['shipping_methods'];
+            $vendor_shipping_method = $vendor_shipping_methods[$method_id.':'.$instance_id];
             $config_settings = array();
             $is_method_taxable_array = array(
                 'none' => __('None', 'dc-woocommerce-multi-vendor'),
@@ -3387,122 +3389,120 @@ class WCMp_Ajax {
                 'order' => __('Per order: Charge shipping for the most expensive shipping class', 'dc-woocommerce-multi-vendor'),
             );
             $settings_html = '';
-            foreach ($vendor_shipping_methods as $vendor_shipping_method) {
-                if ($vendor_shipping_method['id'] == 'free_shipping') {
-                    $settings_html = '<!-- Free shipping -->'
-                            . '<div class="shipping_form" id="' . $vendor_shipping_method['id'] . '">'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Minimum order amount for free shipping', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="minimum_order_amount_fs" class="form-control" type="text" name="min_amount" value="'.$vendor_shipping_method['settings']['min_amount'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>'
-                            . '<input type="hidden" id="method_description_fs" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
-                            . '<input type="hidden" id="method_cost_fs" name="cost" value="0" />'
-                            . '<input type="hidden" id="method_tax_status_fs" name="tax_status" value="none" />'
-                            . '<!--div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Description', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<textarea id="method_description_fs" class="form-control" name="method_description">' . $vendor_shipping_method['settings']['description'] . '</textarea>'
-                            . '</div></div--></div>';
-                } elseif ($vendor_shipping_method['id'] == 'local_pickup') {
-                    $settings_html = '<!-- Local Pickup -->'
-                            . '<div class="shipping_form " id="' . $vendor_shipping_method['id'] . '">'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Cost', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="method_cost_lp" class="form-control" type="text" name="cost" value="'.$vendor_shipping_method['settings']['cost'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>';
-                            if( apply_filters( 'wcmp_show_shipping_zone_tax', true ) ) {
-                            $settings_html .= '<div class="form-group">'
-                                    . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Tax Status', 'dc-woocommerce-multi-vendor' ).'</label>'
-                                    . '<div class="col-md-9 col-sm-9">'
-                                    . '<select id="method_tax_status_lp" class="form-control" name="tax_status">';
-                                foreach( $is_method_taxable_array as $key => $value ) { 
-                                    $settings_html .= '<option value="'.$key.'">'.$value.'</option>';
-                                 } 
-                            $settings_html .= '</select></div></div>';
-                            }
-                    $settings_html .= '<input type="hidden" id="method_description_lp" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
-                            . '<!--div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Description', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<textarea id="method_description_lp" class="form-control" name="method_description">' . $vendor_shipping_method['settings']['description'] . '</textarea>'
-                            . '</div></div--></div>';
-                } elseif ($vendor_shipping_method['id'] == 'flat_rate') {
-                    $settings_html = '<!-- Flat rate -->'
-                            . '<div class="shipping_form" id="' . $vendor_shipping_method['id'] . '">'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>'
-                            . '<div class="form-group">'
-                            . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Cost', 'dc-woocommerce-multi-vendor') . '</label>'
-                            . '<div class="col-md-9 col-sm-9">'
-                            . '<input id="method_cost_fr" class="form-control" type="text" name="cost" value="'.$vendor_shipping_method['settings']['cost'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
-                            . '</div></div>';
-                            if( apply_filters( 'wcmp_show_shipping_zone_tax', true ) ) { 
-                            $settings_html .= '<div class="form-group">'
-                                    . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Tax Status', 'dc-woocommerce-multi-vendor' ).'</label>'
-                                    . '<div class="col-md-9 col-sm-9">'
-                                    . '<select id="method_tax_status_fr" class="form-control" name="tax_status">';
-                                foreach( $is_method_taxable_array as $key => $value ) { 
-                                    $settings_html .= '<option value="'.$key.'">'.$value.'</option>';
-                                } 
-                            $settings_html .= '</select></div></div>';
-                            }
-                            $settings_html .= '<input type="hidden" id="method_description_fr" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
-                                    . '<!--div class="form-group">'
-                                    . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Description', 'dc-woocommerce-multi-vendor' ).'</label>'
-                                    . '<div class="col-md-9 col-sm-9">'
-                                    . '<textarea id="method_description_fr" class="form-control" name="method_description">'.$vendor_shipping_method['settings']['description'].'</textarea>'
-                                    . '</div></div-->';
-                            if (!apply_filters( 'wcmp_hide_vendor_shipping_classes', false )) { 
-                            $settings_html .= '<div class="wcmp_shipping_classes"><hr>'
-                                    . '<h2>'.__('Shipping Class Cost', 'dc-woocommerce-multi-vendor').'</h2>'
-                                    . '<div class="description mb-15">'.__('These costs can be optionally entered based on the shipping class set per product (This cost will be added with the shipping cost above).', 'dc-woocommerce-multi-vendor').'</div>';
-      
-                            $shipping_classes = get_vendor_shipping_classes();
-
-                            if(empty($shipping_classes)) {
-                            $settings_html .= '<div class="no_shipping_classes">' . __("No Shipping Classes set by Admin", 'dc-woocommerce-multi-vendor') . '</div>';
-                            } else {
-                                foreach ($shipping_classes as $shipping_class ) {
-                                    $settings_html .= '<div class="form-group">'
-                                            . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Cost of Shipping Class:', 'dc-woocommerce-multi-vendor' ) .' '. $shipping_class->name .'</label>'
-                                            . '<div class="col-md-9 col-sm-9">'
-                                            . '<input type="hidden" name="shipping_class_id" value="'.$shipping_class->term_id.'" />'
-                                            . '<input id="'.$shipping_class->slug.'" class="form-control sc_vals" type="text" name="class_cost_'.$shipping_class->term_id.'" value="'.$vendor_shipping_method['settings']['class_cost_'.$shipping_class->term_id].'" placeholder="'.__( 'N/A', 'dc-woocommerce-multi-vendor' ).'" data-shipping_class_id="'. $shipping_class->term_id.'">'
-                                            . '<div class="description">'.__( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'dc-woocommerce-multi-vendor' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'dc-woocommerce-multi-vendor' ).'</div>'
-                                            . '</div></div>';
-                                }
-                            $settings_html .= '<div class="form-group">'
-                                    . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Calculation type', 'dc-woocommerce-multi-vendor') . '</label>'
-                                    . '<div class="col-md-9 col-sm-9">'
-                                    . '<select id="calculation_type" class="form-control" name="calculation_type">';
-                            foreach ($calculation_type as $key => $value) {
-                                $settings_html .= '<option value="' . $key . '">' . $value . '</option>';
-                            }
-                            $settings_html .= '</select></div></div>';
+            if ($vendor_shipping_method['id'] == 'free_shipping') {
+                $settings_html = '<!-- Free shipping -->'
+                        . '<div class="shipping_form" id="' . $vendor_shipping_method['id'] . '">'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Minimum order amount for free shipping', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="minimum_order_amount_fs" class="form-control" type="text" name="min_amount" value="'.$vendor_shipping_method['settings']['min_amount'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>'
+                        . '<input type="hidden" id="method_description_fs" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
+                        . '<input type="hidden" id="method_cost_fs" name="cost" value="0" />'
+                        . '<input type="hidden" id="method_tax_status_fs" name="tax_status" value="none" />'
+                        . '<!--div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Description', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<textarea id="method_description_fs" class="form-control" name="method_description">' . $vendor_shipping_method['settings']['description'] . '</textarea>'
+                        . '</div></div--></div>';
+            } elseif ($vendor_shipping_method['id'] == 'local_pickup') {
+                $settings_html = '<!-- Local Pickup -->'
+                        . '<div class="shipping_form " id="' . $vendor_shipping_method['id'] . '">'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Cost', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="method_cost_lp" class="form-control" type="text" name="cost" value="'.$vendor_shipping_method['settings']['cost'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>';
+                        if( apply_filters( 'wcmp_show_shipping_zone_tax', true ) ) {
+                        $settings_html .= '<div class="form-group">'
+                                . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Tax Status', 'dc-woocommerce-multi-vendor' ).'</label>'
+                                . '<div class="col-md-9 col-sm-9">'
+                                . '<select id="method_tax_status_lp" class="form-control" name="tax_status">';
+                            foreach( $is_method_taxable_array as $key => $value ) { 
+                                $settings_html .= '<option value="'.$key.'">'.$value.'</option>';
+                             } 
+                        $settings_html .= '</select></div></div>';
                         }
-                        $settings_html .= '</div>';
+                $settings_html .= '<input type="hidden" id="method_description_lp" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
+                        . '<!--div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Description', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<textarea id="method_description_lp" class="form-control" name="method_description">' . $vendor_shipping_method['settings']['description'] . '</textarea>'
+                        . '</div></div--></div>';
+            } elseif ($vendor_shipping_method['id'] == 'flat_rate') {
+                $settings_html = '<!-- Flat rate -->'
+                        . '<div class="shipping_form" id="' . $vendor_shipping_method['id'] . '">'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Method Title', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="method_title_fs" class="form-control" type="text" name="title" value="'.$vendor_shipping_method['title'].'" placeholder="'.__( 'Enter method title', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>'
+                        . '<div class="form-group">'
+                        . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Cost', 'dc-woocommerce-multi-vendor') . '</label>'
+                        . '<div class="col-md-9 col-sm-9">'
+                        . '<input id="method_cost_fr" class="form-control" type="text" name="cost" value="'.$vendor_shipping_method['settings']['cost'].'" placeholder="'.__( '0.00', 'dc-woocommerce-multi-vendor' ).'">'
+                        . '</div></div>';
+                        if( apply_filters( 'wcmp_show_shipping_zone_tax', true ) ) { 
+                        $settings_html .= '<div class="form-group">'
+                                . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Tax Status', 'dc-woocommerce-multi-vendor' ).'</label>'
+                                . '<div class="col-md-9 col-sm-9">'
+                                . '<select id="method_tax_status_fr" class="form-control" name="tax_status">';
+                            foreach( $is_method_taxable_array as $key => $value ) { 
+                                $settings_html .= '<option value="'.$key.'">'.$value.'</option>';
+                            } 
+                        $settings_html .= '</select></div></div>';
+                        }
+                        $settings_html .= '<input type="hidden" id="method_description_fr" name="description" value="'.$vendor_shipping_method['settings']['description'].'" />'
+                                . '<!--div class="form-group">'
+                                . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Description', 'dc-woocommerce-multi-vendor' ).'</label>'
+                                . '<div class="col-md-9 col-sm-9">'
+                                . '<textarea id="method_description_fr" class="form-control" name="method_description">'.$vendor_shipping_method['settings']['description'].'</textarea>'
+                                . '</div></div-->';
+                        if (!apply_filters( 'wcmp_hide_vendor_shipping_classes', false )) { 
+                        $settings_html .= '<div class="wcmp_shipping_classes"><hr>'
+                                . '<h2>'.__('Shipping Class Cost', 'dc-woocommerce-multi-vendor').'</h2>'
+                                . '<div class="description mb-15">'.__('These costs can be optionally entered based on the shipping class set per product (This cost will be added with the shipping cost above).', 'dc-woocommerce-multi-vendor').'</div>';
+  
+                        $shipping_classes = get_vendor_shipping_classes();
+
+                        if(empty($shipping_classes)) {
+                        $settings_html .= '<div class="no_shipping_classes">' . __("No Shipping Classes set by Admin", 'dc-woocommerce-multi-vendor') . '</div>';
+                        } else {
+                            foreach ($shipping_classes as $shipping_class ) {
+                                $settings_html .= '<div class="form-group">'
+                                        . '<label for="" class="control-label col-sm-3 col-md-3">'.__( 'Cost of Shipping Class:', 'dc-woocommerce-multi-vendor' ) .' '. $shipping_class->name .'</label>'
+                                        . '<div class="col-md-9 col-sm-9">'
+                                        . '<input type="hidden" name="shipping_class_id" value="'.$shipping_class->term_id.'" />'
+                                        . '<input id="'.$shipping_class->slug.'" class="form-control sc_vals" type="text" name="class_cost_'.$shipping_class->term_id.'" value="'.$vendor_shipping_method['settings']['class_cost_'.$shipping_class->term_id].'" placeholder="'.__( 'N/A', 'dc-woocommerce-multi-vendor' ).'" data-shipping_class_id="'. $shipping_class->term_id.'">'
+                                        . '<div class="description">'.__( 'Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>.', 'dc-woocommerce-multi-vendor' ) . '<br/><br/>' . __( 'Use <code>[qty]</code> for the number of items, <br/><code>[cost]</code> for the total cost of items, and <code>[fee percent="10" min_fee="20" max_fee=""]</code> for percentage based fees.', 'dc-woocommerce-multi-vendor' ).'</div>'
+                                        . '</div></div>';
+                            }
+                        $settings_html .= '<div class="form-group">'
+                                . '<label for="" class="control-label col-sm-3 col-md-3">' . __('Calculation type', 'dc-woocommerce-multi-vendor') . '</label>'
+                                . '<div class="col-md-9 col-sm-9">'
+                                . '<select id="calculation_type" class="form-control" name="calculation_type">';
+                        foreach ($calculation_type as $key => $value) {
+                            $settings_html .= '<option value="' . $key . '">' . $value . '</option>';
+                        }
+                        $settings_html .= '</select></div></div>';
                     }
                     $settings_html .= '</div>';
-                } else {
-                    $settings_html = apply_filters('wcmp_vendor_backend_shipping_methods_edit_form_fields', $settings_html, get_current_user_id(), $zone_id, $vendor_shipping_method);
                 }
-                $config_settings[$vendor_shipping_method['id']] = $settings_html;
+                $settings_html .= '</div>';
+            } else {
+                $settings_html = apply_filters('wcmp_vendor_backend_shipping_methods_edit_form_fields', $settings_html, get_current_user_id(), $zone_id, $vendor_shipping_method);
             }
+            $config_settings[$vendor_shipping_method['id']] = $settings_html;
             $html_settings = isset($config_settings[$method_id]) ? $config_settings[$method_id] : '';
             wp_send_json($html_settings);
         }
