@@ -3370,7 +3370,7 @@ class WCMp_Ajax {
         global $WCMp;
         $zone_id = isset($_POST['zoneId']) ? absint($_POST['zoneId']) : 0;
         $method_id = isset($_POST['methodId']) ? $_POST['methodId'] : '';
-        if ($zone_id) {
+            
             if( !class_exists( 'WCMP_Shipping_Zone' ) ) {
                 $WCMp->load_vendor_shipping();
             }
@@ -3505,7 +3505,6 @@ class WCMp_Ajax {
             }
             $html_settings = isset($config_settings[$method_id]) ? $config_settings[$method_id] : '';
             wp_send_json($html_settings);
-        }
     }
     
     public function wcmp_vendor_configure_shipping_method(){
@@ -3513,33 +3512,31 @@ class WCMp_Ajax {
         $zone_id = isset($_POST['zoneId']) ? absint($_POST['zoneId']) : 0;
         $method_id = isset($_POST['methodId']) ? $_POST['methodId'] : '';
         $instance_id = isset($_POST['instanceId']) ? $_POST['instanceId'] : '';
-        if ($zone_id) {
-            if( !class_exists( 'WCMP_Shipping_Zone' ) ) {
-                $WCMp->load_vendor_shipping();
-            }
-            $zones = WCMP_Shipping_Zone::get_zone($zone_id);
-            $vendor_shipping_methods = $zones['shipping_methods'];
-            $config_settings = array();
-            $is_method_taxable_array = array(
-                'none' => __('None', 'dc-woocommerce-multi-vendor'),
-                'taxable' => __('Taxable', 'dc-woocommerce-multi-vendor')
-            );
-
-            $calculation_type = array(
-                'class' => __('Per class: Charge shipping for each shipping class individually', 'dc-woocommerce-multi-vendor'),
-                'order' => __('Per order: Charge shipping for the most expensive shipping class', 'dc-woocommerce-multi-vendor'),
-            );
-
-            $settings_html = '';
-            if(isset($vendor_shipping_methods[$method_id.':'.$instance_id])){
-                $shipping_method = $vendor_shipping_methods[$method_id.':'.$instance_id];
-                ob_start();
-                do_action( 'wcmp_vendor_shipping_'.$method_id.'_configure_form_fields', $shipping_method, $_POST );
-                $settings_html = ob_get_clean();
-            }
-            wp_send_json(array('settings_html' => $settings_html));
-            die;
+        if( !class_exists( 'WCMP_Shipping_Zone' ) ) {
+            $WCMp->load_vendor_shipping();
         }
+        $zones = WCMP_Shipping_Zone::get_zone($zone_id);
+        $vendor_shipping_methods = $zones['shipping_methods'];
+        $config_settings = array();
+        $is_method_taxable_array = array(
+            'none' => __('None', 'dc-woocommerce-multi-vendor'),
+            'taxable' => __('Taxable', 'dc-woocommerce-multi-vendor')
+        );
+
+        $calculation_type = array(
+            'class' => __('Per class: Charge shipping for each shipping class individually', 'dc-woocommerce-multi-vendor'),
+            'order' => __('Per order: Charge shipping for the most expensive shipping class', 'dc-woocommerce-multi-vendor'),
+        );
+
+        $settings_html = '';
+        if(isset($vendor_shipping_methods[$method_id.':'.$instance_id])){
+            $shipping_method = $vendor_shipping_methods[$method_id.':'.$instance_id];
+            ob_start();
+            do_action( 'wcmp_vendor_shipping_'.$method_id.'_configure_form_fields', $shipping_method, $_POST );
+            $settings_html = ob_get_clean();
+        }
+        wp_send_json(array('settings_html' => $settings_html));
+        die;
     }
     
     
