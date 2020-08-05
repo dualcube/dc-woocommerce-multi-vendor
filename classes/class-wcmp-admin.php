@@ -374,14 +374,9 @@ class WCMp_Admin {
         $frontend_script_path = str_replace(array('http:', 'https:'), '', $frontend_script_path);
         wp_register_script('wcmp-vendor-shipping', $frontend_script_path . 'vendor-shipping.js', array( 'jquery' ), $WCMp->version, true );
 
-        $frontend_style_path = $WCMp->plugin_url . 'assets/frontend/css/';
-        $frontend_style_path = str_replace(array('http:', 'https:'), '', $frontend_style_path);
-        $suffix = defined('WCMP_SCRIPT_DEBUG') && WCMP_SCRIPT_DEBUG ? '' : '.min';
-
         if ( $screen->id == 'wcmp_page_vendors') {
-            wp_register_style('vandor-dashboard-style', $frontend_style_path . 'vendor_dashboard' . $suffix . '.css', array(), $WCMp->version);
-            wp_enqueue_style('vandor-dashboard-style');
-            $WCMp->library->load_bootstrap_style_lib();
+            wp_register_style('admin-shipping_tab-style', $WCMp->plugin_url . 'assets/admin/css/vendor-shipping_capability' . $suffix . '.css', array(), $WCMp->version);
+            wp_enqueue_style('admin-shipping_tab-style');
             $WCMp->library->load_select2_lib();
             wp_enqueue_script('jquery-blockui');
             wp_enqueue_script( 'wcmp-vendor-shipping' );
