@@ -233,7 +233,7 @@ class WCMp_Taxonomy {
         $args = wp_parse_args($args, $default);
         if( isset($args['taxonomy']) && $args['taxonomy'] != $this->wcmp_spmv_taxonomy )
             $args['taxonomy'] = $this->wcmp_spmv_taxonomy;
-        $terms = get_terms( $args );
+        $terms = !empty( get_terms( $args ) ) ? get_terms( $args ) : '';
         return $terms;
     }
     
