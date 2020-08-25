@@ -414,6 +414,8 @@ class WCMp_Ajax {
                     }
                     $is_updated = update_comment_meta($comment_id, 'vendor_rating_id', $vendor_id);
                     if ($is_updated) {
+                        $email = WC()->mailer()->emails['WC_Email_Vendor_Review'];
+                        $email->trigger( get_wcmp_vendor( $vendor_id ), $rating, $review, $current_user->display_name );
                         echo 1;
                     }
                 }
