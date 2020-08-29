@@ -188,7 +188,9 @@ global $WCMp;
                         foreach ( $visibility_options as $name => $label ) {
                             echo '<div class="form-group"><label><input type="radio" name="_visibility" id="_visibility_' . esc_attr( $name ) . '" value="' . esc_attr( $name ) . '" ' . checked( $current_visibility, $name, false ) . ' data-label="' . esc_attr( $label ) . '" /> <span for="_visibility_' . esc_attr( $name ) . '" class="selectit">' . esc_html( $label ) . '</span></label></div>';
                         }
-                        echo '<hr><div class="form-group"><label><input type="checkbox" name="_featured" class="mt-0" id="_featured" ' . checked( $current_featured, 'yes', false ) . ' data-label="' . __( 'Featured', 'woocommerce' ) . '" /> <span for="_featured">' . esc_html__( 'This is a featured product', 'woocommerce' ) . '</label></label></div>';
+                        if( apply_filters( 'wcmp_feature_product_is_enable', true ) ) {
+                            echo '<hr><div class="form-group"><label><input type="checkbox" name="_featured" class="mt-0" id="_featured" ' . checked( $current_featured, 'yes', false ) . ' data-label="' . __( 'Featured', 'woocommerce' ) . '" /> <span for="_featured">' . esc_html__( 'This is a featured product', 'woocommerce' ) . '</label></label></div>';
+                        }
                         ?>
                         <div class="form-group mt-15">
                             <button type="button" class="btn btn-default btn-sm catalog-visiblity-btn"><?php _e('Ok', 'dc-woocommerce-multi-vendor'); ?></button>
