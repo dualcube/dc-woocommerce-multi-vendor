@@ -434,7 +434,7 @@ Class WCMp_Admin_Dashboard {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!empty($_POST['wcmp_submit_comment'])) {
                 // verify nonce
-                if (isset($_POST['vendor_add_order_nonce']) && !wp_verify_nonce($_POST['vendor_add_order_nonce'], 'dc-vendor-add-order-comment'))
+                if (!isset($_POST['vendor_add_order_nonce']) || !wp_verify_nonce($_POST['vendor_add_order_nonce'], 'dc-vendor-add-order-comment'))
                     return false;
                 $vendor = get_current_vendor();
                 // Don't submit empty comments
