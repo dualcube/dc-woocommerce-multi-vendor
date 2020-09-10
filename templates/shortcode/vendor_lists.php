@@ -189,7 +189,7 @@ global $WCMp;
             echo paginate_links( apply_filters( 'wcmp_vendor_list_pagination_args', array( 
                     'base'         => $base,
                     'format'       => $format,
-                    'add_args'     => false,
+                    'add_args'     => $request,
                     'current'      => max( 1, $current ),
                     'total'        => $total,
                     'prev_text'    => 'Prev',

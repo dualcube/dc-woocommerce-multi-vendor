@@ -213,7 +213,7 @@ if (!class_exists('WCMp_Shortcode_Vendor_List')) {
                 'total'   => ceil($vendors_total/$query['number']),
                 'current' => is_front_page() ? max( 1, ( get_query_var('page') ) ) : max( 1, get_query_var('paged') ),
                 'per_page' => $query['number'],
-                'base'    => get_pagenum_link(1) . '%_%',
+                'base'    => str_replace( 999, '%#%', esc_url( get_pagenum_link( 999 ) ) ),
                 'format'  => 'page/%#%/',
                 'vendors'   => $vendors,
                 'vendor_total' => $vendors_total,
