@@ -22,22 +22,22 @@ class WCMp_Notices {
 
   	public function vendor_notices_add_meta_boxes() {
 		add_meta_box(
-			'wcmp_vendor_notice_addtional_field',
-			__( 'Addtional Fields', 'dc-woocommerce-multi-vendor' ),
-			array($this,'wcmp_vendor_notice_addtional_field_callback'),
-			$this->post_type,
-			'normal',
-			'high'
-		);
+            'wcmp_vendor_notice_addtional_field',
+            __( 'Addtional Fields', 'dc-woocommerce-multi-vendor' ),
+            apply_filters( 'wcmp_vendor_notice_addtional_field_edit_callback', array( $this, 'wcmp_vendor_notice_addtional_field_callback' ) ),
+            $this->post_type,
+            'normal',
+            'high'
+        );
 
-		add_meta_box(
-			'wcmp_vendor_notice_select_vendor',
-			__( 'Vendors', 'dc-woocommerce-multi-vendor' ),
-			array($this,'wcmp_vendor_notice_select_vendor_callback'),
-			$this->post_type,
-			'side',
-			'low'
-		);
+        add_meta_box(
+            'wcmp_vendor_notice_select_vendor',
+            __( 'Vendors', 'dc-woocommerce-multi-vendor' ),
+            apply_filters( 'wcmp_vendor_notice_select_vendor_edit_callback', array($this, 'wcmp_vendor_notice_select_vendor_callback') ),
+            $this->post_type,
+            'side',
+            'low'
+        );
   	}
   
   	public function wcmp_vendor_notice_addtional_field_callback() {
