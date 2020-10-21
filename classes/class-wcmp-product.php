@@ -328,7 +328,7 @@ class WCMp_Product {
         $loop = $this->loop;
         $variation_data = $this->variation_data;
         $variation = $this->variation;
-        if (is_array($arg) && !empty($arg) && isset($arg['taxonomy']) && ($arg['taxonomy'] == 'product_shipping_class')) {
+        if (is_array($arg) && !empty($arg) && isset($arg['taxonomy']) && ($arg['taxonomy'] == 'product_shipping_class') && is_user_wcmp_vendor(get_current_user_id())) {
             $html = '';
             $classes = get_the_terms($variation->ID, 'product_shipping_class');
             if ($classes && !is_wp_error($classes)) {
