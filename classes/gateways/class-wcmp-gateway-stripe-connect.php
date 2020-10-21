@@ -243,6 +243,9 @@ class WCMp_Gateway_Stripe_Connect extends WCMp_Payment_Gateway {
                         wp_redirect(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_billing_endpoint', 'vendor', 'general', 'vendor-billing' )));
                         exit();
                     }
+                } elseif ($_REQUEST['error'] == 'access_denied') {
+                    wp_redirect(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_billing_endpoint', 'vendor', 'general', 'vendor-billing' )));
+                    exit();
                 }
             }
         }
