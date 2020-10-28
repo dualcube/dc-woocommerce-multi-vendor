@@ -58,8 +58,6 @@ class WCMp_Commission {
         $labels = array(
             'name' => _x('Commissions', 'post type general name', 'dc-woocommerce-multi-vendor'),
             'singular_name' => _x('Commission', 'post type singular name', 'dc-woocommerce-multi-vendor'),
-            'add_new' => _x('Add New', $this->post_type, 'dc-woocommerce-multi-vendor'),
-            'add_new_item' => sprintf(__('Add New %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
             'edit_item' => sprintf(__('Edit %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
             'new_item' => sprintf(__('New %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
             'all_items' => sprintf(__('All %s', 'dc-woocommerce-multi-vendor'), __('Commissions', 'dc-woocommerce-multi-vendor')),
@@ -83,8 +81,7 @@ class WCMp_Commission {
             'query_var' => false,
             'rewrite' => true,
             'capability_type' => 'shop_order',
-            //'capability_type' => 'post',
-            //'capabilities' => array('create_posts' => false, 'delete_posts' => false, 'edit_others_posts' => false),
+            'capabilities' => array('create_posts' => false),
             'map_meta_cap' => true,
             'has_archive' => true,
             'hierarchical' => true,
