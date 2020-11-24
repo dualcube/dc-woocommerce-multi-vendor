@@ -1082,7 +1082,7 @@ Class WCMp_Admin_Dashboard {
                 }
 
                 if ($fieldkey == 'vendor_description') {
-                    update_user_meta($user_id, '_' . $fieldkey, wc_clean(wp_unslash($post[$fieldkey])));
+                    update_user_meta($user_id, '_' . $fieldkey, stripslashes( html_entity_decode( $post[$fieldkey], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
                 } elseif ($fieldkey == 'vendor_country') {
                     $country_code = wc_clean(wp_unslash( $post[$fieldkey] ) );
                     $country_data = wc_clean(wp_unslash( WC()->countries->get_countries() ) );
