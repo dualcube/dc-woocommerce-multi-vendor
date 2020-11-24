@@ -112,7 +112,7 @@ global $WCMp;
                     </td>
                     <?php if( $vendor_message_to_buyer ) : ?>   
                     <td style="padding:10px 10px;width: 50%; border-bottom: 1px solid #e4e4e4;  background:none;" align="left" valign="top">					
-        <?php echo esc_html($vendor_message_to_buyer); ?>
+        <?php echo wp_kses_post($vendor_message_to_buyer); ?>
                     </td>
                     <?php endif; ?>
                 </tr>
