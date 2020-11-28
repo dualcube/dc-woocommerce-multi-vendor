@@ -3556,6 +3556,7 @@ class WCMp_Ajax {
     
     public function wcmp_configure_shipping_method(){
         global $WCMp;
+        $vendor_id = $_POST['vendor_id'] ? absint($_POST['vendor_id']) : 0 ;
         $zone_id = isset($_POST['zoneId']) ? absint($_POST['zoneId']) : 0;
         $method_id = isset($_POST['methodId']) ? wc_clean($_POST['methodId']) : '';
         $instance_id = isset($_POST['instanceId']) ? wc_clean($_POST['instanceId']) : '';
@@ -3687,7 +3688,7 @@ class WCMp_Ajax {
                     }
                     $settings_html .= '</div>';
                 } else {
-                    $settings_html = apply_filters('wcmp_vendor_backend_shipping_methods_edit_form_fields', $settings_html, get_current_user_id(), $zone_id, $vendor_shipping_method);
+                    $settings_html = apply_filters('wcmp_vendor_backend_shipping_methods_edit_form_fields', $settings_html, $vendor_id, $zone_id, $vendor_shipping_method);
                 }
                 $config_settings[$vendor_shipping_method['id']] = $settings_html;
             $html_settings = isset($config_settings[$method_id]) ? $config_settings[$method_id] : '';
