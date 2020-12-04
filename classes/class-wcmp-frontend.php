@@ -41,6 +41,11 @@ class WCMp_Frontend {
             add_action('template_redirect', array(&$this, 'wcmp_store_visitors_stats'), 99);
 
         add_filter('woocommerce_get_zone_criteria', array(&$this, 'wcmp_shipping_zone_same_region_criteria'), 10, 3);
+        // WCMp store page callback
+        add_action( 'wcmp_store_tab_widget_contents', array(&$this, 'wcmp_store_tab_widget_contents' ));
+        add_action( 'wcmp_store_widget_contents', array(&$this, 'wcmp_store_widget_contents' ));
+        add_action( 'wcmp_after_main_content', array(&$this, 'wcmp_after_main_content' ));
+        add_action( 'wcmp_sidebar', array(&$this, 'wcmp_sidebar') );
     }
 
     /**
@@ -400,7 +405,8 @@ class WCMp_Frontend {
         wp_register_style('multiple_vendor', $frontend_style_path . 'multiple-vendor' . $suffix . '.css', array(), $WCMp->version);
         wp_register_style('wcmp_custom_scroller', $frontend_style_path . 'lib/jquery.mCustomScrollbar.css', array(), $WCMp->version);
         wp_register_style( 'advance-product-manager', $frontend_style_path . 'advance-product-manager.css', array(), $WCMp->version );
-        
+        wp_register_style( 'wcmp_seller_shop_page_css', $frontend_style_path . 'wcmp-shop-page' . $suffix . '.css', array(), $WCMp->version );
+
         // Add RTL support
         wp_style_add_data('vandor-dashboard-style', 'rtl', 'replace');
         wp_style_add_data('frontend_css', 'rtl', 'replace');
@@ -424,6 +430,7 @@ class WCMp_Frontend {
         }
         if (is_tax($WCMp->taxonomy->taxonomy_name)) {
             wp_enqueue_style('frontend_css');
+            wp_enqueue_style('wcmp_seller_shop_page_css');
         }
         do_action('wcmp_frontend_enqueue_scripts', $is_vendor_dashboard);
     }
@@ -577,6 +584,135 @@ class WCMp_Frontend {
             }
         }
         return $criteria;
+    }
+
+    public function wcmp_sidebar() {
+        wc_get_template( 'global/sidebar.php' );
+    }
+
+    public function wcmp_after_main_content() {
+        wc_get_template( 'global/wrapper-start.php' );
+    }
+
+    public function wcmp_store_tab_widget_contents() {
+        echo '<main id="main" class="site-main">';
+
+        $product_tabs_modified = apply_filters( 'wcmp_vendor_store_tabs_filter', array(
+            'product' => array(
+                'title' => __('Product', 'dc-woocommerce-multi-vendor'),
+                'callback' => array( $this, 'wcmp_shop_product_callback' )
+                ),
+            'reviews' => array(
+                'title' => __('Reviews', 'dc-woocommerce-multi-vendor'),
+                'callback' => array( $this, 'wcmp_shop_review_callback' )
+                )
+            ));
+
+        if ( ! empty( $product_tabs_modified ) ) : ?>
+
+        <div class='wcmp-main-section'>
+            <?php if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'left') do_action( 'wcmp_store_widget_contents' ); ?>
+            <div class="column-class wcmp-middle-sec wcmp-shop-tabs wcmp-tabs-wrapper">
+                <div>
+                    <ul class="tabs wcmp-tabs wcmp-tab-header" role="tablist">
+                        <?php foreach ( $product_tabs_modified as $key => $product_tab ) : ?>
+                            <div class="<?php echo esc_attr( $key ); ?>_tab wcmp-tablink" id="tab-title-<?php echo esc_attr( $key ); ?>" role="tab" aria-controls="tab-<?php echo esc_attr( $key ); ?>">
+                                <a href="#tab-<?php echo esc_attr( $key ); ?>">
+                                    <?php echo wp_kses_post( apply_filters( 'woocommerce_product_' . $key . '_tab_title', $product_tab['title'], $key ) ); ?>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="wcmp-tab-content">
+                    <?php foreach ( $product_tabs_modified as $key => $product_tab ) : ?>
+                        <div class="panel" id="tab-<?php echo esc_attr( $key ); ?>" role="tabpanel" aria-labelledby="tab-title-<?php echo esc_attr( $key ); ?>">
+                            <?php
+                            if ( isset( $product_tab['callback'] ) ) {
+                                call_user_func( $product_tab['callback'], $key, $product_tab );
+                            }
+                            ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'right') do_action( 'wcmp_store_widget_contents' ); ?>
+    </div>
+    <?php
+    }
+
+    // Product loop callback
+    public function wcmp_shop_product_callback() {
+
+        if ( woocommerce_product_loop() ) {
+
+            /**
+            * Hook: woocommerce_before_shop_loop.
+            *
+            * @hooked woocommerce_output_all_notices - 10
+            * @hooked woocommerce_result_count - 20
+            * @hooked woocommerce_catalog_ordering - 30
+            */
+            do_action( 'woocommerce_before_shop_loop' );
+
+            woocommerce_product_loop_start();
+
+            if ( wc_get_loop_prop( 'total' ) ) {
+                while ( have_posts() ) {
+                    the_post();
+
+                    /**
+                    * Hook: woocommerce_shop_loop.
+                    */
+                    do_action( 'woocommerce_shop_loop' );
+
+                    wc_get_template_part( 'content', 'product' );
+                }
+            }   
+
+            woocommerce_product_loop_end();
+
+            /**
+            * Hook: woocommerce_after_shop_loop.
+            *
+            * @hooked woocommerce_pagination - 10
+            */
+            do_action( 'woocommerce_after_shop_loop' );
+            } else {
+
+            /**
+            * Hook: woocommerce_no_products_found.
+            *
+            * @hooked wc_no_products_found - 10
+            */
+            do_action( 'woocommerce_no_products_found' );
+        }
+    }
+
+    // Shop review callback
+    public function wcmp_shop_review_callback() {
+        global $WCMp;
+        $WCMp->review_rating->wcmp_seller_review_rating_form();
+    }
+
+    // Sideber as per admin choice
+    public function wcmp_store_widget_contents() {
+
+        if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'left') { 
+            $widget_class = 'wcmp-leftwidget-sec';
+        } elseif (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'right') {
+            $widget_class = 'wcmp-rightwidget-sec';
+        } else {
+            $widget_class = '';
+        }
+        if ($widget_class != '' && is_active_sidebar('sidebar-wcmp-store') && get_wcmp_vendor_settings('is_enable_store_sidebar', 'general') == 'Enable') {
+            ?>
+            <div class="column-class <?php echo $widget_class ?>" >
+                <?php dynamic_sidebar( 'sidebar-wcmp-store' ); ?>
+            </div> 
+            <?php
+        }
     }
 
 }

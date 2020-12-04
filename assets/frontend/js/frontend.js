@@ -149,4 +149,33 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
+    // Wcmp shop page tab
+    $( 'body' )
+    // Tabs
+    .on( 'init', '.wcmp-shop-tabs', function() {
+        $( this ).find( '.wcmp-shop-tabs .panel:not(.panel .panel)' ).hide();
+
+        var hash  = window.location.hash;
+        var url   = window.location.href;
+        var $tabs = $( this ).find( '.wcmp-tabs, ul.tabs' ).first();
+        
+        $tabs.find( '.wcmp-tablink:first a' ).click();
+                
+    } )
+    .on( 'click', '.wcmp-tabs .wcmp-tablink a, ul.tabs .wcmp-tablink a', function( e ) {
+        e.preventDefault();
+        var $tab          = $( this );
+        var $tabs_wrapper = $tab.closest( '.wcmp-tabs-wrapper, .wcmp-shop-tabs' );
+        var $tabs         = $tabs_wrapper.find( '.wcmp-tabs, ul.tabs' );
+
+        $tabs.find( '.wcmp-tablink' ).removeClass( 'active' );
+        $tabs_wrapper.find( '.panel:not(.panel .panel)' ).hide();
+        $tab.closest( '.wcmp-tablink' ).addClass( 'active' );
+        $tabs_wrapper.find( $tab.attr( 'href' ) ).show();
+    } )
+
+    // Init Tabs and Star Ratings
+    $( '.wcmp-shop-tabs' ).trigger( 'init' );
+    
 });

@@ -1,0 +1,39 @@
+$heading : 'Montserrat', sans-serif;
+$text: 'Open Sans', sans-serif ;
+$color:(
+    "light_primaryColor": #fff,
+    "dark_primaryColor": #001027,
+    "theme_primaryColor":  #5b82e2,
+    "light_blueColor":#eef2fb,
+);
+$secondary_textcolor: #676c74;
+$border_color:#f1f1f1;
+$font-weight: (
+    'regular':400,
+    'medium':500,
+    'semi-bold':600,
+    'bold':700,
+);
+@mixin wcmpHeading ($headingSpace) {
+    font-family: $heading;
+    font-size: 24px;
+    font-weight: map-get($font-weight , semi-bold );
+    // $color: (
+    //     "lightColor": #fff,
+    //     "darkColor": #555,
+    // );
+    margin: $headingSpace;
+}
+@mixin flexCenter ($justifyContent, $direction) {
+    display: flex;
+    align-items: center;
+    justify-content: $justifyContent;
+    flex-direction: $direction;
+}
+@mixin subHeading {
+    font-family: $heading;
+    font-size: 14px;
+    font-weight: map-get($font-weight , semi-bold );
+    text-transform: uppercase;
+    margin: 0
+}
