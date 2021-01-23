@@ -14,7 +14,7 @@ class WCMp_Seller_Review_Rating {
         $rating_settings = get_option('wcmp_general_sellerreview_settings_name');
         if (get_wcmp_vendor_settings('is_sellerreview', 'general') == 'Enable') {
             //add_action('woocommerce_after_main_content', array($this, 'wcmp_seller_review_rating_form'), 5);
-            add_action('woocommerce_after_shop_loop', array($this, 'wcmp_seller_review_rating_form'), 30);
+            //add_action('woocommerce_after_shop_loop', array($this, 'wcmp_seller_review_rating_form'), 30);
             add_action('add_meta_boxes', array($this, 'add_wcmp_rating_meta_box'));
             add_action('comment_save_pre', array($this, 'save_wcmp_rating_meta_box'));
             add_filter('widget_comments_args', array($this, 'remove_vendor_rating_from_recent_comment'), 10);
