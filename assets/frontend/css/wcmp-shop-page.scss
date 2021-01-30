@@ -1,0 +1,736 @@
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    background-color: #f9f9f9;
+}
+
+@import './variable';
+
+.wcmp-heading{
+    @include wcmpHeading(12px 0 15px);
+    color: map-get($color, dark_primaryColor );
+}
+.wcmp-butn{
+    font-family: $heading;
+    border: 1px solid transparent;
+    padding: 8px 25px;
+    font-size: map-get($font_size, medium);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s all ease-in-out;
+    &:hover{
+        opacity: 0.8;
+    }
+}
+
+.wcmp-banner-area {
+    @include wcmpBanner;
+}
+.wcmp-imgcls{
+    @include wcmpImg(320px);
+}
+.column-class {
+    @include columns;
+}
+
+// theme02 start
+.wcmp-theme02 .wcmp-heading{
+    color: map-get($color, light_primaryColor );
+}
+.wcmp-banner-wrap{
+    position: relative;
+    height:auto;
+    background: map-get($color, light_primaryColor );
+    padding: 0 0 20px;
+}
+.wcmp_bannersec_start {
+    height: 100%;
+    /* padding: 0 80px; */
+}
+.wcmp_breadcrumb-cls {
+    @include flexCenter( start, row);
+    padding: 0 10px;
+    margin: 15px 0 25px;
+    list-style: none;
+}
+.wcmp-bredcrumb-menu {
+    font-family: $text;
+    cursor: pointer;
+    font-size: map-get($font_size, small);
+    color: $secondary_textcolor;
+    margin-right: 3px;
+    display: flex;
+    align-items: center;
+    transition: 0.5s all ease-in-out;
+
+    &:hover{
+        color: map-get($color, dark_primaryColor );
+
+    }
+}
+.wcmp-bredcrumb-menu .fa {
+    padding: 0 15px;
+}
+.wcmp-breadcrumb-active {
+    font-weight: map-get($font-weight , semi-bold );
+    color: map-get($color, dark_primaryColor );
+
+}
+img.wcmp-profile-imgcls {
+    width: 120px;
+    height: 120px;
+    border: 5px solid map-get($color, light_primaryColor );
+}
+.wcmp-ratingcls{
+    @include flexCenter(start, row)
+}
+.wcmp-ratingcls .fa.fa-star {
+    color: map-get($color, start_color );
+    margin: 0 2px;
+    
+}
+.wcmp-rating-digit {
+    margin: 0 0 0 5px;
+    font-family: $heading;
+    font-weight: map-get($font-weight , semi-bold );
+    color: map-get($color, light_primaryColor );
+    font-size: map-get($font_size, medium);
+
+}
+.wcmp-rating-digit span{
+    font-weight: map-get($font-weight , regular );
+}
+.wcmp-address{
+    color: map-get($color, light_primaryColor );
+    margin-bottom: 0;
+    font-family: $text;
+    font-size: map-get($font_size, medium);
+}
+.wcmp-contact-deatil p.wcmp-address:first-child {
+    margin-right: 30px;
+}
+.wcmp-contact-deatil{
+    @include flexCenter(start, row);
+}
+.wcmp-address span {
+    padding-right: 4px;
+}
+.wcmp-address a{
+    color: map-get($color, light_primaryColor );
+    text-decoration: none;
+}
+.socialicn-area{
+    @include flexCenter( flex-end, row);
+}
+.socialicn-area a {
+    margin: 0 5px;
+    width: auto;
+    height: auto;
+}
+.socialicn-area a img {
+    width: 85%;
+    height: auto;
+}
+.wcmp-bannerright{
+    @include flexCenter( space-between, column);
+    align-items: flex-end;
+}
+button.wcmp-butn i.fa {
+    padding-right: 5px;
+}
+button.wcmp-stroke-butn {
+    background: transparent;
+    border-color:map-get($color, border_color1 );
+    color: map-get($color, light_primaryColor );
+}
+button.wcmp-fill-butn{
+    background: map-get($color, theme_primaryColor );
+    color: map-get($color, light_primaryColor );
+}
+
+// theme02 end
+
+
+
+// theme01 start
+.wcmp-theme01 .wcmp-heading{
+    @include wcmpHeading(12px 20px 15px 0);
+}
+.wcmp-theme01 .wcmp-banner-area{
+    height:280px
+}
+.wcmp-theme01 .wcmp-banner-below {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 1fr;
+    padding: 0 20px;
+}
+.wcmp-theme01 .wcmp-profile-area {
+    margin-top: -55px;
+}
+.wcmp-theme01 .wcmp-rating-digit{
+    color: map-get($color, dark_primaryColor );
+}
+.wcmp-theme01 .wcmp-address{
+    color: map-get($color, dark_primaryColor );
+    margin: 2px 30px 2px 0;
+}
+.wcmp-theme01 .wcmp-address a, .wcmp-theme03 .wcmp-address a{
+    color: map-get($color, dark_primaryColor );
+}
+.wcmp-theme01 .wcmp-banner-middle {
+    @include flexCenter( start, row)
+}
+.wcmp-theme01 button.wcmp-stroke-butn, .wcmp-theme03 button.wcmp-stroke-butn{
+    color: map-get($color, theme_primaryColor );
+    border-color: map-get($color, theme_primaryColor );
+    margin-right: 10px;
+}
+.wcmp-theme01 .wcmp-address .fa, .wcmp-theme03 .wcmp-address .fa{
+    color: map-get($color, theme_primaryColor );
+}
+.wcmp-theme01 .wcmp-ratingcls{
+    @include flexCenter(flex-end, row)
+}
+// theme01 end
+
+// theme03 start
+.wcmp-theme03 .wcmp-banner-area {
+    height: 220px;
+}
+.wcmp-theme03 .wcmp-banner-below {
+    text-align: center;
+}
+.wcmp-theme03 .wcmp-profile-area {
+    margin-top: -100px;
+}
+.wcmp-theme03 .wcmp-rating-digit{
+    color: map-get($color, dark_primaryColor );
+}
+.wcmp-theme03 .wcmp-ratingcls{
+    @include flexCenter(center, row)
+}
+.wcmp-theme03 .wcmp-contact-deatil{
+    @include flexCenter(center, row);
+}
+.wcmp-theme03 .wcmp-address{
+    color: map-get($color, dark_primaryColor );
+    margin: 18px 30px 12px 0;
+}
+// theme03 end
+
+// WCMP-Body-Sec start
+.wcmp-main-section{
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    // padding: 30px 80px 0;
+    padding: 30px 0 0;
+}
+.wcmp-leftwidget-sec, .wcmp-rightwidget-sec{
+    min-width: 29%;
+    max-width: 29%;
+}
+.wcmp-tab-header {
+    background: map-get($color, light_primaryColor );
+    padding: 0 20px;
+    border-radius: 6px;
+    border-bottom: 1px solid map-get($color, border_color2 );
+    @include flexCenter(unset, row);
+    overflow-x: auto;
+    margin:0;
+}
+.wcmp-tablink {
+    border: none;
+    background: transparent;
+    padding: 18px 30px;
+    font-family: $heading;
+    font-size: map-get($font_size, regular);
+
+    font-weight: map-get($font-weight , medium );
+    min-width: max-content;
+    cursor: pointer;
+    &:focus{
+        outline: 0;
+    }
+}
+.wcmp-tablink.active{
+    background: map-get($color, light_blueColor );
+    position: relative;
+    &::before{
+        content: '';
+        position: absolute;
+        width: 40%;
+        height: 4px;
+        background: map-get($color, theme_primaryColor );
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 20px;
+        
+    }
+}
+.wcmp-inner-widget {
+    padding:25px 25px 0px;
+    background: map-get($color, light_primaryColor );
+    margin-bottom: 8px;
+    box-shadow: 0 0 1px 0 #00000010;
+    .wcmp-heading{
+        margin: 0 0 10px;
+    }
+}
+.wcmp-widget-heading{
+    @include subHeading;
+    @include flexCenter(space-between, row);
+    cursor: pointer;
+}
+.wcmp-single-filter {
+    padding: 15px 0;
+    border-top: 1px solid map-get($color, border_color1 );
+}
+.wcmp-widget-heading .fa-angle-up {
+    font-size: map-get($font_size, heading);
+    color: map-get($color, theme_primaryColor );
+}
+.wcmp-tab-content {
+    padding: 30px 0;
+}
+.wcmp-product-content{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 24%);
+    grid-template-rows: 200px;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+.wcmp-product-item{
+    background: lightblue;
+}
+  
+.panel {
+    display: none;
+    overflow: hidden;
+}
+.store-timing{
+    @include wcmpHeading(0);
+    @include flexCenter(space-between, row);
+    font-size: map-get($font_size, regular);
+}
+.store-timing:nth-child(2){
+    padding: 12px 0;
+}
+.wcmp-middle-sec {
+    min-width: 66%;
+}
+// WCMP-Body-Sec end
+
+// WCMP-About-Sec start
+.wcmp-vendor-profile{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 -14px;
+}
+.wcmp-about-sec {
+    background: map-get($color, light_primaryColor );
+    padding: 26px 32px;
+    margin-bottom: 15px;
+    .wcmp-heading{
+        margin-top: 0;
+    }
+}
+.wcmp-profile-col{
+    font-family: $heading;
+    color: map-get($color, dark_primaryColor );
+    span{
+        font-size: map-get($font_size, regular);
+        font-weight: map-get($font-weight , medium );
+    }
+    p{
+        font-size: map-get($font_size, medium);
+        font-weight: map-get($font-weight , semi-bold);
+        margin-top: 5px;
+        padding-bottom: 10px;
+        position: relative;
+        &::before {
+            content: '';
+            width: 90%;
+            height: 1px;
+            background: map-get($color, border_color3 );;
+            position: absolute;
+            bottom: 0;
+        }
+    }
+}
+.wcmp-about-detail{
+    font-family: $text;
+    font-size: map-get($font_size, regular);
+
+    line-height: 24px;
+    color: map-get($color, dark_primaryColor );
+    margin: 18px 0;
+}
+// WCMP-About-Sec end
+
+// WCMP-Policies-Sec start
+.wcmp-policie-sec{
+    padding: 0 32px 25px;
+    background: map-get($color, light_primaryColor );
+    box-shadow: 0 2px 15px -5px #00000005;
+}
+.wcmp-tabcontent-header{
+    @include flexCenter(space-between, row);
+    padding: 20px 0 16px;
+    .wcmp-heading{
+        margin:0 
+    }
+}
+.wcmp-policies-header{
+    border-bottom: 1px solid map-get($color, border_color3 ); 
+    p{
+        font-family: $heading;
+        color: map-get($color, dark_primaryColor );
+        font-weight: map-get($font-weight , medium );
+        font-size: map-get($font_size, regular);
+        margin: 0;
+    }
+}
+.wcmp-sub-heading{
+    @include flexCenter(flex-start, row);
+    margin: 25px 0;
+    p{
+        font-family: $heading;
+        font-size: map-get($font_size, large);
+
+        font-weight: map-get($font-weight , medium );
+        text-transform: uppercase;
+        margin:0;
+    }
+    img {
+        width: 38px;
+        height: 38px;
+        margin-right: 12px;
+    }
+}
+.wcmp-policie-sub-area{
+    padding: 0 0 0 50px;
+    h4{
+        font-family: $heading;
+        font-size: map-get($font_size, medium);
+        font-weight: map-get($font-weight , medium );
+        margin: 0;
+        color: map-get($color, dark_txtcolor );
+    }
+    p{
+        font-family: $text;
+        font-size: map-get($font_size, regular);
+        margin: 10px 0 20px;
+        color: map-get($color, dark_primaryColor );
+    }
+}
+.wcmp-paymnt-optn img {
+    border: 1px solid map-get($color, border_color4 );
+    border-radius: 5px;
+    margin-right: 8px;
+}
+// WCMP-Policies-Sec end
+
+// WCMP-Follower-Sec start
+.wcmp-follower-sec{
+    background: map-get($color, light_primaryColor );
+    box-shadow: 0 2px 15px -5px #00000005;
+    padding: 0 32px 25px;
+}
+.wcmp-single-flower{
+    @include flexCenter(space-between, row);
+    padding: 25px 30px;
+    border: 1px solid map-get($color, border_color1 );
+    border-radius: 5px;
+    margin: 5px 0;
+}
+.wcmp-profile-cls {
+    width: 45px;
+    height: 45px;
+}
+.wcmp-profile-cls img {
+    @include wcmpImg(100%);
+    object-fit: contain;
+}
+.wcmp-follower-leftside{
+    @include flexCenter(space-between, row);
+    align-items: end;
+}
+.wcmp-follower-name {
+    margin: 0 20px 0 15px;
+    h3{
+        font-family: $heading;
+        font-size: map-get($font_size, sub-heading);
+        margin: 0 0 8px;
+        font-weight: map-get($font-weight , semi-bold );
+        color: map-get($color, dark_primaryColor );
+        @include flexCenter(space-between, row);
+    }
+    span{
+        font-family: $text;  
+        font-size: map-get($font_size, regular);
+        color: map-get($color, dark_primaryColor );
+    }
+}
+.wcmp-status {
+    margin: 0 0 0 20px;
+    font-family: $heading;
+    font-size: map-get($font_size, large);
+    color: $secondary_textcolor;
+    font-weight: map-get($font-weight , regular );
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        background: map-get($color, dark_primaryColor );
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        left: -15%;
+        border-radius: 50%;
+    }
+}
+form.wcmp-serach-field{
+    position: relative;
+    .fa-search {
+        position: absolute;
+        z-index: 9;
+        top: 0;
+        bottom: 0;
+        left: 6%;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        color: map-get($color, border_color5 );
+        font-size: map-get($font_size, samll);
+
+    }
+    input {
+        padding: 10px 10px 10px 32px;
+        border: 1px solid map-get($color, border_color5 );
+        border-radius: 32px;
+        position: relative;
+        color: map-get($color, dark_primaryColor );
+        font-family: $heading;
+        font-weight: map-get($font-weight , medium );
+        font-size: map-get($font_size, samll);
+
+        
+        &:focus {
+            outline: 0;
+            border: 1px solid $secondary_textcolor;
+        }
+    }
+}
+.wcmp-reviewprofile-area{
+    margin: 0 15px;
+    width: 100%;
+}
+.user-name-cls{
+    font-family: $heading;
+    font-size: map-get($font_size, sub-heading);
+    margin: 0 0 8px;
+    font-weight: map-get($font-weight , semi-bold );
+    color: map-get($color, dark_primaryColor ); 
+}
+.wcmp-rating-area{
+    @include flexCenter(space-between, row);
+    p{
+        font-family: $heading;
+        margin: 0;
+        font-weight: map-get($font-weight , semi-bold );
+        color: map-get($color, dark_primaryColor ); 
+        font-size: map-get($font_size, medium);
+    }
+}
+.wcmp-single-review-box {
+    padding: 20px 30px;
+    border: 1px solid map-get($color, border_color1 );
+    border-radius: 8px;
+    @include flexCenter(start, row);
+    align-items: flex-start;
+    margin: 5px 0
+}
+.wcmp-rating-leftside {
+    @include flexCenter(space-between, row);
+    ul{
+        @include flexCenter(space-between, row);
+        margin:0 10px 0 0;
+        padding:0;
+        li{
+            list-style: none;
+            margin: 0 2px;
+            .fa-star{
+                color: map-get($color, start_color );
+                font-size: map-get($font_size, regular);
+            }
+        }
+    }
+}
+.wcmp-feedback-cls{
+    font-family: $text;
+    font-size: map-get($font_size, regular);
+    color: map-get($color, dark_primaryColor );
+    line-height: 24px;
+    margin-bottom: 0;
+}
+form.wcmp-short-cls{
+    font-family: $heading;
+    label{
+        font-family: $heading;
+        font-size: map-get($font_size, regular);
+        font-weight: map-get($font-weight , medium );
+    }
+    select{
+        padding: 8px 0 8px 5px;
+        border: 1px solid map-get($color, border_color6 );
+        border-radius: 5px;
+        font-size: map-get($font_size, regular);
+        font-weight: map-get($font-weight , semi-bold);
+        cursor: pointer;
+        &:focus {
+            outline: 0;
+            border: 1px solid $secondary_textcolor;
+        }
+    }
+}
+
+// WCMP-Follower-Sec end
+
+
+@media screen and (min-width:320px) and (max-width:767px){
+    .wcmp-product-content {
+        grid-template-columns: 100%;
+    }
+    .wcmp-follower-sec{
+        padding:15px
+    }
+    .wcmp-single-flower{
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+    .wcmp-follower-rightside {
+        margin: 10px 0 0 60px;
+    }
+    .wcmp-policie-sub-area {
+        padding: 0 ;
+    }
+    .wcmp-heading{
+        font-size: map-get($font_size, sub-heading);
+    }
+    form.wcmp-serach-field input{
+        width:135px;
+    }
+    .wcmp-rating-area {
+        flex-direction: column;
+        align-items: self-end;
+    }
+    .wcmp-tabcontent-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .wcmp-tabcontent-header .wcmp-heading{
+        margin-bottom: 8px;
+    }
+    .wcmp-vendor-profile {
+        grid-template-columns: 1fr;
+    }
+    .wcmp-about-sec{
+        padding:15px
+    }
+    .wcmp-single-review-box {
+        padding: 15px;
+    }
+    .wcmp-follower-name h3 {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .wcmp-status{
+        margin: 4px 0 0 12px;
+        font-size: map-get($font_size , regular );
+    }
+}
+
+@media screen and (min-width:320px) and (max-width:768px){
+    .column-class{
+        min-width:100%;
+        margin: 0
+    }
+    .wcmp_bannersec_start{
+        padding: 0 10px;
+    }
+    .wcmp-banner-area {
+        grid-template-columns: 100%;
+    }
+    .wcmp-contact-deatil{
+        @include flexCenter(start, column);
+        align-items: flex-start;
+    }
+    .socialicn-area{
+        @include flexCenter( flex-start, row);
+        margin: 15px 0;
+    }
+    .wcmp-bannerright{
+        align-items: flex-start;
+    }
+
+    // Theme01 start responsive
+    .wcmp-theme01 .wcmp-banner-below{
+        grid-template-columns: unset;
+    }
+    .wcmp-theme01 .wcmp-ratingcls{
+        @include flexCenter(flex-start, row)
+    }
+    // Theme01 end responsive
+
+    // WCMP-Body-Sec start
+    .wcmp-main-section{
+        padding:20px;
+    }
+    // WCMP-Body-Sec end
+    .wcmp-vendor-profile{
+        margin:0
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px){
+    .wcmp-product-content {
+        grid-template-columns: repeat(auto-fill, 49%);
+    }
+}
+
+@media only screen
+and (min-device-width: 1024px)
+and (max-device-width: 1024px) {
+    .wcmp-main-section{
+        padding: 30px 30px 0;
+    }
+    .wcmp-tablink{
+        padding: 18px 25px;
+    }
+    .wcmp-middle-sec{
+        min-width: 65%;
+    }
+    .wcmp-product-content {
+        grid-template-columns: repeat(auto-fill, 32%);
+    }
+}
+
+@media screen and (min-width:1025px){
+    .wcmp-profile-col:nth-child(6) p, 
+    .wcmp-profile-col:nth-child(5) p,
+    .wcmp-profile-col:nth-child(4) p{
+        margin-bottom: 0;
+    }
+}

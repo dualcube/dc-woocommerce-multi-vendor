@@ -1,0 +1,17 @@
+.elementor-control-type-sortable_list .elementor-control-type-repeater {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.elementor-control-type-sortable_list .elementor-control-type-repeater .elementor-repeater-row-tools .elementor-repeater-row-tool {
+    width: 55px;
+}
+
+.elementor-control-type-sortable_list .elementor-control-type-repeater .elementor-repeater-row-tools {
+    border-collapse: collapse;
+    border: 1px solid #d5dadf;
+}
+
+.elementor-control-type-sortable_list .elementor-label-inline > .elementor-control-content > .elementor-control-field > .elementor-control-input-wrapper {
+    margin-left: 0;
+}

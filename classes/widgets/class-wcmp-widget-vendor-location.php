@@ -60,10 +60,10 @@ class DC_Woocommerce_Store_Location_Widget extends WP_Widget {
         $show_widget = false;
         $WCMp->library->load_gmap_api();
         
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
-            $vendor_id = get_queried_object()->term_id;
+        if (wcmp_is_store_page()) {
+            $vendor_id = wcmp_find_shop_page_vendor();
             if ($vendor_id) {
-                $vendor = get_wcmp_vendor_by_term($vendor_id);
+                $vendor = get_wcmp_vendor($vendor_id);
                 $show_widget = true;
             }
         }

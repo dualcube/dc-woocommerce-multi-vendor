@@ -14,15 +14,15 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-if (isset($queried_object->term_id) && !empty($queried_object)) {
-    $vendor = get_wcmp_vendor_by_term($queried_object->term_id);
-    $shop_name = $vendor->page_title;
-    $vendor_id = $vendor->id;
-    $count = $vendor->get_review_count();
-    $is_enable = wcmp_seller_review_enable($queried_object->term_id);
-    $current_user = wp_get_current_user();
-    $reviews_lists = $vendor->get_reviews_and_rating(0);
-}
+$vendor_term_id = get_user_meta($vendor_id, '_vendor_term_id', true);
+$vendor = get_wcmp_vendor_by_term($vendor_term_id);
+$shop_name = $vendor->page_title;
+$vendor_id = $vendor->id;
+$count = $vendor->get_review_count();
+$is_enable = wcmp_seller_review_enable($vendor_term_id);
+$current_user = wp_get_current_user();
+$reviews_lists = $vendor->get_reviews_and_rating(0);
+
 ?>
 <div class="wocommerce" >
     <div id="reviews" >
@@ -80,12 +80,12 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                         <input type="hidden" name="postperpage" id="wcmp_review_rating_postperpage" value="<?php echo esc_attr($posts_per_page); ?>" >
                         <input type="hidden" name="totalpage" id="wcmp_review_rating_totalpage" value="<?php echo esc_attr($total_pages); ?>" >
                         <input type="hidden" name="totalreview" id="wcmp_review_rating_totalreview" value="<?php echo esc_attr($count); ?>" >	
-                        <input type="hidden" name="term_id" id="wcmp_review_rating_term_id" value = "<?php echo esc_attr($queried_object->term_id); ?>">
+                        <input type="hidden" name="term_id" id="wcmp_review_rating_term_id" value = "<?php echo esc_attr($vendor_term_id); ?>">
                     </form>
                     <?php
                     if (isset($reviews_lists) && count($reviews_lists) > 0) {
                         echo '<ol class="commentlist vendor_comment_list">';
-                        $WCMp->template->get_template('review/wcmp-vendor-review.php', array('reviews_lists' => $reviews_lists, 'vendor_term_id' => $queried_object->term_id));
+                        $WCMp->template->get_template('review/wcmp-vendor-review.php', array('reviews_lists' => $reviews_lists, 'vendor_term_id' => $vendor_term_id));
                         echo '</ol>';
                         if ($total_pages > 1) {
                             echo '<div class="wcmp_review_loader"><img src="' . $WCMp->plugin_url . 'assets/images/ajax-loader.gif" alt="ajax-loader" /></div>';

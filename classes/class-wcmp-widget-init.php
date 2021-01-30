@@ -10,8 +10,26 @@
 class WCMp_Widget_Init {
 
     public function __construct() {
+        add_action('init', array($this, 'wcmp_register_store_sidebar'));
         add_action('widgets_init', array($this, 'product_vendor_register_widgets'));
         add_action('wp_dashboard_setup', array($this, 'wcmp_rm_meta_boxes'));
+    }
+
+    /**
+     * Register Store Sidebar
+     */
+    public function wcmp_register_store_sidebar() {
+        register_sidebar(
+            apply_filters( 'wcmp_store_sidebar_args', array(
+                        'name'          => __( 'Vendor Store Sidebar', 'dc-woocommerce-multi-vendor' ),
+                        'id'            => 'sidebar-wcmp-store',
+                        'before_widget' => '<aside id="%1$s" class="widget sidebar-box clr %2$s">',
+                        'after_widget'  => '</aside>',
+                        'before_title'  => '<div class="sidebar_heading"><h4 class="widget-title">',
+                        'after_title'   => '</h4></div>',
+                )
+            )
+        );
     }
 
     /**

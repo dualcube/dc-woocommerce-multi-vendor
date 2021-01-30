@@ -9,13 +9,19 @@
  */
 class WCMp_Frontend {
 
+    public $custom_store_url = '';
+
     public function __construct() {
+
+        $permalinks = get_option('dc_vendors_permalinks');
+        $this->custom_store_url = empty($permalinks['vendor_shop_base']) ? _x('vendor', 'slug', 'dc-woocommerce-multi-vendor') : $permalinks['vendor_shop_base'];
+
         //enqueue scripts
         add_action('wp_enqueue_scripts', array(&$this, 'frontend_scripts'));
         //enqueue styles
         add_action('wp_enqueue_scripts', array(&$this, 'frontend_styles'), 999);
 
-        add_action('woocommerce_archive_description', array(&$this, 'product_archive_vendor_info'), 10);
+        add_action('wcmp_archive_description', array(&$this, 'product_archive_vendor_info'), 10);
         add_filter('body_class', array(&$this, 'set_product_archive_class'));
         add_action('template_redirect', array(&$this, 'template_redirect'));
 
@@ -41,6 +47,22 @@ class WCMp_Frontend {
             add_action('template_redirect', array(&$this, 'wcmp_store_visitors_stats'), 99);
 
         add_filter('woocommerce_get_zone_criteria', array(&$this, 'wcmp_shipping_zone_same_region_criteria'), 10, 3);
+
+         // WCMp store page callback
+        add_action( 'wcmp_store_tab_widget_contents', array(&$this, 'wcmp_store_tab_widget_contents' ));
+        add_action( 'wcmp_store_widget_contents', array(&$this, 'wcmp_store_widget_contents' ));
+        add_action( 'wcmp_after_main_content', array(&$this, 'wcmp_after_main_content' ));
+        add_action( 'wcmp_sidebar', array(&$this, 'wcmp_sidebar') );
+
+        add_action( 'init', array(&$this, 'wcmp_sidebar_init'), 99 );
+        add_filter( 'query_vars', array( $this, 'prefix_register_query_var' ), 1);
+        add_action( 'pre_get_posts', [ $this, 'store_query_filter' ], 99 );
+        
+        // Review tab section
+        add_action( 'wcmp_vendor_shop_page_reviews_endpoint', array(&$this, 'wcmp_vendor_shop_page_reviews_endpoint' ), 10, 2 );
+        // Pllicies tab section
+        add_action( 'wcmp_vendor_shop_page_policies_endpoint', array(&$this, 'wcmp_vendor_shop_page_policies_endpoint' ), 10, 2 );
+        flush_rewrite_rules();
     }
 
     /**
@@ -375,7 +397,7 @@ class WCMp_Frontend {
             wp_enqueue_script('wcmp_single_product_multiple_vendors');
             wp_enqueue_script('wcmp_customer_qna_js');
         }
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (wcmp_is_store_page()) {
             wp_enqueue_script('wcmp_seller_review_rating_js');
         }
     }
@@ -400,7 +422,8 @@ class WCMp_Frontend {
         wp_register_style('multiple_vendor', $frontend_style_path . 'multiple-vendor' . $suffix . '.css', array(), $WCMp->version);
         wp_register_style('wcmp_custom_scroller', $frontend_style_path . 'lib/jquery.mCustomScrollbar.css', array(), $WCMp->version);
         wp_register_style( 'advance-product-manager', $frontend_style_path . 'advance-product-manager.css', array(), $WCMp->version );
-        
+        // register vendor shoppage css
+        wp_register_style( 'wcmp_seller_shop_page_css', $frontend_style_path . 'wcmp-shop-page' . $suffix . '.css', array(), $WCMp->version );
         // Add RTL support
         wp_style_add_data('vandor-dashboard-style', 'rtl', 'replace');
         wp_style_add_data('frontend_css', 'rtl', 'replace');
@@ -422,8 +445,10 @@ class WCMp_Frontend {
             $pstyle = '.wcmp-product-policies .description { margin: 0 0 1.41575em;}';
             wp_add_inline_style('woocommerce-inline', $pstyle);
         }
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (wcmp_is_store_page()) {
             wp_enqueue_style('frontend_css');
+            // Enqueue shop page css
+            wp_enqueue_style('wcmp_seller_shop_page_css');
         }
         do_action('wcmp_frontend_enqueue_scripts', $is_vendor_dashboard);
     }
@@ -446,11 +471,10 @@ class WCMp_Frontend {
      */
     public function product_archive_vendor_info() {
         global $WCMp;
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (wcmp_is_store_page()) {
             // Get vendor ID
-            $vendor_id = get_queried_object()->term_id;
-            // Get vendor info
-            $vendor = get_wcmp_vendor_by_term($vendor_id);
+            $store_id = wcmp_find_shop_page_vendor();
+            $vendor = get_wcmp_vendor($store_id);
             if( $vendor ){
                 $image = $vendor->get_image() ? $vendor->get_image() : $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
                 $description = $vendor->description;
@@ -528,6 +552,10 @@ class WCMp_Frontend {
         if (is_vendor_dashboard() && is_user_logged_in() && (is_user_wcmp_vendor(get_current_user_id()) || is_user_wcmp_pending_vendor(get_current_user_id()) || is_user_wcmp_rejected_vendor(get_current_user_id())) && apply_filters('wcmp_vendor_dashboard_exclude_header_footer', true)) {
             return $WCMp->template->locate_template('template-vendor-dashboard.php');
         }
+        // Load archive page template in vendor shop page
+        if ( wcmp_is_store_page() ) {
+            return $WCMp->template->get_template('wcmp-archive-page-vendor.php');
+        }
         return $page_template;
     }
 
@@ -577,6 +605,263 @@ class WCMp_Frontend {
             }
         }
         return $criteria;
+    }
+
+    public function wcmp_vendor_shop_page_reviews_endpoint( $store_id, $query_vars_name ) {
+        global $WCMp;
+        $WCMp->review_rating->wcmp_seller_review_rating_form();
+    }
+
+    public function wcmp_vendor_shop_page_policies_endpoint( $store_id, $query_vars_name ) {
+        $_vendor_shipping_policy = get_user_meta( $store_id, '_vendor_shipping_policy', true ) ? get_user_meta( $store_id, '_vendor_shipping_policy', true ) : __( 'No policy found', 'dc-woocommerce-multi-vendor' );
+
+        $_vendor_refund_policy = get_user_meta( $store_id, '_vendor_refund_policy', true ) ? get_user_meta( $store_id, '_vendor_refund_policy', true ) : __( 'No policy found', 'dc-woocommerce-multi-vendor' );
+
+        $_vendor_cancellation_policy = get_user_meta( $store_id, '_vendor_cancellation_policy', true ) ? get_user_meta( $store_id, '_vendor_cancellation_policy', true ) : __( 'No policy found', 'dc-woocommerce-multi-vendor' );
+
+        ?>
+        <div class="wcmp-policie-sec">
+            <div class="wcmp-policies-header wcmp-tabcontent-header">
+                <h2 class='wcmp-heading'><?php echo esc_html__( 'Shop policies', 'dc-woocommerce-multi-vendor' ); ?></h2>
+            </div>
+            <!-- Shipping policy -->
+            <div>
+                <div class="wcmp-sub-heading">
+                    <span class="dashicons dashicons-cart"></span>
+                    <p><?php echo esc_html__( 'Shipping Policy', 'dc-woocommerce-multi-vendor' ); ?></p>
+                </div>
+                <div class='wcmp-policie-sub-area'>
+                    <p><?php echo wp_kses_post( $_vendor_shipping_policy ); ?></p>
+                </div>
+            </div>
+
+            <!-- Refund policy -->
+            <div>
+                <div class="wcmp-sub-heading">
+                    <span class="dashicons dashicons-cart"></span>
+                    <p><?php echo esc_html__( 'Refund Policy', 'dc-woocommerce-multi-vendor' ); ?></p>
+                </div>
+                <div class='wcmp-policie-sub-area'>
+                    <p><?php echo wp_kses_post( $_vendor_refund_policy ); ?></p>
+                </div>
+            </div>
+            <!-- Cancellation policy -->
+            <div>
+                <div class="wcmp-sub-heading">
+                    <span class="dashicons dashicons-cart"></span>
+                    <p><?php echo esc_html__( 'Cancellation/Return/Exchange Policy', 'dc-woocommerce-multi-vendor' ); ?></p>
+                </div>
+                <div class='wcmp-policie-sub-area'>
+                    <p><?php echo wp_kses_post( $_vendor_cancellation_policy ); ?></p>
+                </div>
+            </div>
+            <?php do_action( 'wcmp_vendor_shop_page_policies', $store_id, $query_vars_name  ); ?>
+        </div>
+        <?php
+    }
+
+    public function store_query_filter( $query ) {
+        global $wp_query;
+        $author = get_query_var( $this->custom_store_url );
+        if ( ! is_admin() && $query->is_main_query() && ! empty( $author ) ) {
+            $seller_info = get_user_by( 'slug', $author );
+
+            if ( ! $seller_info ) {
+                return get_404_template();
+            }
+
+            $query->set( 'post_type', 'product' );
+            $query->set( 'author_name', $author );
+        }
+    }
+
+    function prefix_register_query_var( $vars ) {
+        $vars[] = $this->custom_store_url;
+        return $vars;
+    }
+
+    function wcmp_vendor_page_query_vars() {
+        $query_vars = apply_filters(
+            'wcmp_query_var_filter', [
+                'reviews',
+                'policies'
+            ]
+        );
+        return $query_vars;
+    }
+
+    function wcmp_sidebar_init() {
+        $query_vars = $this->wcmp_vendor_page_query_vars();
+        foreach ( $query_vars as $var ) {
+            add_rewrite_endpoint( $var, EP_PAGES );
+        }
+        add_rewrite_rule( $this->custom_store_url.'/([^/]+)/reviews?$', 'index.php?'.$this->custom_store_url.'=$matches[1]&reviews=true', 'top' );
+        add_rewrite_rule( $this->custom_store_url.'/([^/]+)/policies?$', 'index.php?'.$this->custom_store_url.'=$matches[1]&policies=true', 'top' );
+    }
+
+    public function wcmp_sidebar() {
+        wc_get_template( 'global/sidebar.php' );
+    }
+
+    public function wcmp_after_main_content() {
+        wc_get_template( 'global/wrapper-start.php' );
+    }
+
+    public function wcmp_store_tab_widget_contents() {
+        global $WCMp;
+        $store_id = wcmp_find_shop_page_vendor();
+        $shop_query_exist = false;
+        $query_vars_name = 'products';
+        $wcmp_shop_page_query_vars = $this->wcmp_vendor_page_query_vars();
+        foreach ($wcmp_shop_page_query_vars as $key_query) {
+            if (get_query_var($key_query)) {
+                $shop_query_exist = true;
+                $query_vars_name = $key_query;
+            }
+        }
+        $store_tabs = $this->wcmp_get_store_tabs( $store_id );
+        echo '<main id="main" class="site-main">';
+        if ( ! empty( $store_tabs ) ) : ?>
+
+        <div class='wcmp-main-section'>
+            <?php if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'left') do_action( 'wcmp_store_widget_contents' ); ?>
+            <div class="column-class wcmp-middle-sec ">
+                <div class="wcmp-tab-header">
+                    <?php foreach( $store_tabs as $key => $tab ) { 
+                        ?>
+                        <?php if ( $tab['url'] ): ?>
+                            <a href="<?php echo esc_url( $tab['url'] ); ?>">
+                                <div class="wcmp-tablink <?php if( $key == $query_vars_name ) echo 'active'; ?>">
+                                    <?php echo esc_html( $tab['title'] ); ?>
+                                </div>
+                            </a>                         
+                        <?php endif; ?>
+                    <?php } ?>
+                </div>
+                <div>
+                <?php
+
+                if ($shop_query_exist) {
+                    do_action( 'wcmp_vendor_shop_page_'. $query_vars_name .'_endpoint', $store_id, $query_vars_name );
+                } else {
+                    $this->wcmp_shop_product_callback(); 
+                }
+
+                ?>
+                </div>
+            </div>
+        <?php endif; ?>
+        <?php if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'right') do_action( 'wcmp_store_widget_contents' ); ?>
+        </div>
+        <?php
+    }
+
+    public function wcmp_get_store_tabs( $store_id ) {
+
+        $store_id = wcmp_find_shop_page_vendor();
+        $vendor = get_wcmp_vendor($store_id);
+        $userstore = $vendor->permalink;
+        $tabs = array(
+            'products' => array(
+                'title' => __( 'Products', 'dc-woocommerce-multi-vendor' ),
+                'url'   => $userstore,
+            ),
+            'reviews' => array(
+                'title' => __( 'Reviews', 'dc-woocommerce-multi-vendor' ),
+                'url'   => $this->wcmp_get_review_url( $store_id ),
+            ),
+            'policies' => array(
+                'title' => __( 'Policies', 'dc-woocommerce-multi-vendor' ),
+                'url'   => $this->wcmp_get_policies_url( $store_id ),
+            ),
+        );
+
+        return apply_filters( 'wcmp_store_tabs', $tabs, $store_id );
+    }
+
+    function wcmp_get_policies_url( $user_id ) {
+        if ( ! $user_id ) {
+            return '';
+        }
+        $vendor = get_wcmp_vendor($user_id);
+        $userstore = $vendor->permalink;
+        return apply_filters( 'wcmp_get_seller_policies_url', $userstore . 'policies' );
+    }
+
+    function wcmp_get_review_url( $user_id ) {
+        if ( ! $user_id ) {
+            return '';
+        }
+        $vendor = get_wcmp_vendor($user_id);
+        $userstore = $vendor->permalink;
+        return apply_filters( 'wcmp_get_seller_review_url', $userstore . 'reviews' );
+    }
+
+    // Product loop callback
+    public function wcmp_shop_product_callback() {
+
+        if ( woocommerce_product_loop() ) {
+
+            /**
+            * Hook: woocommerce_before_shop_loop.
+            *
+            * @hooked woocommerce_output_all_notices - 10
+            * @hooked woocommerce_result_count - 20
+            * @hooked woocommerce_catalog_ordering - 30
+            */
+            do_action( 'woocommerce_before_shop_loop' );
+
+            woocommerce_product_loop_start();
+
+            if ( wc_get_loop_prop( 'total' ) ) {
+                while ( have_posts() ) {
+                    the_post();
+
+                    /**
+                    * Hook: woocommerce_shop_loop.
+                    */
+                    do_action( 'woocommerce_shop_loop' );
+
+                    wc_get_template_part( 'content', 'product' );
+                }
+            }   
+
+            woocommerce_product_loop_end();
+
+            /**
+            * Hook: woocommerce_after_shop_loop.
+            *
+            * @hooked woocommerce_pagination - 10
+            */
+            do_action( 'woocommerce_after_shop_loop' );
+            } else {
+
+            /**
+            * Hook: woocommerce_no_products_found.
+            *
+            * @hooked wc_no_products_found - 10
+            */
+            do_action( 'woocommerce_no_products_found' );
+        }
+    }
+
+    // Sideber as per admin choice
+    public function wcmp_store_widget_contents() {
+
+        if (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'left') { 
+            $widget_class = 'wcmp-leftwidget-sec';
+        } elseif (get_wcmp_vendor_settings('store_sidebar_position', 'general') == 'right') {
+            $widget_class = 'wcmp-rightwidget-sec';
+        } else {
+            $widget_class = '';
+        }
+        if ($widget_class != '' && is_active_sidebar('sidebar-wcmp-store') && get_wcmp_vendor_settings('is_enable_store_sidebar', 'general') == 'Enable') {
+            ?>
+            <div class="column-class <?php echo $widget_class ?>" >
+                <?php dynamic_sidebar( 'sidebar-wcmp-store' ); ?>
+            </div> 
+            <?php
+        }
     }
 
 }

@@ -1,0 +1,16 @@
+.elementor-widget.wcmp-btn-wrap {
+    margin-bottom: 0;
+}
+
+.elementor-widget-wcmp-store-info .elementor-icon-list-items .elementor-icon-list-item .elementor-icon-list-text span.seller-rating {
+    display: none;
+}
+
+.elementor-widget-wcmp-store-live-chat-button .fa.fa-circle {
+    margin-right: 4px;
+    color: #79e379;
+}
+
+.wcmp-elementor-flex-right .elementor-widget-wrap {
+    justify-content: flex-end;
+}

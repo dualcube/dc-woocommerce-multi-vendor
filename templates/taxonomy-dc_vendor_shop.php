@@ -24,12 +24,12 @@ if($is_block) {
 	get_header( 'shop' ); ?>
 	<?php
 		/**
-		 * woocommerce_before_main_content hook
+		 * wcmp_before_main_content hook
 		 *
 		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
 		 * @hooked woocommerce_breadcrumb - 20
 		 */
-		do_action( 'woocommerce_before_main_content' );
+		do_action( 'wcmp_before_main_content' );
 	?>
 
 		<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
@@ -46,24 +46,24 @@ if($is_block) {
 		<p>
 		<?php
 		/**
-		 * woocommerce_after_main_content hook
+		 * wcmp_after_main_content hook
 		 *
 		 * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
 		 */
-		do_action( 'woocommerce_after_main_content' );
+		do_action( 'wcmp_after_main_content' );
 	?>
 
 	<?php
 		/**
-		 * woocommerce_sidebar hook
+		 * wcmp_sidebar hook
 		 *
 		 * @hooked woocommerce_get_sidebar - 10
 		 */
-		do_action( 'woocommerce_sidebar' );
+		do_action( 'wcmp_sidebar' );
 	?>
 
 <?php get_footer( 'shop' ); 
 	
 } else {
-	wc_get_template( 'archive-product.php' );
+	$WCMp->template->get_template('wcmp-archive-page-vendor.php');
 }

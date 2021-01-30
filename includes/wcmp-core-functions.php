@@ -4273,3 +4273,61 @@ function wcmp_failed_pending_order_commission() {
     }
     return $commission_id;
 }
+
+if (!function_exists('wcmp_is_store_page')) {
+    /**
+     * Check if it's a store page
+     *
+     * @return bool
+     */
+    function wcmp_is_store_page() {
+        $vendor = false;
+        if (get_queried_object()) {
+            $vendor_id = get_queried_object()->term_id;
+            $vendor = get_wcmp_vendor_by_term($vendor_id);
+        } else {
+            $store_id = get_query_var('author');
+            $vendor = get_wcmp_vendor($store_id);
+        }
+        if ($vendor) {
+            return true;
+        }
+        return false;
+    }
+}
+
+if (!function_exists('wcmp_find_shop_page_vendor')) {
+    /**
+     * find vendor id from vendor shop page
+     *
+     * @return store_id
+     */
+    function wcmp_find_shop_page_vendor() {
+        $store_id = false;
+        if (get_queried_object()) {
+            $vendor_id = get_queried_object()->term_id;
+            $store = get_wcmp_vendor_by_term($vendor_id);
+            $store_id = $store ? $store->id : false;;
+        } else {
+            $store_id = get_query_var('author');
+        }
+        return $store_id;
+    }
+}
+
+if (!function_exists('wcmp_get_attachment_url')) {
+    /**
+     * WCMp get attachment URL by ID
+     */
+    if( !function_exists( 'wcmp_get_attachment_url') ) {
+        function wcmp_get_attachment_url( $attachment_id ) {
+            $attachment_url = '';
+            if( $attachment_id && is_numeric( $attachment_id ) ) {
+                $attachment_url = wp_get_attachment_url( $attachment_id );
+            } else {
+                $attachment_url = $attachment_id;
+            }
+            return $attachment_url;
+        }
+    }
+}

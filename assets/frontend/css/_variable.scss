@@ -1,0 +1,76 @@
+$heading : 'Montserrat', sans-serif;
+$text: 'Open Sans', sans-serif ;
+$color:(
+    "light_primaryColor": #fff,
+    "dark_primaryColor":  #001027,
+    "theme_primaryColor": #5b82e2,
+    "light_blueColor": #eef2fb,
+    "border_color1": #f1f1f1,
+    "border_color2": #f4f4f4,
+    "border_color3": #e3e3e3,
+    "border_color4": #ebebeb,
+    "border_color5": #b2b7be,
+    "border_color6": #d8d9db,
+    "dark_txtcolor": #010101,
+    "start_color": #ffad4d,
+);
+$secondary_textcolor: #676c74;
+
+$font-weight: (
+    'regular':400,
+    'medium':500,
+    'semi-bold':600,
+    'bold':700,
+);
+$font_size:(
+    'heading':22px,
+    'sub-heading':18px,
+    'large':16px,
+    'medium':15px,
+    'regular':14px,
+    'small':13px,
+
+
+);
+@mixin wcmpHeading ($headingSpace) {
+    font-family: $heading;
+    font-size: 24px;
+    font-weight: map-get($font-weight , semi-bold );
+    margin: $headingSpace;
+}
+@mixin flexCenter ($justifyContent, $direction) {
+    display: flex;
+    align-items: center;
+    justify-content: $justifyContent;
+    flex-direction: $direction;
+}
+@mixin subHeading {
+    font-family: $heading;
+    font-size: 14px;
+    font-weight: map-get($font-weight , semi-bold );
+    text-transform: uppercase;
+    margin: 0
+}
+@mixin  wcmpBanner{
+    // background-image: url(../images/banner-img.png);
+    display: grid;
+    // grid-template-columns: 2fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    // grid-template-rows: 1fr;
+    position: absolute;
+    top:0;
+    width: -webkit-fill-available;
+    padding: 20px;
+}
+@mixin wcmpImg ($height) {
+    width:100%;
+    height: $height;
+}
+@mixin columns {
+    flex: 0 0 auto;
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+    margin-right: 14px;
+    margin-left: 14px;
+}

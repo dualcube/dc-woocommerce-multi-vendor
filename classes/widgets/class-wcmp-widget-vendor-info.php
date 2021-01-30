@@ -65,16 +65,14 @@ class DC_Widget_Vendor_Info extends WP_Widget {
                 $show_widget = false;
             }
         }
-        if (is_archive() && !is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (!wcmp_is_store_page()) {
             $show_widget = false;
         }
 
         if ($show_widget) {
-            if (is_tax($WCMp->taxonomy->taxonomy_name)) {
-                $vendor_id = get_queried_object()->term_id;
-                if ($vendor_id) {
-                    $vendor = get_wcmp_vendor_by_term($vendor_id);
-                }
+            if (wcmp_is_store_page()) {
+                $vendor_id = wcmp_find_shop_page_vendor();
+                $vendor = get_wcmp_vendor($vendor_id);
             }
             if ($vendor) {
                 // Set up widget title
