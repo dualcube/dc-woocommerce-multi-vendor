@@ -494,17 +494,17 @@ class WCMp_Frontend {
      */
     public function set_product_archive_class($classes) {
         global $WCMp;
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (wcmp_is_store_page()) {
 
             // Add generic classes
             $classes[] = 'woocommerce';
             $classes[] = 'product-vendor';
 
             // Get vendor ID
-            $vendor_id = get_queried_object()->term_id;
+            $vendor_id = wcmp_find_shop_page_vendor();
 
             // Get vendor info
-            $vendor = get_wcmp_vendor_by_term($vendor_id);
+            $vendor = get_wcmp_vendor($vendor_id);
 
             // Add vendor slug as class
             if ('' != $vendor->slug) {
@@ -551,10 +551,6 @@ class WCMp_Frontend {
         global $WCMp;
         if (is_vendor_dashboard() && is_user_logged_in() && (is_user_wcmp_vendor(get_current_user_id()) || is_user_wcmp_pending_vendor(get_current_user_id()) || is_user_wcmp_rejected_vendor(get_current_user_id())) && apply_filters('wcmp_vendor_dashboard_exclude_header_footer', true)) {
             return $WCMp->template->locate_template('template-vendor-dashboard.php');
-        }
-        // Load archive page template in vendor shop page
-        if ( wcmp_is_store_page() ) {
-            return $WCMp->template->get_template('wcmp-archive-page-vendor.php');
         }
         return $page_template;
     }

@@ -4281,10 +4281,11 @@ if (!function_exists('wcmp_is_store_page')) {
      * @return bool
      */
     function wcmp_is_store_page() {
+        global $WCMp;
         $vendor = false;
         if (get_queried_object()) {
-            $vendor_id = get_queried_object()->term_id;
-            $vendor = get_wcmp_vendor_by_term($vendor_id);
+            $vendor_id = is_tax($WCMp->taxonomy->taxonomy_name) ? get_queried_object()->term_id : false;
+            $vendor = $vendor_id ? get_wcmp_vendor_by_term($vendor_id) : false;
         } else {
             $store_id = get_query_var('author');
             $vendor = get_wcmp_vendor($store_id);

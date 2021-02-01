@@ -242,7 +242,7 @@ final class WCMp {
      */
     function template_loader($template) {
         global $WCMp;
-        if (is_tax($WCMp->taxonomy->taxonomy_name)) {
+        if (wcmp_is_store_page()) {
             $template = $this->template->locate_template('taxonomy-dc_vendor_shop.php');
         }
         return $template;

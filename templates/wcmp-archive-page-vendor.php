@@ -47,6 +47,7 @@ do_action( 'wcmp_after_main_content' );
  * Hook: wcmp_sidebar.
  *
  */
-//do_action( 'wcmp_sidebar' );
+// deprecated since version 3.0.0 with no alternative available
+// do_action( 'wcmp_sidebar' );
 
 get_footer( 'shop' );

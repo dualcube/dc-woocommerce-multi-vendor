@@ -13,7 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 // Get vendor 
-$vendor = get_wcmp_vendor_by_term(get_queried_object()->term_id);
+$vendor_id = wcmp_find_shop_page_vendor();
+$vendor = get_wcmp_vendor($vendor_id);
 if(!$vendor){
     // Redirect if not vendor
     wp_safe_redirect(get_permalink( woocommerce_get_page_id( 'shop' ) ));
@@ -59,7 +60,8 @@ if($is_block) {
 		 *
 		 * @hooked woocommerce_get_sidebar - 10
 		 */
-		do_action( 'wcmp_sidebar' );
+		// deprecated since version 3.0.0 with no alternative available
+		// do_action( 'wcmp_sidebar' );
 	?>
 
 <?php get_footer( 'shop' ); 
