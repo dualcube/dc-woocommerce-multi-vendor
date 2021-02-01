@@ -435,7 +435,9 @@ button.wcmp-fill-butn {
   overflow-x: auto;
   margin: 0;
 }
-
+.wcmp-tab-header a, .wcmp-main-section .wcmp-middle-sec .wcmp-tab-header a:focus{
+  text-decoration: unset;
+}
 .wcmp-tablink {
   border: none;
   background: transparent;
@@ -565,7 +567,7 @@ button.wcmp-fill-butn {
 }
 
 .wcmp-middle-sec {
-  min-width: 66%;
+  min-width: 65%;
 }
 
 .wcmp-vendor-profile {
@@ -1166,9 +1168,6 @@ form.wcmp-short-cls select:focus {
   }
   .wcmp-tablink {
     padding: 18px 25px;
-  }
-  .wcmp-middle-sec {
-    min-width: 65%;
   }
   .wcmp-product-content {
     -ms-grid-columns: (32%)[auto-fill];
