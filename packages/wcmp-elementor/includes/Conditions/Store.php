@@ -28,7 +28,7 @@ class StoreCondition extends Condition_Base {
 	 * @return string
 	 */
 	public function get_label() {
-		return __( 'Store Page', 'dc-woocommerce-multi-vendor' );
+		return __( 'WCMp Store Page', 'dc-woocommerce-multi-vendor' );
 	}
 
 	/**

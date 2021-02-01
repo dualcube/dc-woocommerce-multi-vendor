@@ -64,7 +64,7 @@ class StorePage extends Single {
 	 * @return string
 	 */
 	public static function get_title() {
-		return __( 'Store Page', 'dc-woocommerce-multi-vendor' );
+		return __( 'WCMp Store Page', 'dc-woocommerce-multi-vendor' );
 	}
 
 	/**
