@@ -67,5 +67,5 @@ if($is_block) {
 <?php get_footer( 'shop' ); 
 	
 } else {
-	$WCMp->template->get_template('wcmp-archive-page-vendor.php');
+	$WCMp->template->get_store_template('wcmp-archive-page-vendor.php');
 }

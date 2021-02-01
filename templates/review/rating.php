@@ -24,6 +24,7 @@ global $WCMp;
 $rating = round($rating_val_array['avg_rating'], 1);
 $count = intval($rating_val_array['total_rating']);
 $rating_type = $rating_val_array['rating_type'];
+$rating_url = $WCMp->frontend->wcmp_get_review_url( wcmp_find_shop_page_vendor() );
 if( $rating_type == 'product-rating' ) {
     $review_text = $count > 1 ? __('Products reviews', 'dc-woocommerce-multi-vendor') : __('Product review', 'dc-woocommerce-multi-vendor');
 } else {
@@ -35,7 +36,7 @@ if( $rating_type == 'product-rating' ) {
 <?php if ($count > 0) { ?>
     <span class="wcmp_total_rating_number"><?php echo __(sprintf(' %s ', $rating)); ?></span>
 <?php } ?>
-<a href="#<?php echo ($rating_type != 'product-rating' ) ? 'reviews' : ''; ?>">
+<a href="#<?php echo ($rating_type != 'product-rating' ) ? sc_url($rating_url) : ''; ?>">
 <?php if ($count > 0) { ?>	
         <span itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo sprintf(__('Rated %s out of 5', 'dc-woocommerce-multi-vendor'), $rating) ?>">
             <span style="width:<?php echo ( round($rating_val_array['avg_rating']) / 5 ) * 100; ?>%"><strong itemprop="ratingValue"><?php echo $rating; ?></strong> <?php _e('out of 5', 'dc-woocommerce-multi-vendor'); ?></span>

@@ -12,7 +12,7 @@ class WCMp_Elementor_Module extends WCMp_Elementor_ModuleBase {
         add_action( 'elementor/controls/controls_registered', [ $this, 'register_controls' ] );
         add_action( 'elementor/editor/footer', [ $this, 'add_editor_templates' ], 9 );
         add_action( 'elementor/theme/register_conditions', [ $this, 'register_conditions' ] );
-        add_filter( 'wcmp_locate_template', [ $this, 'locate_template_for_store_page' ], 999, 4 );
+        add_filter( 'wcmp_store_locate_template', [ $this, 'locate_template_for_store_page' ], 999, 4 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_editor_scripts' ] );
     }
 

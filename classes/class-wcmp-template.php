@@ -76,6 +76,48 @@ class WCMp_Template {
     }
 
     /**
+     * Get store templates (e.g. product attributes) passing attributes and including the file.
+     *
+     * @access public
+     * @param mixed $template_name
+     * @param array $args (default: array())
+     * @param string $template_path (default: '')
+     * @param string $default_path (default: '')
+     * @return void
+     */
+    public function get_store_template($template_name, $args = array(), $template_path = '', $default_path = '') {
+
+        if ($args && is_array($args))
+            extract($args);
+
+        $located = $this->store_locate_template($template_name, $template_path, $default_path);
+
+        include ($located);
+    }
+
+    public function store_locate_template($template_name, $template_path = '', $default_path = '') {
+        global $woocommerce, $WCMp;
+        $default_path = apply_filters('template_path', $default_path);
+        if (!$template_path) {
+            $template_path = $this->template_url;
+        }
+        if (!$default_path) {
+            $default_path = $WCMp->plugin_path . 'templates/';
+        }
+        // Look within passed path within the theme - this is priority
+        $template = locate_template(array(trailingslashit($template_path) . $template_name, $template_name));
+        // Add support of third perty plugin
+        $template = apply_filters('wcmp_store_locate_template', $template, $template_name, $template_path, $default_path);
+        // Get default template
+        if (!$template) {
+            $template = $default_path . $template_name;
+        }
+
+        
+        return $template;
+    }
+
+    /**
      * Get template part (for templates like the shop-loop).
      *
      * @access public

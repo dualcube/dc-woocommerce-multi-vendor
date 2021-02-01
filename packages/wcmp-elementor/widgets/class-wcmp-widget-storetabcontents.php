@@ -116,7 +116,7 @@ class WCMp_Elementor_StoreTabContents extends WCMp_Elementor_StoreName {
             $vendor_id = $store_id;
             switch( $tab ) {
                 case 'reviews':
-                    include $WCMp->plugin_path . 'packages/wcmp-elementor/views/store-tab-contents/reviews.php';
+                    $WCMp->review_rating->wcmp_seller_review_rating_form();
                     break;
                     
                 case 'policies':
