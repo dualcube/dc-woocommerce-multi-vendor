@@ -112,8 +112,6 @@ class WCMp_Template {
         if (!$template) {
             $template = $default_path . $template_name;
         }
-
-        
         return $template;
     }
 
