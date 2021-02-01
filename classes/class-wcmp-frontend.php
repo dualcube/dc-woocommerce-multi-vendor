@@ -618,7 +618,7 @@ class WCMp_Frontend {
         ?>
         <div class="wcmp-policie-sec">
             <div class="wcmp-policies-header wcmp-tabcontent-header">
-                <h2 class='wcmp-heading'><?php echo esc_html__( 'Shop policies', 'dc-woocommerce-multi-vendor' ); ?></h2>
+                <div class='wcmp-heading'><?php echo esc_html__( 'Shop policies', 'dc-woocommerce-multi-vendor' ); ?></div>
             </div>
             <!-- Shipping policy -->
             <div>

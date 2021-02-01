@@ -23,7 +23,7 @@ $vendor_google_plus_profile = get_user_meta($vendor_id, '_vendor_google_plus_pro
 $vendor_youtube = get_user_meta($vendor_id, '_vendor_youtube', true);
 $vendor_instagram = get_user_meta($vendor_id, '_vendor_instagram', true);
 
-if ( $template_class == 'template1') { ?>
+if ( $template_class == 'template3') { ?>
 <div class='wcmp_bannersec_start wcmp-theme01'>
     <div class="wcmp-banner-wrap">
         <?php if($banner != '') { ?>
@@ -102,12 +102,16 @@ if ( $template_class == 'template1') { ?>
         </div>
     </div>
 </div>
-<?php } elseif ( $template_class == 'template2' ) {
+<?php } elseif ( $template_class == 'template1' ) {
     ?>
     <div class='wcmp_bannersec_start wcmp-theme02'>
         
         <div class="wcmp-banner-wrap">
-        <img src="<?php echo esc_url($banner); ?>" class="wcmp-imgcls"/>
+        <?php if($banner != '') { ?>
+            <img src="<?php echo esc_url($banner); ?>" class="wcmp-imgcls"/>
+        <?php } else { ?>
+            <img src="<?php echo $WCMp->plugin_url . 'assets/images/banner_placeholder.jpg'; ?>" class="wcmp-imgcls"/>
+        <?php } ?>
         <div class='wcmp-banner-area'>
             <div class='wcmp-bannerleft'>
                 <div class='wcmp-profile-area'>
@@ -126,9 +130,6 @@ if ( $template_class == 'template1') { ?>
                     }
                     ?>      
                 </div>
-
-
-                
                     <?php if (!empty($location) && $vendor_hide_address != 'Enable') { ?><p class="wcmp-address"><span><i class="wcmp-font ico-location-icon"></i></span><?php echo esc_html($location); ?></p><?php } ?>
 
                 <div class="wcmp-contact-deatil">
@@ -169,11 +170,15 @@ if ( $template_class == 'template1') { ?>
         </div>
         </div>
     </div>
-<?php } elseif ( $template_class == 'template3' ) {
+<?php } elseif ( $template_class == 'template2' ) {
     ?>
     <div class='wcmp_bannersec_start wcmp-theme03'>
         <div class="wcmp-banner-wrap">
-            <img src="<?php echo esc_url($banner); ?>" class="wcmp-imgcls"/>
+            <?php if($banner != '') { ?>
+                <img src="<?php echo esc_url($banner); ?>" class="wcmp-imgcls"/>
+            <?php } else { ?>
+                <img src="<?php echo $WCMp->plugin_url . 'assets/images/banner_placeholder.jpg'; ?>" class="wcmp-imgcls"/>
+            <?php } ?>
             <div class='wcmp-banner-area'>
                 <div class='wcmp-bannerright'>
                     <div class="socialicn-area">

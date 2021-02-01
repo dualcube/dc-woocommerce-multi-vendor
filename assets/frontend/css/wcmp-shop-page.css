@@ -129,6 +129,9 @@ img.wcmp-profile-imgcls {
   height: 120px;
   border: 5px solid #fff;
 }
+.wcmp-theme03 img.wcmp-profile-imgcls {
+    margin: 0 auto;
+}
 
 .wcmp-ratingcls {
   display: -webkit-box;
