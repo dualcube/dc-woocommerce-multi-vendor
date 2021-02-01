@@ -15,7 +15,7 @@ global $WCMp;
 ?>
 <header class="woocommerce-products-header">
 	<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-		<div class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></div>
+		<div class="woocommerce-products-header__title page-title"><?php is_tax($WCMp->taxonomy->taxonomy_name) ?woocommerce_page_title() : print(get_user_meta( wcmp_find_shop_page_vendor(), '_vendor_page_title', true )); ?></div>
 	<?php endif; ?>
 
 	<?php
