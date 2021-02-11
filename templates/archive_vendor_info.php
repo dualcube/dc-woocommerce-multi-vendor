@@ -240,3 +240,5 @@ if ( $template_class == 'template3') { ?>
     </div>
     <?php
 }
+// Additional hook after archive description ended
+do_action('after_wcmp_vendor_description', $vendor_id);
