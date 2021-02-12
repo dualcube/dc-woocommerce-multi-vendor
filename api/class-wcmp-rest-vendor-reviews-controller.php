@@ -125,7 +125,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function get_items_permissions_check( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_cannot_view', __( 'Sorry, you cannot list resources.', 'dc-woocommerce-multi-vendor' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -139,7 +139,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function get_item_permissions_check( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_cannot_view', __( 'Sorry, you cannot view this resource.', 'dc-woocommerce-multi-vendor' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -153,7 +153,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function create_item_permissions_check( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_cannot_create', __( 'Sorry, you are not allowed to create resources.', 'dc-woocommerce-multi-vendor' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -167,7 +167,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function update_item_permissions_check( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_cannot_edit', __( 'Sorry, you cannot edit this resource.', 'dc-woocommerce-multi-vendor' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -181,7 +181,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return WP_Error|boolean
 	 */
 	public function delete_item_permissions_check( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_cannot_edit', __( 'Sorry, you cannot delete this resource.', 'dc-woocommerce-multi-vendor' ), array( 'status' => rest_authorization_required_code() ) );
 		}
@@ -206,7 +206,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 */
 	public function get_items( $request ) {
 
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_vendor_invalid_id', __( 'Invalid Vendor ID.', 'dc-woocommerce-multi-vendor' ), array( 'status' => 404 ) );
@@ -273,8 +273,8 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 	[site_url]/wp-json/wcmp/v1/vendors/[vendor_id]/reviews/[review_id]
 	 */
 	public function get_item( $request ) {
-		$id         = (int) $request['id'];
-		$vendor_id = (int) $request['vendor_id'];
+		$id         = isset($request['id']) ? (int) $request['id'] : 0;
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		//return if not a vendor
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_vendor_invalid_id', __( 'Invalid Vendor ID.', 'dc-woocommerce-multi-vendor' ), array( 'status' => 404 ) );
@@ -312,7 +312,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 	[site_url]/wp-json/wcmp/v1/vendors/[vendor_id]/reviews
 	 */
 	public function create_item( $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_vendor_invalid_id', __( 'Invalid Vendor ID.', 'dc-woocommerce-multi-vendor' ), array( 'status' => 404 ) );
 		}
@@ -394,8 +394,8 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 	[site_url]/wp-json/wcmp/v1/vendors/[vendor_id]/reviews/[review_id]
 	 */
 	public function update_item( $request ) {
-		$vendor_review_id = (int) $request['id'];
-		$vendor_id        = (int) $request['vendor_id'];
+		$vendor_review_id = isset($request['id']) ? (int) $request['id'] : 0;
+		$vendor_id        = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 
 		if ( !is_user_wcmp_vendor( $vendor_id ) ) {
 			return new WP_Error( 'wcmp_rest_vendor_invalid_id', __( 'Invalid vendor ID.', 'dc-woocommerce-multi-vendor' ), array( 'status' => 404 ) );
@@ -594,7 +594,7 @@ class WCMp_REST_API_Vendor_Reviews_Controller extends WC_REST_Controller {
 	 * @return array Links for the given vendor review.
 	 */
 	protected function prepare_links( $review, $request ) {
-		$vendor_id = (int) $request['vendor_id'];
+		$vendor_id = isset($request['vendor_id']) ? (int) $request['vendor_id'] : 0;
 		$base       = str_replace( '(?P<vendor_id>[\d]+)', $vendor_id, $this->rest_base );
 		$links      = array(
 			'self' => array(

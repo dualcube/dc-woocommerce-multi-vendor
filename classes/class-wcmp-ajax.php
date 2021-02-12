@@ -3193,9 +3193,10 @@ class WCMp_Ajax {
         if( !class_exists( 'WCMP_Shipping_Zone' ) ) {
             $WCMp->load_vendor_shipping();
         }
-        $zones = WCMP_Shipping_Zone::get_zone($_POST['zoneID']);
+        $zone_ids = isset($_POST['zoneID']) ? $_POST['zoneID'] : 0;
+        $zones = WCMP_Shipping_Zone::get_zone($zone_ids);
         if ($zones)
-        $zone = WC_Shipping_Zones::get_zone(absint($_POST['zoneID']));
+        $zone = WC_Shipping_Zones::get_zone(absint($zone_ids));
 
         $show_post_code_list = $show_state_list = $show_post_code_list = false;
         $zone_id = $zones['data']['id'];

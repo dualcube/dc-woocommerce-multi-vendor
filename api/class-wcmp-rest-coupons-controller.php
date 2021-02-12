@@ -26,9 +26,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_filter('woocommerce_rest_shop_coupon_object_query', 'enable_vendor_on_list_shop_coupon_query', 10, 2);
 
 function enable_vendor_on_list_shop_coupon_query($args, $request) {
-	$args['author'] = $request['vendor'];
-	$args['author__in'] = $request['include_vendor'];
-	$args['author__not_in'] = $request['exclude_vendor'];
+	if (isset($request['vendor'])) {
+		$args['author'] = $request['vendor'];
+	}
+	if (isset($request['include_vendor'])) {
+		$args['author__in'] = $request['include_vendor'];
+	}
+	if (isset($request['exclude_vendor'])) {
+		$args['author__not_in'] = $request['exclude_vendor'];
+	}
 	return $args;
 }
 

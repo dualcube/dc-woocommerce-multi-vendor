@@ -381,14 +381,14 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
 		}
 
 		$userdata = array(
-			'user_login' => $request['login'],
-			'user_email' => $request['email'],
-			'user_url' => $request['url'],
-			'user_pass' => $request['password'],
-			'user_nicename' => $request['nice_name'],
-			'display_name' => $request['display_name'],
-			'first_name' => $request['first_name'],
-			'last_name' => $request['last_name'],
+			'user_login' => isset($request['login']) ? sanitize_user($request['login']) : '',
+			'user_email' => isset($request['email']) ? sanitize_email($request['email']) : '',
+			'user_url' => isset($request['url']) ? wc_clean($request['url']) : '',
+			'user_pass' => isset($request['password']) ? wc_clean($request['password']) : '',
+			'user_nicename' => isset($request['nice_name']) ? wc_clean($request['nice_name']) : '',
+			'display_name' => isset($request['display_name']) ? wc_clean($request['display_name']) : '',
+			'first_name' => isset($request['first_name']) ? wc_clean($request['first_name']) : '',
+			'last_name' => isset($request['last_name']) ? wc_clean($request['last_name']) : '',
 			'role' => $this->post_type
 		);
 		
@@ -624,14 +624,14 @@ class WCMp_REST_API_Vendors_Controller extends WC_REST_Controller {
 		}
 
 		$userdata = array(
-			'ID' => isset( $request['id'] ) ? $request['id'] : '',
-			'user_email' => isset( $request['email'] ) ? $request['email'] : '',
-			'user_url' => isset( $request['url'] ) ? $request['url'] : '',
-			'user_pass' => isset( $request['password'] ) ? $request['password'] : '',
-			'user_nicename' => isset( $request['nice_name'] ) ? $request['nice_name']: '',
-			'display_name' => isset( $request['display_name'] ) ? $request['display_name'] : '',
-			'first_name' => isset( $request['first_name'] ) ? $request['first_name'] : '',
-			'last_name' => isset( $request['last_name'] ) ? $request['last_name'] : '',
+			'ID' => isset( $request['id'] ) ? absint($request['id']) : '',
+			'user_email' => isset( $request['email'] ) ? sanitize_email($request['email']) : '',
+			'user_url' => isset( $request['url'] ) ? wc_clean($request['url']) : '',
+			'user_pass' => isset( $request['password'] ) ? wc_clean($request['password']) : '',
+			'user_nicename' => isset( $request['nice_name'] ) ? wc_clean($request['nice_name']) : '',
+			'display_name' => isset( $request['display_name'] ) ? wc_clean($request['display_name']) : '',
+			'first_name' => isset( $request['first_name'] ) ? wc_clean($request['first_name']) : '',
+			'last_name' => isset( $request['last_name'] ) ? wc_clean($request['last_name']) : '',
 			'role' => $this->post_type
 		);
 
