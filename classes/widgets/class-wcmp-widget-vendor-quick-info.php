@@ -282,6 +282,7 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
         
         return
                 !empty($_POST['dc_vendor_quick_info_submitted']) &&
+                isset($_POST['dc_vendor_quick_info_submitted']) &&
                 wp_verify_nonce($_POST['dc_vendor_quick_info_submitted'], 'dc_vendor_quick_info_submitted') &&
                 !empty($_POST['quick_info']) && 
                 !empty($_POST['quick_info']['email']) &&
