@@ -1728,6 +1728,99 @@ table.wcmp_tools_table th.run-tool {
     line-height: 14px;
     font-size: 14px;
     font-weight: 400; }
+  #poststuff .postbox.sort_chart.box_data{
+    padding: 0;
+    box-shadow:none;
+    border:0;
+    margin: 0;
+}
+#poststuff .stat-date-range{
+    margin-bottom: 0;
+}
+#poststuff .panel-default{
+    background: #f8f8f8;
+    border: 1px solid #ccd0d4;
+    box-shadow: none;
+    margin: 0;
+    border-right: 0;
+    border-radius: 2px;
+}
+#poststuff .wcmp_product_admin_overview .col-md-6 {
+    padding: 8px;
+}
+#poststuff .panel-header {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccd0d4;
+    background: #fff;
+    border-right: 1px solid #ccd0d4;
+    font-size: 14px;
+    color: #23282D;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#poststuff .panel-body{
+    padding: 0;
+}
+#poststuff .panel-body .wcmp_ass_holder_box .row{
+    margin: 0;
+}
+#poststuff .panel-body .col-md-6 {
+    border-right: 1px solid #ccd0d4;
+    padding: 0;
+}
+#poststuff .wcmp_displaybox2 {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ececec;
+}
+#poststuff .titleCls {
+    margin: 0;
+}
+#poststuff .titleCls a {
+    font-size: 15px;
+    color: #6c8090;
+    letter-spacing: 0.2px;
+    text-decoration: none;
+    font-weight: 400;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#poststuff .titleCls a:hover {
+    color: #0a63a7;
+}
+#poststuff .amountCls{
+    font-size: 16px;
+    margin: 0;
+    color: #006500;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#poststuff .wcmp_displaybox2.bordrNoneCls{
+    border-bottom: none;
+}
+.titleCls .dashicons{
+    width: 18px;
+    height: 18px;
+    font-size: 20px;
+    margin-right: 10px;
+}
+.titleCls .dashicons.dashicons-chart-bar {
+    color: green;
+}
+.titleCls .dashicons.dashicons-products {
+    color: #cd2c2f;
+}
+.titleCls .dashicons.dashicons-backup {
+    color: #fd9728;
+}
+.titleCls .dashicons.dashicons-money-alt {
+    color: #03b903;
+}
+.titleCls .dashicons.dashicons-admin-users {
+    color: #888;
+}
+.titleCls .dashicons.dashicons-id {
+    color: #307be1;
+}
 
 @media screen and (max-width: 782px) {
   .wcmp_vendors_settings fieldset {

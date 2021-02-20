@@ -47,51 +47,59 @@ global $WCMp;
     </div>
     <div class="postbox sort_chart box_data">
         <div class="wcmp_product_admin_overview">
-            <div class="col-md-12">
-    
+            <div class="col-md-6">
                 <div class="panel panel-default panel-pading">
                     <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
                         <div class="wcmp_form1 ">
+                            <h2 class="panel-header"><?php esc_html_e('Sales Overview', 'dc-woocommerce-multi-vendor'); ?></h2>
                             <div class="panel-body">
                                 <div class="wcmp_ass_holder_box">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href="#"><?php esc_html_e('Net Sales', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo wc_price($sales); ?></h3>
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-chart-bar"></span>
+                                                    <a href="#"><?php esc_html_e('Total Sales', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo wc_price($sales); ?></h3>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href ="<?php echo esc_url(admin_url('edit.php?post_type=dc_commission')); ?>"><?php esc_html_e('My Earnings', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo wc_price($admin_earning); ?></h3>
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-money-alt"></span>
+                                                    <a href ="#"><?php esc_html_e('Number of orders', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo $order_count; ?></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="wcmp_displaybox2 text-center ">
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-admin-users"></span>
+                                                    <a href ="<?php echo esc_url(admin_url('admin.php?page=vendors')); ?>"><?php esc_html_e('Awaiting Withdrawals', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo wc_price($transactions); ?></h3>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href ="<?php echo esc_url(admin_url('admin.php?page=vendors')); ?>"><?php esc_html_e('Signup Vendors', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo $vendors; ?></h3>
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-backup"></span>
+                                                        <a href ="#"><?php esc_html_e('Admin Commision', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                    </h4>
+                                                <h3 class="amountCls"><?php echo wc_price($admin_earning); ?></h3>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href ="<?php echo esc_url(admin_url('admin.php?page=wcmp-to-do')); ?>"><?php esc_html_e('Pending Vendors', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo $pending_vendors; ?></h3>
+                                            <div class="wcmp_displaybox2 text-center bordrNoneCls">
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-id"></span>
+                                                    <a href ="#"><?php _e('Vendor Commission', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo wc_price($paid_vendor_commission); ?></h3>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href ="<?php echo esc_url(admin_url('admin.php?page=wcmp-to-do')); ?>"><?php esc_html_e('Awaiting Products', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo esc_html($products); ?></h3>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="wcmp_displaybox2 text-center">
-                                                <h4><a href ="<?php echo esc_url(admin_url('admin.php?page=wcmp-to-do')); ?>"><?php _e('Awaiting Withdrawals', 'dc-woocommerce-multi-vendor'); ?></a></h4>
-                                                <h3><?php echo wc_price($transactions); ?></h3>
-                                            </div>
-                                        </div>
-                                        <?php do_action('wcmp_report_admin_overview',$this); ?>
                                     </div>
                                     <div class="clear"></div>
                                 </div>
@@ -100,6 +108,121 @@ global $WCMp;
                     </form>
                 </div>
             </div>
-        </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-pading">
+                    <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
+                        <div class="wcmp_form1 ">
+                            <h2 class="panel-header"><?php esc_html_e('Highest Selling Vendors', 'dc-woocommerce-multi-vendor'); ?></h2>
+                                <div class="panel-body">
+                                    <div class="wcmp_ass_holder_box">
+                                        <div class="row">
+                                            <?php foreach($vendor_sales as $id => $price) { 
+                                                $seller = get_wcmp_vendor($id);
+                                                ?>
+                                                <div class="col-md-6">
+                                                    <div class="wcmp_displaybox2 text-center">
+                                                        <h4 class="titleCls">
+                                                            <span class="dashicons dashicons-chart-bar"></span>
+                                                            <a href="#"><?php echo $seller->user_data->data->display_name; ?></a>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-pading">
+                    <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
+                        <div class="wcmp_form1 ">
+                            <h2 class="panel-header"><?php esc_html_e('Product Overview', 'dc-woocommerce-multi-vendor'); ?></h2>
+                                <div class="panel-body">
+                                    <div class="wcmp_ass_holder_box">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="wcmp_displaybox2 text-center">
+                                                    <h4 class="titleCls">
+                                                        <span class="dashicons dashicons-chart-bar"></span>
+                                                        <a href="#"><?php esc_html_e('Total Products', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                    </h4>
+                                                <h3 class="amountCls"><?php echo $total_products; ?></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="wcmp_displaybox2 text-center">
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-money-alt"></span>
+                                                    <a href ="#"><?php esc_html_e('Awaiting Products', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo $products; ?></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="wcmp_displaybox2 text-center ">
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-admin-users"></span>
+                                                    <a href ="#"><?php esc_html_e('Highest Selling Product', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo $best_selling_product[0]->post_title; ?></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default panel-pading">
+                    <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
+                        <div class="wcmp_form1 ">
+                            <h2 class="panel-header"><?php esc_html_e('Vendor Overview', 'dc-woocommerce-multi-vendor'); ?></h2>
+                                <div class="panel-body">
+                                    <div class="wcmp_ass_holder_box">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="wcmp_displaybox2 text-center">
+                                                    <h4 class="titleCls">
+                                                        <span class="dashicons dashicons-chart-bar"></span>
+                                                        <a href="#"><?php esc_html_e('Active Vendors', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                    </h4>
+                                                    <h3 class="amountCls"><?php echo $active_vendors; ?></h3>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="wcmp_displaybox2 text-center">
+                                                    <h4 class="titleCls">
+                                                        <span class="dashicons dashicons-money-alt"></span>
+                                                        <a href ="#"><?php esc_html_e('Signup vendors', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                    </h4>
+                                                <h3 class="amountCls"><?php echo $vendors; ?></h3>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="wcmp_displaybox2 text-center ">
+                                                <h4 class="titleCls">
+                                                    <span class="dashicons dashicons-admin-users"></span>
+                                                    <a href ="#"><?php esc_html_e('Pending Vendors', 'dc-woocommerce-multi-vendor'); ?></a>
+                                                </h4>
+                                                <h3 class="amountCls"><?php echo $pending_vendors; ?></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <?php do_action('wcmp_report_admin_overview',$this); ?>         
+        </div> 
     </div>
 </div>
