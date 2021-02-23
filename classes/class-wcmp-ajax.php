@@ -2688,7 +2688,7 @@ class WCMp_Ajax {
                                         </div>
                                     </div>
                                 </div>',
-                        'product' => $product->get_title(),
+                        'product' => '<a href="' . esc_url($product->get_permalink()) . '" target="_blank">' . $product->get_title() . '</a>',
                         'date' => wcmp_date($question->ques_created),
                         'vote' => $vote,
                         'status' => $status,
