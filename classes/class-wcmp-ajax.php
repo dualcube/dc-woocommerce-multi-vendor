@@ -3916,7 +3916,7 @@ class WCMp_Ajax {
                             $html .= '<div class="search-result-clm">'
                                     . $product_object->get_image(apply_filters('wcmp_searched_name_gtin_product_list_image_size', array(98, 98)))
                                     . '<div class="result-content">'
-                                    . '<p><strong>' . rawurldecode($product_object->get_formatted_name()) . '</strong></p>'
+                                    . '<p><strong><a href="' . esc_url($product_object->get_permalink()) . '" target="_blank">' . rawurldecode($product_object->get_formatted_name()) .'</a></strong></p>'
                                     . '<p>' . $product_object->get_price_html() . '</p>'
                                     . '<p>' . $product_cats . '</p>'
                                     . '</div>'

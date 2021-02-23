@@ -3891,13 +3891,13 @@ body .select2-container--default .select2-search--inline .select2-search__field[
     width: calc(100% - 312px);
     display: inline-block;
     vertical-align: middle; }
-  .select-product-cat-wrapper .cat-intro .search-result-holder .search-result-clm a {
+  .select-product-cat-wrapper .cat-intro .search-result-holder .search-result-clm a.item-sell {
     margin-right: 30px; }
   @media screen and (max-width: 1000px) {
     .select-product-cat-wrapper .cat-intro .search-result-holder .search-result-clm .result-content {
       width: 100%;
       margin: 15px 0; }
-    .select-product-cat-wrapper .cat-intro .search-result-holder .search-result-clm a {
+    .select-product-cat-wrapper .cat-intro .search-result-holder .search-result-clm a.item-sell {
       margin-right: 0; } }
 .select-product-cat-wrapper .select-cat-step-wrapper .wcmp-categories-level-panel {
   background: #fff url("../../images/icon-bg.png") repeat top;
