@@ -535,6 +535,8 @@ h4.wcmp-tab-description.success {
     .dc-wp-fields-uploader{
         display: block;
     }
+    body #wp-vendor_shipping_policy-wrap, body #wp-vendor_refund_policy-wrap, body #wp-vendor_cancellation_policy-wrap {
+    width: 100%; }
 }
 
 @media screen and (max-width:1170px) {
@@ -1234,6 +1236,13 @@ body .wcmp-vendor-modal-content article p span.woocommerce-Price-currencySymbol 
     vertical-align: top;
     margin: 12px 0;
 }
+
+#wp-vendor_shipping_policy-wrap, #wp-vendor_refund_policy-wrap, #wp-vendor_cancellation_policy-wrap {
+  width: calc(100% - 225px);
+  display: inline-block;
+  vertical-align: top;
+  margin: 12px 0; }
+
 .wcmp-loader{
     margin: 8px 0 0;
     display: inline-block;

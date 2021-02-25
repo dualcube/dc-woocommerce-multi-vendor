@@ -383,6 +383,15 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 							}
 						}
 					}
+				   	if ( isset( $_POST['vendor_shipping_policy'] ) ) {
+		                update_user_meta( $user_id, 'vendor_shipping_policy', stripslashes( html_entity_decode( $_POST['vendor_shipping_policy'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
+		            }
+		            if ( isset( $_POST['vendor_refund_policy'] ) ) {
+		                update_user_meta( $user_id, 'vendor_refund_policy', stripslashes( html_entity_decode( $_POST['vendor_refund_policy'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
+		            }
+		            if ( isset( $_POST['vendor_cancellation_policy'] ) ) {
+		                update_user_meta( $user_id, 'vendor_cancellation_policy', stripslashes( html_entity_decode( $_POST['vendor_cancellation_policy'], ENT_QUOTES, get_bloginfo( 'charset' ) ) ) );
+		            }
 				}
 				do_action('wcmp_vendor_details_update', $_POST, $vendor);
 				if ( is_wp_error( $errors ) && ! empty( $errors->errors ) ) {
@@ -493,7 +502,12 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 								"vendor_youtube" => array('label' => __('YouTube', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_youtube', 'label_for' => 'vendor_youtube', 'name' => 'vendor_youtube', 'value' => $vendor_obj->youtube),
 								"vendor_instagram" => array('label' => __('Instagram', 'dc-woocommerce-multi-vendor'), 'type' => 'url', 'id' => 'vendor_instagram', 'label_for' => 'vendor_instagram', 'name' => 'vendor_instagram', 'value' => $vendor_obj->instagram),
 							);
-					
+					$policy_tab_options = array(
+                                    "vendor_shipping_policy" => array('label' => __('Shipping Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'vendor_shipping_policy', 'label_for' => 'vendor_shipping_policy', 'name' => 'vendor_shipping_policy', 'cols' => 50, 'rows' => 6, 'value' => $vendor_obj->shipping_policy), // Textarea
+                                    "vendor_refund_policy" => array('label' => __('Refund Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'vendor_refund_policy', 'label_for' => 'vendor_refund_policy', 'name' => 'vendor_refund_policy', 'cols' => 50, 'rows' => 6, 'value' => $vendor_obj->refund_policy), // Textarea
+                                    "vendor_cancellation_policy" => array('label' => __('Cancellation/Return/Exchange Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'vendor_cancellation_policy', 'label_for' => 'vendor_cancellation_policy', 'name' => 'vendor_cancellation_policy', 'cols' => 50, 'rows' => 6, 'value' => $vendor_obj->cancellation_policy), // Textarea
+                                );
+
 					$payment_admin_settings = get_option('wcmp_payment_settings_name');
 					$payment_mode = array('payment_mode' => __('Payment Mode', 'dc-woocommerce-multi-vendor'));
 					if (isset($payment_admin_settings['payment_method_paypal_masspay']) && $payment_admin_settings['payment_method_paypal_masspay'] = 'Enable') {
@@ -604,7 +618,14 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 					<li> 
 						<a href="#vendor-shipping"><span class="dashicons dashicons-id-alt"></span> <?php echo __('Vendor Shipping', 'dc-woocommerce-multi-vendor'); ?></a>
 					</li>
-					<?php } 
+					<?php }
+					if($is_approved_vendor && get_wcmp_vendor_settings( 'is_policy_on', 'general' ) == 'Enable' ) {
+		            ?>
+		            <li> 
+		                <a href="#vendor-policy"><span class="dashicons dashicons-lock"></span> <?php echo __('Vendor Policy', 'wcmp-advance-shipping'); ?></a>
+		            </li>
+		            <?php
+			        	} 
 					do_action('wcmp_vendor_preview_tabs_post', $is_approved_vendor);
 					?>
 				</ul>
@@ -759,6 +780,15 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 					</div>
 					
 					<?php }
+					if ($is_approved_vendor && get_wcmp_vendor_settings( 'is_policy_on', 'general' ) == 'Enable' ) {
+						?>
+						<div id="vendor-policy">
+							<h2><?php echo __('Policy Settings', 'dc-woocommerce-multi-vendor'); ?></h2>
+							<?php $WCMp->wcmp_wp_fields->dc_generate_form_field(apply_filters("settings_{$this->tab}_policy_tab_options", $policy_tab_options, $vendor_obj));?>
+						</div>
+						<?php
+					}
+
 					do_action('wcmp_vendor_preview_tabs_form_post', $is_approved_vendor);
 					?>
 					<div class="clear"></div>

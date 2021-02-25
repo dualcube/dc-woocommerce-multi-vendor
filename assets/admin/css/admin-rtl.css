@@ -994,6 +994,12 @@ article .vendor-info-row.payment-info-row {
   vertical-align: top;
   margin: 12px 0; }
 
+ #wp-vendor_shipping_policy-wrap, #wp-vendor_refund_policy-wrap, #wp-vendor_cancellation_policy-wrap {
+  width: calc(100% - 225px);
+  display: inline-block;
+  vertical-align: top;
+  margin: 12px 0; }
+
 .wcmp-loader {
   margin: 8px 0 0;
   display: inline-block;
@@ -1793,6 +1799,8 @@ table.wcmp_tools_table th.run-tool {
   .vendor-preview-form #display_name {
     width: 100%; }
   body #wp-vendor_description-wrap {
+    width: 100%; }
+  body #wp-vendor_shipping_policy-wrap, body #wp-vendor_refund_policy-wrap, body #wp-vendor_cancellation_policy-wrap {
     width: 100%; }
   body .wcmp-ui-tabs form fieldset textarea {
     width: 100%; }

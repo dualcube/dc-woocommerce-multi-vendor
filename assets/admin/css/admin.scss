@@ -1261,6 +1261,12 @@ article {
 	vertical-align: top;
 	margin: 12px 0;
 }
+#wp-vendor_shipping_policy-wrap, #wp-vendor_refund_policy-wrap, #wp-vendor_cancellation_policy-wrap {
+  width: calc(100% - 225px);
+  display: inline-block;
+  vertical-align: top;
+  margin: 12px 0; 
+}
 .wcmp-loader {
 	margin: 8px 0 0;
 	display: inline-block;
@@ -2227,6 +2233,15 @@ table.wcmp_tools_table {
 		#wp-vendor_description-wrap {
 			width: 100%;
 		}
+		#wp-vendor_shipping_policy-wrap {
+    		width: 100%;
+    	}
+    	#wp-vendor_refund_policy-wrap{
+    		width: 100%;
+    	}
+    	#wp-vendor_cancellation_policy-wrap{
+    		width: 100%;
+    	}
 		.wcmp-ui-tabs {
 			form {
 				fieldset {
