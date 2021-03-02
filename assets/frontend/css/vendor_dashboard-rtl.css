@@ -4843,9 +4843,6 @@ select[name="wcmp-vendor-orders_length"] {
           display: inline-block; }
       .order-address-info .col-md-4 .border .customer-detail p {
         margin-bottom: 1px; }
-
-.transaction-details #vendor_transactions_date_filter {
-  margin: 0 0 -33px 0; }
 .withdrawal-transaction-wrapper{ overflow: auto; }
 @media screen and (max-width: 1030px) {
   .transaction-details #vendor_transactions_date_filter {
