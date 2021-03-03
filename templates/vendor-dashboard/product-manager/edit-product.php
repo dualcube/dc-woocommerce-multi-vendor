@@ -187,7 +187,7 @@ global $WCMp;
                     <!-- product Info Tab start -->
                     <div class="product-info-tab-wrapper" role="tabpanel">
                         <!-- Nav tabs start -->
-                        <div class="product-tab-nav-holder">
+                        <div>
                             <div class="tab-nav-direction-wrapper"></div>
                             <ul class="nav nav-tabs" role="tablist" id="product_data_tabs">
                                 <?php foreach ( $self->get_product_data_tabs() as $key => $tab ) : ?>
