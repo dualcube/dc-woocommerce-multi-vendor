@@ -210,13 +210,12 @@ Vendor registration css
 .clearboth {
 	clear: both;
 }
-@-moz-document {
-	url-prefix() {
-		select, select: -moz-focusring , select::-moz-focus-inner { color: transparent !important;
-		text-shadow: 0 0 0 rgba(0,0,0,0.3) !important;
-		background-image: none !important;
-		border: 0;
-	}
+@-moz-document url-prefix() {
+	select, select:-moz-focusring , select::-moz-focus-inner { color: transparent !important;
+	text-shadow: 0 0 0 rgba(0,0,0,0.3) !important;
+	background-image: none !important;
+	border: 0;
+}
 }
 select {
 	option[selected] {
@@ -224,7 +223,7 @@ select {
 		text-shadow: 0 0 0 #000 !important;
 	}
 }
-} {
+
 	.wcmp_regi_main {
 		.wcmp_regi_form_box {
 			.wcmp_regi_file_holder {
@@ -233,7 +232,7 @@ select {
 			}
 		}
 	}
-}
+
 @media (max-width: 911px) {
 	.wcmp_regi_main {
 		width: 90% !important;

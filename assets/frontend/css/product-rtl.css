@@ -56,7 +56,9 @@
   position: absolute;
   right: 50%;
   top: 50%;
-  transform: translate(50%, -50%);
+  -webkit-transform: translate(50%, -50%);
+      -ms-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
   max-height: 90vh;
   overflow: auto;
   text-align: right;
