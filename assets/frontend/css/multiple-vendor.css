@@ -72,6 +72,8 @@ div.rowbody {
   display: block; }
 
 .wcmp_btn_view_details {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f78828), to(#dd771f)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: -webkit-linear-gradient(top, #f78828 0, #dd771f 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
   background: linear-gradient(to bottom, #f78828 0, #dd771f 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
   border: 1px solid #da7532;
   border-radius: 4px;
@@ -83,6 +85,8 @@ div.rowbody {
   padding: 5px;
   margin: 5px; }
   .wcmp_btn_view_details:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f78828), to(#ba5400)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(top, #f78828 0, #ba5400 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to bottom, #f78828 0, #ba5400 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     color: #f9f9f9; }
 
@@ -94,7 +98,9 @@ div.rowbody {
   background-color: #7fbf4d;
   background-image: -moz-linear-gradient(center top, #7fbf4d, #63a62f);
   border-color: #63a62f #63a62f #5b992b;
-  border-image: none;
+  -webkit-border-image: none;
+       -o-border-image: none;
+          border-image: none;
   border-style: solid;
   border-width: 1px;
   box-shadow: 0 1px 0 0 #96ca6d inset;
@@ -263,15 +269,15 @@ form.customerqna-form {
     text-transform: uppercase;
     padding: 2px 40px;
     background: #ffffff;
-    background: -moz-linear-gradient(top, #ffffff 0%, #ebebeb 100%);
     background: -webkit-linear-gradient(top, #ffffff 0%, #ebebeb 100%);
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ebebeb));
     background: linear-gradient(to bottom, #ffffff 0%, #ebebeb 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ebebeb',GradientType=0 );
     vertical-align: middle; }
     #qna-ask-input button:hover {
       background: #ebebeb;
-      background: -moz-linear-gradient(top, #ebebeb 0%, #ffffff 100%);
       background: -webkit-linear-gradient(top, #ebebeb 0%, #ffffff 100%);
+      background: -webkit-gradient(linear, left top, left bottom, from(#ebebeb), to(#ffffff));
       background: linear-gradient(to bottom, #ebebeb 0%, #ffffff 100%);
       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ebebeb', endColorstr='#ffffff',GradientType=0 ); }
 
@@ -457,5 +463,3 @@ form.customerqna-form {
     margin: 10px auto 0; }
   #qna-ask-input #ask-wrap {
     text-align: center; } }
-
-/*# sourceMappingURL=../../../none */

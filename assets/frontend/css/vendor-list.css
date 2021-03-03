@@ -41,6 +41,7 @@ i.wcmp-font {
   margin: 0 0 30px 2%;
   float: left;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.13);
+  -webkit-transition: all 0.3s;
   transition: all 0.3s; }
   #wcmp-store-conatiner .wcmp-store-list img {
     max-width: 100%;
@@ -250,7 +251,9 @@ i.wcmp-font {
     opacity: 1; }
   #wcmp-store-conatiner .info-store-wrapper:hover .store-img-wrap a {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1); }
+    -webkit-transform: translate(-50%, -50%) scale(1);
+        -ms-transform: translate(-50%, -50%) scale(1);
+            transform: translate(-50%, -50%) scale(1); }
 
 #wcmp-store-conatiner .store-img-wrap {
   display: inline-block;
@@ -275,12 +278,16 @@ i.wcmp-font {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1.1);
+    -webkit-transform: translate(-50%, -50%) scale(1.1);
+        -ms-transform: translate(-50%, -50%) scale(1.1);
+            transform: translate(-50%, -50%) scale(1.1);
     z-index: 1;
+    -webkit-transition: all 0.5s;
     transition: all 0.5s;
     font-size: 12px;
     opacity: 0;
-    transition-delay: 0.05s;
+    -webkit-transition-delay: 0.05s;
+            transition-delay: 0.05s;
     border: 1px solid #56a1d8; }
     #wcmp-store-conatiner .store-img-wrap a:hover {
       background: #479dda; }
@@ -365,5 +372,3 @@ i.wcmp-font {
     margin: 0 0 8px; }
   #wcmp-store-conatiner .wcmp-store-map-pagination {
     text-align: center; } }
-
-/*# sourceMappingURL=../../../none */
