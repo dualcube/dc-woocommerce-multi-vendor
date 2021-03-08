@@ -15,7 +15,7 @@ global $WCMp;
     <div class="panel panel-default panel-pading">
         <form name="wcmp_vendor_dashboard_stat_report" method="POST" class="stat-date-range form-inline">
             <div class="wcmp_form1 ">
-                <div class="panel-heading d-flex">
+                <div class="panel-heading d-lg-flex">
                     <h3><?php esc_html_e('Select Date Range :', 'dc-woocommerce-multi-vendor'); ?></h3> 
                     <div class="form-group">
                         <input type="date" name="wcmp_stat_start_dt" value="<?php echo isset($_POST['wcmp_stat_start_dt']) ? wc_clean($_POST['wcmp_stat_start_dt']) : date('Y-m-01'); ?>" class="pickdate gap1 wcmp_stat_start_dt form-control">

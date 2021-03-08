@@ -699,7 +699,7 @@ body {
 					padding: .6em;
 					&:before {
 						font: normal normal normal 25px/1 LineAwesome;
-						speak: none;
+						// speak: none;
 						font-weight: 400;
 						font-variant: normal;
 						text-transform: none;
@@ -1874,8 +1874,8 @@ table.table-outer-border {
 .panel.panel-default.panel-pading {
 	padding: 25px;
 }
-.panel-content-padding {
-	padding: 20px !important;
+.panel-body.panel-content-padding {
+	padding: 20px 5px;
 }
 .wcmp_vendor_transaction_details {
 	.transaction-details {
@@ -2309,7 +2309,6 @@ input.remove_button {
 		}
 	}
 	.panel-body {
-		padding: 0;
 		table {
 			&:last-of-type {
 				margin-bottom: 0;
@@ -2344,7 +2343,7 @@ input.remove_button {
 	}
 	.panel-body {
 		background-color: #fff;
-		padding: 0;
+		// padding: 0;
 		border: 1px solid #d3dbe2;
 	}
 	.panel-footer {
@@ -4073,6 +4072,8 @@ body.admin-bar {
 		color: #fff;
 		background-color: #316fa8;
 		border-color: #316fa8;
+		display: flex;
+    	align-items: center;
 	}
 	.btn.btn-secondary {
 		color: #fff;
@@ -5585,7 +5586,7 @@ input[type=radio] {
 			width: 20px;
 			height: 20px;
 			font: 400 20px/1 'wcmp' !important;
-			speak: none;
+			// speak: none;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 			content: "";
@@ -5599,7 +5600,7 @@ input[type=radio] {
 		border-color: #66afe9;
 		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px rgba(102, 175, 233, 0.6);
 	}
-}
+} 
 input[type=checkbox] {
 	border: 2px solid #cecdcd;
 	background: #fff;
@@ -5632,7 +5633,7 @@ input[type=checkbox] {
 			width: 20px;
 			height: 20px;
 			font: 400 20px/1 'wcmp' !important;
-			speak: none;
+			// speak: none;
 			-webkit-font-smoothing: antialiased;
 			-moz-osx-font-smoothing: grayscale;
 			content: '\e90b';
@@ -6366,6 +6367,7 @@ table.shipping_table {
 	.alignleft.actions {
 		button {
 			border-radius: 4px;
+			height:34px;
 			&:not(:last-of-type) {
 				margin-right: 10px;
 			}
@@ -8291,6 +8293,73 @@ select[name="wcmp-vendor-orders_length"] {
 		text-align: right;
 	}
 }
+#vendor_transactions_length, .wcmp-vendor-ledger_length{
+	text-align:left;
+}
+// Responsive start
+@media screen and (min-width:320px) and (max-width:767px){
+	.wcmp-action-container {
+		top: 69px;
+		right:20px;
+	}
+	.vendor-cover-wrap .cover-pic-button button {
+		padding: 5px;
+		height: 25px;
+		font-size: 0;
+	}
+	.form-group {
+		margin-bottom: 12px;
+		flex-direction: column;
+	}
+	.table>thead>tr>th {
+		padding: 8px 12px;
+	}
+	table.dataTable tbody td.child .dtr-data .instock{
+		color: #fff;
+		display: inline;
+		padding: .2em .6em .3em;
+		white-space: nowrap;
+		border-radius: .25em;
+	}
+	.form-horizontal .control-label .img_tip{
+		left: 40%;
+	}
+	.vendor-report{ 
+		.wcmp_stat_start_dt{
+			margin-bottom: 6px;
+		}
+	}
+	.transaction-details{
+		#vendor_transactions_date_filter {
+			margin:0;
+			.form-group{
+				width:100%
+			}
+		}
+	}
+	.order-filter-actions select.form-control{
+		width:auto;
+		margin-bottom:5px
+	}
+	div#coupons_table_length {
+		text-align: left;
+	}
+
+}
+
+
+@media screen and (min-width:768px) and (max-width:1023px){
+	.wcmp-action-container{
+		top: 66px;
+	}
+	.wcmp-color-scheme-outer_space_blue .btn.btn-default{
+		height: 34px;
+		width: max-content;
+	}
+	#filter_by_order_status, #order_list_do_filter {
+		margin-top: 5px;
+	}
+}
 
 @media screen and (max-width: 480px) {
 	h1 {
@@ -8303,9 +8372,9 @@ select[name="wcmp-vendor-orders_length"] {
 	.heading-underline {
 		margin-bottom: 25px;
 	}
-	.panel.panel-default.panel-pading {
-		padding: 15px;
-	}
+	// .panel.panel-default.panel-pading {
+	// 	padding: 15px;
+	// }
 	.wcmp-action-container {
 		.btn {
 			span {
@@ -8316,9 +8385,9 @@ select[name="wcmp-vendor-orders_length"] {
 			}
 		}
 	}
-	.form-group {
-		margin-bottom: 12px;
-	}
+	// .form-group {
+	// 	margin-bottom: 12px;
+	// }
 	.form-control {
 		height: 30px;
 	}
@@ -8463,8 +8532,8 @@ select[name="wcmp-vendor-orders_length"] {
 		margin-top: 15px;
 	}
 	.wcmp-action-container {
-		top: 61px;
-		right: 20px;
+		// top: 61px;
+		// right: 20px;
 		.btn {
 			font-size: 12px;
 			padding: 3px 9px !important;
@@ -8479,6 +8548,7 @@ select[name="wcmp-vendor-orders_length"] {
 			display: inline-block;
 			vertical-align: top;
 			margin-bottom: 5px;
+			width:100%
 		}
 		button {
 			display: inline-block;
@@ -8491,6 +8561,7 @@ select[name="wcmp-vendor-orders_length"] {
 			display: inline-block;
 			vertical-align: top;
 			margin-bottom: 5px;
+			width: 100%;
 		}
 		button {
 			display: inline-block;
@@ -8577,7 +8648,7 @@ select[name="wcmp-vendor-orders_length"] {
 	ul.nav {
 		.login-user {
 			.dropdown-menu.dropdown-user {
-				width: 175px;
+				width: 185px;
 				min-width: 160px;
 				i {
 					font-size: 15px;
@@ -8627,7 +8698,7 @@ select[name="wcmp-vendor-orders_length"] {
 			ul {
 				li {
 					a {
-						padding-left: 50px;
+						padding-left: 45px;
 						padding-top: 8px;
 						padding-bottom: 8px;
 						font-size: 13px;
@@ -8749,9 +8820,9 @@ select[name="wcmp-vendor-orders_length"] {
 	}
 }
 @media screen and (max-width: 640px) {
-	.panel.panel-default.panel-pading {
-		padding: 20px;
-	}
+	// .panel.panel-default.panel-pading {
+	// 	padding: 20px;
+	// }
 	.btn.btn-default {
 		font-size: 13px;
 		padding: 3px 9px;
@@ -8780,7 +8851,7 @@ select[name="wcmp-vendor-orders_length"] {
 			bottom: -72px;
 			padding-bottom: 0;
 			img {
-				border-width: 5px;
+				border: 5px solid #fff;
 			}
 			.profile-pic-btn {
 				bottom: 5px;
@@ -8803,8 +8874,6 @@ select[name="wcmp-vendor-orders_length"] {
 			bottom: 0;
 			font-size: 0;
 			button {
-				padding: 5px;
-				height: 25px;
 				.wcmp-font {
 					font-size: 15px;
 				}
@@ -8859,7 +8928,6 @@ select[name="wcmp-vendor-orders_length"] {
 }
 @media screen and (min-width: 992px) and (max-width: 1200px) {
 	.navbar-top-links {
-		margin-top: 21px;
 		li.notification-link {
 			margin: 0 20px 0 0;
 			span {
@@ -9021,20 +9089,20 @@ select[name="wcmp-vendor-orders_length"] {
 }
 @media screen and (max-width: 1145px) {
 	form[name="wcmp_vendor_dashboard_completed_stat_export"] {
-		float: left;
+		// float: left;
 		width: 100%;
 		margin-top: 12px;
 	}
 }
-@media screen and (max-width: 1024px) {
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px){
 	.vendor-cover-wrap {
 		.cover-pic-button {
 			right: 20px;
 			bottom: 20px;
 			font-size: 13px;
-			button {
-				padding: 9px 10px;
-			}
+			// button {
+			// 	padding: 9px 10px;
+			// }
 		}
 	}
 }
@@ -9075,10 +9143,11 @@ select[name="wcmp-vendor-orders_length"] {
 }
 @media screen and (max-width: 1100px) {
 	.product_search {
-		width: 100%;
-		padding: 15px 0;
-		border-top: 1px solid #ddd;
-		border-bottom: 1px solid #ddd;
+		// width: 100%;
+		// padding: 15px 0;
+		// border-top: 1px solid #ddd;
+		// border-bottom: 1px solid #ddd;
+		display: flex;
 		.pro_search_key {
 			width: calc(100% - 74px);
 		}
@@ -9212,11 +9281,11 @@ select[name="wcmp-vendor-orders_length"] {
 }
 @media screen and (max-width: 1030px) {
 	.transaction-details {
-		#vendor_transactions_date_filter {
-			width: 100%;
-			text-align: center;
-			margin-bottom: 15px;
-		}
+		// #vendor_transactions_date_filter {
+		// 	width: 100%;
+		// 	text-align: center;
+		// 	margin-bottom: 15px;
+		// }
 		#vendor_transactions_wrapper {
 			>.row {
 				text-align: center;
@@ -9240,3 +9309,5 @@ select[name="wcmp-vendor-orders_length"] {
 		}
 	}
 }
+
+

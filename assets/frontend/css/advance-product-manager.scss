@@ -97,7 +97,7 @@ div[class^="col-md"] {
 					font-size: 1.4em;
 					&::before {
 						font-family: Dashicons;
-						speak: none;
+						// speak: none;
 						font-weight: 400;
 						text-transform: none;
 						-webkit-font-smoothing: antialiased;
@@ -142,7 +142,7 @@ div[class^="col-md"] {
 			content: "\f153";
 			display: block;
 			font: 400 17px/20px dashicons;
-			speak: none;
+			// speak: none;
 			height: 20px;
 			text-align: center;
 			width: 20px;
@@ -1666,6 +1666,7 @@ label {
 	}
 	.add-product-info-header {
 		text-align: center;
+		flex-direction: column;
 		.select-group {
 			+ {
 				.pull-right {

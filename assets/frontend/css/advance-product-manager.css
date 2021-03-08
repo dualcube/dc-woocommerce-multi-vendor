@@ -85,7 +85,6 @@ div[class^="col-md"] .date-inp-wrap {
           font-size: 1.4em; }
           #product_images_container ul ul.actions li a.delete::before {
             font-family: Dashicons;
-            speak: none;
             font-weight: 400;
             text-transform: none;
             -webkit-font-smoothing: antialiased;
@@ -124,7 +123,6 @@ div[class^="col-md"] .date-inp-wrap {
       content: "\f153";
       display: block;
       font: 400 17px/20px dashicons;
-      speak: none;
       height: 20px;
       text-align: center;
       width: 20px;
@@ -1256,7 +1254,10 @@ label {
   .multiSelectBox-right {
     margin-left: 0; }
   .add-product-info-header {
-    text-align: center; }
+    text-align: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column; }
     .add-product-info-header .select-group + .pull-right {
       float: none !important;
       margin: 14px auto 0; }
