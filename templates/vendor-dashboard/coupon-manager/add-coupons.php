@@ -28,7 +28,7 @@ $title = in_array( $post_status, array( "publish", "draft" ) ) ? $post->post_tit
         <?php do_action( 'wcmp_afm_add_coupon_form_start' ); ?>
         <div class="coupon-primary-info custom-panel">
             <div class="row">
-                <div class="col-md-8"> 
+                <div class="col-md-8 p-0"> 
                     <div class="form-group-wrapper">
                         <div class="form-group">
                             <label class="control-label col-md-12" for="post_title"><?php esc_html_e( 'Coupon code', 'woocommerce' ); ?></label>
