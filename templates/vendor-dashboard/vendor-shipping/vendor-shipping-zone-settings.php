@@ -72,7 +72,7 @@
 					} else { 
 						foreach ( $vendor_shipping_methods as $vendor_shipping_method ) { ?>
 							<tr>
-								<td><?php esc_html($vendor_shipping_method['title']); ?>
+								<td><?php echo esc_html($vendor_shipping_method['title']); ?>
 									<div data-instance_id="<?php echo $vendor_shipping_method['instance_id']; ?>" data-method_id="<?php echo $vendor_shipping_method['id']; ?>" data-method-settings='<?php echo json_encode($vendor_shipping_method); ?>' class="row-actions edit_del_actions">
 									</div>
 								</td>
