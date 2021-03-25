@@ -22,6 +22,10 @@ $vendor_linkdin_profile = get_user_meta($vendor_id, '_vendor_linkdin_profile', t
 $vendor_google_plus_profile = get_user_meta($vendor_id, '_vendor_google_plus_profile', true);
 $vendor_youtube = get_user_meta($vendor_id, '_vendor_youtube', true);
 $vendor_instagram = get_user_meta($vendor_id, '_vendor_instagram', true);
+// Follow code
+$wcmp_customer_follow_vendor = get_user_meta( get_current_user_id(), 'wcmp_customer_follow_vendor', true ) ? get_user_meta( get_current_user_id(), 'wcmp_customer_follow_vendor', true ) : array();
+$vendor_lists = !empty($wcmp_customer_follow_vendor) ? wp_list_pluck( $wcmp_customer_follow_vendor, 'user_id' ) : array();
+$follow_status = in_array($vendor_id, $vendor_lists) ? __( 'Unfollow', 'dc-woocommerce-multi-vendor' ) : __( 'Follow', 'dc-woocommerce-multi-vendor' );
 
 if ( $template_class == 'template3') { ?>
 <div class='wcmp_bannersec_start wcmp-theme01'>
@@ -59,6 +63,7 @@ if ( $template_class == 'template3') { ?>
                 <div class="wcmp-banner-middle">
                     <div class="wcmp-heading"><?php echo esc_html($vendor->page_title) ?></div>
                     <!-- Follow button will be added here -->
+                    <button type="button" class='wcmp-butn wcmp-stroke-butn' data-vendor_id=<?php echo esc_attr($vendor_id); ?> data-status=<?php echo esc_attr($follow_status); ?> ><span class="dashicons dashicons-heart"></span><?php echo esc_html($follow_status) ?></button>
                 </div>
                 <div class="wcmp-contact-deatil">
                     
@@ -162,6 +167,7 @@ if ( $template_class == 'template3') { ?>
                 </div>
                 <div class='wcmp-butn-area'>
                     <!-- Follow button will be added here -->
+                    <button type="button" class='wcmp-butn wcmp-stroke-butn' data-vendor_id=<?php echo esc_attr($vendor_id); ?> data-status=<?php echo esc_attr($follow_status); ?> ><span class="dashicons dashicons-heart"></span><?php echo esc_html($follow_status) ?></button>
                     <?php do_action( 'wcmp_additional_button_at_banner' ); ?>
                 </div>
             </div>
@@ -231,6 +237,7 @@ if ( $template_class == 'template3') { ?>
                 </div>
                 <div class='wcmp-butn-area'>
                     <!-- Follow button will be added here -->
+                    <button type="button" class='wcmp-butn wcmp-stroke-butn' data-vendor_id=<?php echo esc_attr($vendor_id); ?> data-status=<?php echo esc_attr($follow_status); ?> ><span class="dashicons dashicons-heart"></span><?php echo esc_html($follow_status) ?></button>
                     <?php do_action( 'wcmp_additional_button_at_banner' ); ?>
                 </div>
             </div>
