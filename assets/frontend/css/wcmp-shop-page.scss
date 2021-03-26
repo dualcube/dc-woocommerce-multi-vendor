@@ -36,8 +36,10 @@ body {
 }
 
 // theme02 start
-.wcmp-theme02 .wcmp-heading{
-    color: map-get($color, light_primaryColor );
+.wcmp-theme02 {
+    .wcmp-heading{ color: map-get($color, light_primaryColor );}
+    .wcmp-banner-wrap { padding: 0;}
+    .wcmp-banner-area {height: 100%;}
 }
 .wcmp-banner-wrap{
     position: relative;
@@ -149,7 +151,9 @@ button.wcmp-fill-butn{
     background: map-get($color, theme_primaryColor );
     color: map-get($color, light_primaryColor );
 }
-
+.wcmp-theme02 .wcmp-banner-wrap {
+    padding: 0;
+}
 // theme02 end
 
 
@@ -242,6 +246,7 @@ button.wcmp-fill-butn{
     @include flexCenter(unset, row);
     overflow-x: auto;
     margin:0;
+    a{text-decoration: none;}
 }
 .wcmp-tablink {
     border: none;
@@ -400,6 +405,7 @@ button.wcmp-fill-butn{
 .wcmp-sub-heading{
     @include flexCenter(flex-start, row);
     margin: 25px 0;
+    align-items: flex-start;
     p{
         font-family: $heading;
         font-size: map-get($font_size, large);
@@ -407,6 +413,7 @@ button.wcmp-fill-butn{
         font-weight: map-get($font-weight , medium );
         text-transform: uppercase;
         margin:0;
+        word-break: break-all;
     }
     img {
         width: 38px;
@@ -694,13 +701,24 @@ form.wcmp-short-cls{
     // Theme01 end responsive
 
     // WCMP-Body-Sec start
-    .wcmp-main-section{
-        padding:20px;
-    }
+    // .wcmp-main-section{
+    //     padding:20px;
+    // }
     // WCMP-Body-Sec end
     .wcmp-vendor-profile{
         margin:0
     }
+    .wcmp-theme02 {
+        .wcmp-banner-wrap{height:200px}
+        .wcmp-banner-wrap img{height: 100%;}
+        .wcmp-bannerright {
+            align-items: center;
+            flex-direction: row;
+            justify-content: flex-start;
+            margin:12px 0;
+        }
+    }
+    .woocommerce .content-area .site-main{    padding-top: 28px; margin: 0 2vw;}
 
 }
 

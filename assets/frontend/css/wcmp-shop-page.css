@@ -64,6 +64,14 @@ body {
   color: #fff;
 }
 
+.wcmp-theme02 .wcmp-banner-wrap {
+  padding: 0;
+}
+
+.wcmp-theme02 .wcmp-banner-area {
+  height: 100%;
+}
+
 .wcmp-banner-wrap {
   position: relative;
   height: auto;
@@ -128,9 +136,6 @@ img.wcmp-profile-imgcls {
   width: 120px;
   height: 120px;
   border: 5px solid #fff;
-}
-.wcmp-theme03 img.wcmp-profile-imgcls {
-    margin: 0 auto;
 }
 
 .wcmp-ratingcls {
@@ -261,6 +266,10 @@ button.wcmp-stroke-butn {
 button.wcmp-fill-butn {
   background: #5b82e2;
   color: #fff;
+}
+
+.wcmp-theme02 .wcmp-banner-wrap {
+  padding: 0;
 }
 
 .wcmp-theme01 .wcmp-heading {
@@ -438,9 +447,11 @@ button.wcmp-fill-butn {
   overflow-x: auto;
   margin: 0;
 }
-.wcmp-tab-header a, .wcmp-main-section .wcmp-middle-sec .wcmp-tab-header a:focus{
-  text-decoration: unset;
+
+.wcmp-tab-header a {
+  text-decoration: none;
 }
+
 .wcmp-tablink {
   border: none;
   background: transparent;
@@ -570,7 +581,7 @@ button.wcmp-fill-butn {
 }
 
 .wcmp-middle-sec {
-  min-width: 65%;
+  min-width: 66%;
 }
 
 .wcmp-vendor-profile {
@@ -681,6 +692,9 @@ button.wcmp-fill-butn {
       -ms-flex-direction: row;
           flex-direction: row;
   margin: 25px 0;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
 }
 
 .wcmp-sub-heading p {
@@ -689,6 +703,7 @@ button.wcmp-fill-butn {
   font-weight: 500;
   text-transform: uppercase;
   margin: 0;
+  word-break: break-all;
 }
 
 .wcmp-sub-heading img {
@@ -1150,11 +1165,31 @@ form.wcmp-short-cls select:focus {
         -ms-flex-direction: row;
             flex-direction: row;
   }
-  .wcmp-main-section {
-    padding: 20px;
-  }
   .wcmp-vendor-profile {
     margin: 0;
+  }
+  .wcmp-theme02 .wcmp-banner-wrap {
+    height: 200px;
+  }
+  .wcmp-theme02 .wcmp-banner-wrap img {
+    height: 100%;
+  }
+  .wcmp-theme02 .wcmp-bannerright {
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    margin: 12px 0;
+  }
+  .woocommerce .content-area .site-main {
+    padding-top: 28px;
+    margin: 0 2vw;
   }
 }
 
@@ -1172,6 +1207,9 @@ form.wcmp-short-cls select:focus {
   .wcmp-tablink {
     padding: 18px 25px;
   }
+  .wcmp-middle-sec {
+    min-width: 65%;
+  }
   .wcmp-product-content {
     -ms-grid-columns: (32%)[auto-fill];
         grid-template-columns: repeat(auto-fill, 32%);
@@ -1185,4 +1223,4 @@ form.wcmp-short-cls select:focus {
     margin-bottom: 0;
   }
 }
-/*# sourceMappingURL=main.css.map */
+/*# sourceMappingURL=wcmp-shop-page.css.map */
