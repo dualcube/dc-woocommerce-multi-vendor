@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "https://fonts.googleapis.com/css?family=Open+Sans:400,600";
+// @import "https://fonts.googleapis.com/css?family=Open+Sans:400,600";
 @font-face {
 	font-family: 'wcmp';
 	src: url("../fonts/wcmp-font.eot?lyp4c7");
@@ -1720,16 +1720,14 @@ table.table-bordered.no-th-border {
 		}
 	}
 }
-@-moz-document {
-	url-prefix() {
-		table.table-bordered tbody { border-top: solid 2px #d3dbe2;
-	}
+@-moz-document url-prefix() {
+		table.table-bordered tbody { border-top: solid 2px #d3dbe2;}
 }
-} {
+
 	table.table-outer-border {
 		border: 1px solid #ddd;
 	}
-}
+
 table.table-outer-border {
 	.table-outer-border {
 		thead {
@@ -8200,6 +8198,12 @@ select[name="wcmp-vendor-orders_length"] {
 		text-align: right;
 	}
 }
+.wcmp_billing_form .form-group, .wcmp_policy_form .form-group, 
+.wcmp_shop_settings_form .form-group, .wcmp_pdf_invoices_form .form-group{
+    display: flex;
+}
+
+// Responsive start
 @media screen and (max-width: 480px) {
 	h1 {
 		font-size: 21px;
@@ -9142,3 +9146,8 @@ select[name="wcmp-vendor-orders_length"] {
 		}
 	}
 }
+
+@media screen and (min-width:320px) and (max-width:767px){
+	.wcmp_shop_settings_form .form-group, .wcmp_policy_form .form-group, .wcmp_billing_form .form-group,
+	.wcmp_pdf_invoices_form .form-group, form[name='wcmp_vendor_dashboard_stat_report'] .panel-heading {flex-direction: column;}
+}	
