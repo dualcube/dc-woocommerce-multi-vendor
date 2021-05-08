@@ -39,6 +39,8 @@ class WCMp_Admin {
         // vendor shipping capability
         add_filter('wcmp_current_vendor_id', array(&$this, 'wcmp_vendor_shipping_admin_capability'));
         add_filter('wcmp_dashboard_shipping_vendor', array(&$this, 'wcmp_vendor_shipping_admin_capability'));
+        add_filter('woocommerce_menu_order_count',  array(&$this, 'woocommerce_admin_end_order_menu_count'));
+
         // for version 3.7 only
         if (!get_option('_is_dismiss_wcmp340_notice', false) && current_user_can('manage_options')) {
             add_action('admin_notices', array(&$this, 'wcmp_service_page_notice'));
@@ -647,6 +649,22 @@ class WCMp_Admin {
             }
         </script>
         <?php
+    }
+
+    public function woocommerce_admin_end_order_menu_count( $processing_orders ){
+    $args =  array(
+    'post_status' => array('wc-processing'),
+    );
+    $sub_orders = wcmp_get_orders( $args, 'ids', true );
+
+    $processing_orders = count( wc_get_orders( array(
+    'status' => 'processing',
+    'return' => 'ids',
+    'limit' => -1,
+    'exclude' => $sub_orders,
+    ) ) );
+
+    return $processing_orders;
     }
 
 }
