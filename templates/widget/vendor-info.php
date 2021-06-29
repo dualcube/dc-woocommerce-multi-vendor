@@ -12,7 +12,7 @@
 global $WCMp;
 ?>
 
-<h4><?php echo esc_html($vendor->page_title); ?> </h4>
+<h4 class="vendor-info_page_title"><?php echo esc_html($vendor->page_title); ?> </h4>
 <?php 
 	$description = strip_tags($vendor->description);
 	if (strlen($description) > 250) {
@@ -23,8 +23,8 @@ global $WCMp;
 		$description = substr($stringCut, 0, strrpos($stringCut, ' ')).'...'; 
 	}
 ?>
-<p><?php echo esc_html($description); ?> </p>
-<p>
+<p class="vendor-info_description"><?php echo esc_html($description); ?> </p>
+<p class="vendor-info_shop_link">
 	<a href="<?php echo esc_url( $vendor->permalink ); ?>" title="<?php echo sprintf( __( 'More Products from %1$s', 'dc-woocommerce-multi-vendor' ), $vendor->page_title ); ?>">
 		<?php echo sprintf( __( 'More Products from %1$s', 'dc-woocommerce-multi-vendor' ), $vendor->page_title );?>
 	</a>
