@@ -1,0 +1,41 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+Created on : 9 Apr, 2018, 4:04:09 PM
+Author     : WCMp
+*/
+
+
+.panel.panel-default.pannel-outer-heading .panel-body.wcmp_table_holder{
+    border: 0;
+}    
+.table.wcmp_table_rate_shipping>thead>tr>th, .table.wcmp_table_rate_shipping > tbody > tr > td{
+    padding: 8px;
+}
+@media screen and (max-width: 600px){
+    .table.wcmp_table_rate_shipping tfoot td{
+        display: block;
+        text-align: center;
+        overflow: hidden;
+    }
+    .table.wcmp_table_rate_shipping tfoot td button{
+        float: none !important;
+    }
+    .table.wcmp_table_rate_shipping tbody .form-control{
+        display: table-cell;
+        width: auto;
+    }
+    .table.wcmp_table_rate_shipping tbody td:before{
+        float: left;
+        margin-top: 5px;
+    }
+    table.responsive-table tbody td.no-data-th:before{
+        display: none;
+    }
+}
+@media screen and (max-width: 340px){
+    .table.wcmp_table_rate_shipping tbody td:before{
+        margin: 0 0 5px;    
+    }
+}
