@@ -1235,6 +1235,15 @@ class WCMp_Vendor {
                     'value' => ($html_price) ? wc_price($subtotal) : $subtotal,
                 );
             }
+            // Discount Cost
+            $discount_amount = $order->get_total_discount();
+            if ( $discount_amount ) {
+                $order_total_arr[] = ( - $discount_amount );
+                $total_rows['discount_cost'] = array(
+                    'label' => __( 'Discount:', 'dc-woocommerce-multi-vendor' ),
+                    'value' => ($html_price) ? wc_price($discount_amount) : $discount_amount,
+                );
+            }
             // shipping methods
             if ( $this->is_shipping_enable() && $vendor_shipping_method ) {
                 $total_rows['shipping'] = array(
