@@ -3152,8 +3152,9 @@ class WCMp_Ajax {
 
         array_walk($state_key_by_country, 'wcmp_state_key_alter');
 
-        $state_key_by_country = call_user_func_array('array_merge', $state_key_by_country);
-
+        if ($selected_country_codes && is_array($selected_country_codes) && !empty($selected_country_codes) && isset($selected_country_codes[0])) {
+            $state_key_by_country = $state_key_by_country[$selected_country_codes[0]];
+        }
         $show_limit_location_link = apply_filters('show_limit_location_link', (!in_array('postcode', $zone_location_types)));
         $vendor_shipping_methods = $zones['shipping_methods'];
 
@@ -3242,8 +3243,9 @@ class WCMp_Ajax {
 
         array_walk($state_key_by_country, 'wcmp_state_key_alter');
 
-        $state_key_by_country = call_user_func_array('array_merge', $state_key_by_country);
-
+        if ($selected_country_codes && is_array($selected_country_codes) && !empty($selected_country_codes) && isset($selected_country_codes[0])) {
+            $state_key_by_country = $state_key_by_country[$selected_country_codes[0]];
+        }
         $show_limit_location_link = apply_filters('show_limit_location_link', (!in_array('postcode', $zone_location_types)));
         $vendor_shipping_methods = $zones['shipping_methods'];
         if ($show_limit_location_link) {
