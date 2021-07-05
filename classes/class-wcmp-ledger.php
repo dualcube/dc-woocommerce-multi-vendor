@@ -47,7 +47,7 @@ class WCMp_Ledger {
                 'ref_status'    => 'unpaid',
                 'ref_updated'   => date('Y-m-d H:i:s', current_time('timestamp')),
                 'credit'        => $commission_total,
-                'balance'       => $unpaid_commission_total['total'],
+                'balance'       => $unpaid_commission_total['total'] ? $unpaid_commission_total['total'] : 0,
             );
             $data_store = $this->load_ledger_data_store();
             $data_store->create($data);
@@ -84,7 +84,7 @@ class WCMp_Ledger {
                 'ref_status'    => $tbl_vorder_data->commission_status,
                 'ref_updated'   => date('Y-m-d H:i:s', strtotime($commission->post_date)),
                 'credit'        => $commission_total,
-                'balance'       => $unpaid_commission_total['total'],
+                'balance'       => $unpaid_commission_total['total'] ? $unpaid_commission_total['total'] : 0,
             );
             $data_store = $this->load_ledger_data_store();
             $data_store->create($data);
@@ -116,7 +116,7 @@ class WCMp_Ledger {
                 'ref_status'    => $refund->get_status(),
                 'ref_updated'   => date('Y-m-d H:i:s', current_time('timestamp')),
                 'debit'         => $refund_total,
-                'balance'       => $unpaid_commission_total['total'],
+                'balance'       => $unpaid_commission_total['total'] ? $unpaid_commission_total['total'] : 0,
             );
             $data_store = $this->load_ledger_data_store();
             $data_store->create($data);
@@ -151,7 +151,7 @@ class WCMp_Ledger {
                         'ref_status'    => 'completed',
                         'ref_updated'   => date('Y-m-d H:i:s', current_time('timestamp')),
                         'debit'         => $withdrawal_total,
-                        'balance'       => $unpaid_commission_total['total'],
+                        'balance'       => $unpaid_commission_total['total'] ? $unpaid_commission_total['total'] : 0,
                     );
                     $data_store = $this->load_ledger_data_store();
                     $data_store->create($data);
