@@ -1811,7 +1811,7 @@ class WCMp_Commission {
                 )
             );
         }
-        if ( ! empty( $vars['s'] ) ) {
+        if ( $typenow == $this->post_type && !empty( $vars['s'] ) ) {
             $ids =  array(wc_clean( wp_unslash( $vars['s'] ) ));
             $vars['post__in']   = $ids;
             unset( $vars['s'] );
