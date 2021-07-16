@@ -89,7 +89,7 @@ $reviews_lists = $vendor->get_reviews_and_rating(0);
                         echo '</ol>';
                         if ($total_pages > 1) {
                             echo '<div class="wcmp_review_loader"><img src="' . $WCMp->plugin_url . 'assets/images/ajax-loader.gif" alt="ajax-loader" /></div>';
-                            echo '<input name="loadmore" type="button" id="wcmp_review_load_more" class="submit wcmp_load_more" style="float:right;" value="' . esc_attr_e('Load More', 'dc-woocommerce-multi-vendor') . '">';
+                            echo '<input name="loadmore" type="button" id="wcmp_review_load_more" class="submit wcmp_load_more" style="float:right;" value="' . esc_attr('Load More', 'dc-woocommerce-multi-vendor') . '">';
                         }
                     }
                 } elseif ($count == 0) {
