@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $WCMp;
-$rating   = intval( get_comment_meta( $comment->comment_ID, 'vendor_rating', true ) );
+$rating   = intval( get_comment_meta( $comment->comment_ID, 'vendor_rating', true ) ) ? intval( get_comment_meta( $comment->comment_ID, 'vendor_rating', true ) ) : intval( get_comment_meta( $comment->comment_ID, 'rating', true ) );
 $verified = wcmp_review_is_from_verified_owner( $comment, $vendor_term_id );
 $vendor = get_wcmp_vendor_by_term($vendor_term_id);
 $args = array(
@@ -33,6 +33,7 @@ $args = array(
     'meta_value' => $vendor->id,
 );
 $has_reply_comments = get_comments($args);
+$multiple_rating = get_comment_meta( $comment->comment_ID, 'vendor_multi_rating', true ) ? unserialize(get_comment_meta( $comment->comment_ID, 'vendor_multi_rating', true )) : '';
 ?>
 <li itemprop="review" itemscope itemtype="http://schema.org/Review" <?php comment_class(); ?> id="li-comment-<?php echo $comment->comment_ID; ?>">
 
@@ -69,6 +70,20 @@ $has_reply_comments = get_comments($args);
 
 		</div>
 	</div>
+	<?php 
+	if ($multiple_rating) {
+		foreach ($multiple_rating as $rate => $rate_text) { 
+			?>
+			<div class="rating_box" style="display:flex;">
+				<div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo sprintf( __( 'Rated %d out of 5', 'dc-woocommerce-multi-vendor' ), $rate ) ?>">
+					<span style="width:<?php echo ( $rate / 5 ) * 100; ?>%"><strong itemprop="ratingValue"><?php echo $rate; ?></strong> <?php _e( 'out of 5', 'dc-woocommerce-multi-vendor' ); ?></span>
+				</div>&nbsp
+				<span class="rating_text"><?php echo esc_html($rate) . '.'. 0 . ' '. esc_html($rate_text); ?></span>
+			</div>
+			<?php 
+		}
+	}
+	?>
     <?php if($has_reply_comments) : ?>
     <ul class="children">
         <?php foreach ($has_reply_comments as $comment ) { 

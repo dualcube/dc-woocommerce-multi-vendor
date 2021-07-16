@@ -147,6 +147,7 @@ class WCMp_Ajax {
         add_action('wp_ajax_wcmp_follow_store_toggle_status', array($this, 'wcmp_follow_store_toggle_status'));
         // commission by product variation
         add_action('wp_ajax_commission_variation', array($this, 'commission_variation'));
+        add_action('wp_ajax_admin_review_setting', array($this, 'admin_review_setting'));
     }
 
     /**
@@ -398,6 +399,19 @@ class WCMp_Ajax {
         global $WCMp, $wpdb;
         $review = isset( $_POST['comment'] ) ? wc_clean( $_POST['comment'] ) : '';
         $rating = isset($_POST['rating']) ? intval( wp_unslash( $_POST['rating'] ) ): false;
+
+        // IF vendor given multi rating
+        $multiple_rating = '';
+        $multi_rate_details = isset($_POST['multi_rate_details']) ? $_POST['multi_rate_details'] : '';
+        if ($multi_rate_details) {
+            parse_str($multi_rate_details, $wcmp_settings_review_details);        
+            $wcmp_review_options = get_option( 'wcmp_review_settings_option', array() );
+            $wcmp_review_categories = isset( $wcmp_review_options['review_categories'] ) ? $wcmp_review_options['review_categories'] : array();
+            if (isset($wcmp_settings_review_details['wcmp_store_review_category']) && !empty($wcmp_review_categories)) {
+                $multiple_rating = array_combine($wcmp_settings_review_details['wcmp_store_review_category'], wp_list_pluck($wcmp_review_categories, 'category'));
+                $rating = array_sum($wcmp_settings_review_details['wcmp_store_review_category']) / count(wp_list_pluck($wcmp_review_categories, 'category'));
+            }
+        }
         $comment_parent = isset($_POST['comment_parent']) ? absint($_POST['comment_parent']) : 0;
         $vendor_id = isset($_POST['vendor_id']) ? absint( $_POST['vendor_id'] ) : 0;
         $current_user = wp_get_current_user();
@@ -431,6 +445,9 @@ class WCMp_Ajax {
                     }
                     if ($rating && !empty($rating)) {
                         update_comment_meta($comment_id, 'vendor_rating', $rating);
+                    }
+                    if ($multiple_rating) {
+                        update_comment_meta($comment_id, 'vendor_multi_rating', serialize($multiple_rating));
                     }
                     $is_updated = update_comment_meta($comment_id, 'vendor_rating_id', $vendor_id);
                     if ($is_updated) {
@@ -2464,19 +2481,13 @@ class WCMp_Ajax {
             $vendor_reviews_total = get_transient('wcmp_dashboard_reviews_for_vendor_' . $vendor->id);
         } else {
             $query = array('meta_query' => array(
-                    'relation' => 'AND',
-                    array(
-                        'key' => 'vendor_rating_id',
-                        'value' => $vendor->id,
-                        'compare' => '=',
-                    ),
                     array(
                         'key' => '_mark_as_replied',
                         'value' => 1,
                         'compare' => 'NOT EXISTS',
                     )
             ));
-            $vendor_reviews_total = $vendor->get_reviews_and_rating(0, '', $query);
+            $vendor_reviews_total = $vendor->get_reviews_and_rating(0, '', $query, $query);
             set_transient('wcmp_dashboard_reviews_for_vendor_' . $vendor->id, $vendor_reviews_total);
         }
         //$vendor_reviews_total = $vendor->get_reviews_and_rating(0, -1, $query);
@@ -4625,7 +4636,37 @@ class WCMp_Ajax {
         if( isset( $wcmp_settings_form['vendor_commission_by_products'] ) ) {
             $wcmp_commission_options['vendor_commission_by_products'] = $wcmp_settings_form['vendor_commission_by_products'];
         }
-        wcmp_update_option( 'wcmp_variation_commission_options', $wcmp_commission_options );
+        wcmp_update_option( 'wcmp_variation_commission_options', array_filter( array_map( 'wc_clean', (array) $wcmp_commission_options ) ) );
+        die;
+    }
+
+    public function admin_review_setting() {
+        $setting_from_sanitize = isset($_POST['wcmp_review_settings_form']) ? wp_unslash($_POST['wcmp_review_settings_form']) : '';
+        parse_str($setting_from_sanitize, $wcmp_review_settings_form);
+
+        if( isset( $wcmp_review_settings_form['wcmp_review_options'] ) && isset( $wcmp_review_settings_form['wcmp_review_options']['review_categories'] ) ) {
+            $wcmp_review_settings_option['review_categories'] = $wcmp_review_settings_form['wcmp_review_options']['review_categories'];
+            wcmp_update_option( 'wcmp_review_settings_option', array_filter( array_map( 'wc_clean', (array) $wcmp_review_settings_option ) ) );
+        }
+        $general_settings_option = get_option( 'wcmp_general_settings_name', array() );
+        if( isset( $wcmp_review_settings_form['wcmp_review_options'] ) ) {
+            if (isset( $wcmp_review_settings_form['wcmp_review_options']['is_sellerreview_varified'] )) {
+                $general_settings_option['is_sellerreview_varified'] = 'Enable';
+            } else {
+                unset($general_settings_option['is_sellerreview_varified']);
+            }
+            if (isset( $wcmp_review_settings_form['wcmp_review_options']['is_sellerreview'] )) {
+                $general_settings_option['is_sellerreview'] = 'Enable';
+            } else {
+                unset($general_settings_option['is_sellerreview']);
+            }
+            if (isset( $wcmp_review_settings_form['wcmp_review_options']['product_review_sync'] )) {
+                $general_settings_option['product_review_sync'] = 'Enable';
+            } else {
+                unset($general_settings_option['product_review_sync']);
+            }
+            wcmp_update_option( 'wcmp_general_settings_name', array_filter( array_map( 'wc_clean', (array) $general_settings_option ) ) );
+        }
         die;
     }
 
