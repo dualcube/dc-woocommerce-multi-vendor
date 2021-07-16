@@ -67,7 +67,9 @@ class WCMp_Frontend {
         // Review tab section
         add_action( 'wcmp_vendor_shop_page_reviews_endpoint', array(&$this, 'wcmp_vendor_shop_page_reviews_endpoint' ), 10, 2 );
         // Pllicies tab section
-        add_action( 'wcmp_vendor_shop_page_policies_endpoint', array(&$this, 'wcmp_vendor_shop_page_policies_endpoint' ), 10, 2 );
+        if (get_wcmp_vendor_settings('is_policy_on', 'general') && get_wcmp_vendor_settings('is_policy_on', 'general') == 'Enable') {
+            add_action( 'wcmp_vendor_shop_page_policies_endpoint', array(&$this, 'wcmp_vendor_shop_page_policies_endpoint' ), 10, 2 );
+        }
         flush_rewrite_rules();
 
         // Customer follows vendor list on my account page
@@ -889,14 +891,17 @@ class WCMp_Frontend {
                 'title' => __( 'Products', 'dc-woocommerce-multi-vendor' ),
                 'url'   => $userstore,
                 'priority' => 1
-            ),
-            'policies' => array(
+            )
+        );
+        if (get_wcmp_vendor_settings('is_policy_on', 'general') && get_wcmp_vendor_settings('is_policy_on', 'general') == 'Enable') {
+            $tabs['policies'] = array(
                 'id' => 'policies',
                 'title' => __( 'Policies', 'dc-woocommerce-multi-vendor' ),
                 'url'   => $this->wcmp_get_policies_url( $store_id ),
                 'priority' => 3
-            ),
-        );
+            );
+        }
+
         $is_enable = wcmp_seller_review_enable(absint($vendor->term_id));
         if (isset($is_enable) && $is_enable) {
             $tabs['reviews'] = array(

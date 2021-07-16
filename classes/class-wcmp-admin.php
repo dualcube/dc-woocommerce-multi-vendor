@@ -33,6 +33,7 @@ class WCMp_Admin {
         add_action('wp_dashboard_setup', array(&$this, 'wcmp_remove_wp_dashboard_widget'));
         add_filter('woocommerce_order_actions', array(&$this, 'woocommerce_order_actions'));
         add_action('woocommerce_order_action_regenerate_order_commissions', array(&$this, 'regenerate_order_commissions'));
+        add_action('woocommerce_order_action_regenerate_suborders', array(&$this, 'regenerate_suborders'));
         add_filter('woocommerce_screen_ids', array(&$this, 'add_wcmp_screen_ids'));
         // Admin notice for advance frontend modules (Temp)
         add_action('admin_notices', array(&$this, 'advance_frontend_manager_notice'));
@@ -544,10 +545,13 @@ class WCMp_Admin {
         global $post;
         if( $post && wp_get_post_parent_id( $post->ID ) )
             $actions['regenerate_order_commissions'] = __('Regenerate order commissions', 'dc-woocommerce-multi-vendor');
+        if( $post && !wp_get_post_parent_id( $post->ID ) )
+            $actions['regenerate_suborders'] = __('Regenerate suborders', 'dc-woocommerce-multi-vendor');
         if(is_user_wcmp_vendor(get_current_user_id())){
             if(isset($actions['regenerate_order_commissions'])) unset($actions['regenerate_order_commissions']);
             if(isset($actions['send_order_details'])) unset( $actions['send_order_details'] );
             if(isset($actions['send_order_details_admin'])) unset( $actions['send_order_details_admin'] );
+            if(isset($actions['regenerate_suborders'])) unset($actions['regenerate_suborders']);
         }
         return $actions;
     }
@@ -592,6 +596,11 @@ class WCMp_Admin {
             // Mark commissions as processed
             update_post_meta($order->get_id(), '_commissions_processed', 'yes');
         }
+    }
+
+    public function regenerate_suborders($order) {
+        global $WCMp;
+        $WCMp->order->wcmp_manually_create_order_item_and_suborder($order->get_id(), '', true);
     }
     
     public function add_wcmp_screen_ids($screen_ids){

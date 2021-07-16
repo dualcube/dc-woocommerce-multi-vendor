@@ -318,6 +318,10 @@ class WCMp_Order {
     }
     
     public function wcmp_create_orders_from_backend( $order_id, $items ){
+        $this->wcmp_manually_create_order_item_and_suborder($order_id, $items, false);
+    }
+    
+    public function wcmp_manually_create_order_item_and_suborder( $order_id = 0, $items = '', $is_sub_create = false ) {
         $order = wc_get_order($order_id);
         if(!$order) return;
 
@@ -337,10 +341,15 @@ class WCMp_Order {
         }
         
         $has_sub_order = get_post_meta($order_id, 'has_wcmp_sub_order', true) ? true : false;
-        if($has_sub_order) return;
-        $this->wcmp_create_orders($order_id, array(), $order, true);
+        $suborders = get_wcmp_suborders( $order_id, false, false);
+        if ($is_sub_create && $suborders) {
+            foreach ( $suborders as $v_order_id ) {
+                wp_delete_post($v_order_id, true);
+            }
+            $this->wcmp_create_orders($order_id, array(), $order, true);
+        }
     }
-    
+
     public function wcmp_create_orders_via_rest_callback( $order, $request, $creating ) {
         global $WCMp;
         $items = $order->get_items();
