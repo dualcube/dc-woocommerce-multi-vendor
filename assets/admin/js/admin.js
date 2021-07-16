@@ -526,4 +526,23 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+    // Review settings
+    $( '#wcmp_vendor_review_setting' ).click(function(event) {
+        event.preventDefault();
+        $('#wcmp_vendor_review_setting').prop("disabled", true);
+        $('#wcmp_vendor_review_setting').val(wcmp_admin_js_script_data.submiting);
+
+        $.ajax({
+            url:     wcmp_admin_js_script_data.ajax_url,
+            data:    {
+                action: 'admin_review_setting',
+                wcmp_review_settings_form   : $('.wcmp_vendors_settings').serialize(),
+            },
+            type:    'POST',
+            success: function( response ) {
+                $('#wcmp_vendor_review_setting').prop("disabled", false);// enable button after getting respone
+                $('#wcmp_vendor_review_setting').val(wcmp_admin_js_script_data.update);
+            }
+        });
+    });
 });

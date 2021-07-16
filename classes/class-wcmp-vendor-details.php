@@ -35,7 +35,7 @@ class WCMp_Vendor {
         }
     }
 
-    public function get_reviews_and_rating($offset = 0, $posts_per_page = 0, $args = array()) {
+    public function get_reviews_and_rating($offset = 0, $posts_per_page = 0, $args = array(), $args2 = array()) {
         global $WCMp, $wpdb;
         $vendor_id = $this->id;
         $posts_per_page = $posts_per_page ? $posts_per_page : get_option('posts_per_page');
@@ -54,6 +54,23 @@ class WCMp_Vendor {
             );
             $args_default = wp_parse_args($args, $args_default);
             $args = apply_filters('wcmp_vendor_review_rating_args_to_fetch', $args_default, $this);
+            // If product sync enabled
+            if (get_wcmp_vendor_settings('product_review_sync', 'general') && get_wcmp_vendor_settings('product_review_sync', 'general') == 'Enable') {
+                $vendor = get_wcmp_vendor($vendor_id);
+                $args_default_for_product = apply_filters('wcmp_vendors_product_review_args_array', array(
+                    'status' => 'approve',
+                    'type' => 'review',
+                    'count' => false,
+                    'number' => $posts_per_page,
+                    'offset' => $offset,
+                    'post__in' => wp_list_pluck($vendor->get_products_ids(), 'ID' ),
+                    'author__not_in' => array($this->id)
+                ) );
+                $args_default_for_product = wp_parse_args($args2, $args_default_for_product);
+                if (!empty(get_comments($args_default_for_product))) {
+                    return apply_filters('wcmp_vendors_product_review_args_to_fetch', array_merge(get_comments($args_default_for_product), get_comments($args)), $args_default_for_product, $this);
+                }
+            }
             return get_comments($args);
         }
     }
@@ -73,6 +90,17 @@ class WCMp_Vendor {
                 'author__not_in' => array($this->id)
             );
             $args = apply_filters('wcmp_vendor_review_rating_args_to_fetch', $args_default, $this);
+            if (get_wcmp_vendor_settings('product_review_sync', 'general') && get_wcmp_vendor_settings('product_review_sync', 'general') == 'Enable') {
+                $vendor = get_wcmp_vendor($vendor_id);
+                $args_default_for_product = apply_filters('wcmp_vendors_product_review_args_count_array', array(
+                    'status' => 'approve',
+                    'type' => 'review',
+                    'count' => true,
+                    'post__in' => wp_list_pluck($vendor->get_products_ids(), 'ID' ),
+                    'author__not_in' => array($this->id)
+                ) );
+                return apply_filters('wcmp_vendors_product_review_args_count_to_fetch', (absint(get_comments($args_default_for_product)) + get_comments($args)), $args_default_for_product, $this);
+            }
             return get_comments($args);
         }
     }

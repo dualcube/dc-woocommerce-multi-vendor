@@ -22,7 +22,10 @@ $count = $vendor->get_review_count();
 $is_enable = wcmp_seller_review_enable($vendor_term_id);
 $current_user = wp_get_current_user();
 $reviews_lists = $vendor->get_reviews_and_rating(0);
-
+// Multi review
+$wcmp_review_options = get_option( 'wcmp_review_settings_option', array() );
+$wcmp_review_categories = isset( $wcmp_review_options['review_categories'] ) && isset(wp_list_pluck($wcmp_review_options['review_categories'], 'category')[0]) && !empty(wp_list_pluck($wcmp_review_options['review_categories'], 'category')[0]) ? $wcmp_review_options['review_categories'] : array();
+$is_start_with_full_rating = apply_filters('wcmp_is_start_with_full_rating', false);
 ?>
 <div class="wocommerce" >
     <div id="reviews" >
@@ -31,7 +34,7 @@ $reviews_lists = $vendor->get_reviews_and_rating(0);
                 <div id="review_form_wrapper">
                     <div id="review_form">
                         <div id="respond" class="comment-respond">
-                            <?php if ($vendor->id != get_current_vendor_id()) : ?>
+                            <?php if ($vendor->id != get_current_vendor_id() && is_customer_not_given_review_to_vendor( $vendor_id, get_current_user_id()) && apply_filters('customer_can_share_review_only_once', true)) : ?>
                                 <h3 id="reply-title" class="comment-reply-title"><?php
                                     if ($count == 0) {
                                         echo sprintf(__('Be the first to review “%s”', 'dc-woocommerce-multi-vendor'), $shop_name);
@@ -41,7 +44,24 @@ $reviews_lists = $vendor->get_reviews_and_rating(0);
                                     ?></h3>                
                                 <form action="" method="post" id="commentform" class="comment-form" novalidate="">
                                     <p id="wcmp_seller_review_rating"></p>
-                                    <p class="comment-form-rating"><label for="rating"><?php esc_html_e('Your Rating', 'dc-woocommerce-multi-vendor'); ?></label>                  
+                                    <p class="comment-form-rating"><label for="rating"><?php esc_html_e('Your Rating', 'dc-woocommerce-multi-vendor'); ?></label>
+                                    <div class="wcmp-star-rating-content">
+                                        <?php if ($wcmp_review_categories) { ?>
+                                            <?php foreach( $wcmp_review_categories as $wcmp_review_cat_key => $wcmp_review_category ) { ?>
+                                            <div class="wcmp-star-rating-heading">
+                                                <select name="rating" id="rating">
+                                                    <option value=""><?php esc_html_e('Rate...', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                    <option value="5"><?php esc_html_e('Perfect', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                    <option value="4"><?php esc_html_e('Good', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                    <option value="3"><?php esc_html_e('Average', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                    <option value="2"><?php esc_html_e('Not that bad', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                    <option value="1"><?php esc_html_e('Very Poor', 'dc-woocommerce-multi-vendor'); ?></option>
+                                                </select>
+                                                <span><span class="rating_text <?php echo $wcmp_review_category['category'] ?>"><?php if( $is_start_with_full_rating ) { echo '5'; } else { echo '0'; } ?></span>.0 <?php esc_html_e( $wcmp_review_category['category'], 'wc-multivendor-marketplace' ); ?></span>
+                                                <input type="hidden" class="rating_value" name="wcmp_store_review_category[<?php echo $wcmp_review_cat_key; ?>]" value="<?php if( $is_start_with_full_rating ) { echo '5'; } else { echo '0'; } ?>" />
+                                            </div>
+                                            <?php } ?>
+                                        <?php } else { ?>
                                         <select name="rating" id="rating">
                                             <option value=""><?php esc_html_e('Rate...', 'dc-woocommerce-multi-vendor'); ?></option>
                                             <option value="5"><?php esc_html_e('Perfect', 'dc-woocommerce-multi-vendor'); ?></option>
@@ -49,7 +69,10 @@ $reviews_lists = $vendor->get_reviews_and_rating(0);
                                             <option value="3"><?php esc_html_e('Average', 'dc-woocommerce-multi-vendor'); ?></option>
                                             <option value="2"><?php esc_html_e('Not that bad', 'dc-woocommerce-multi-vendor'); ?></option>
                                             <option value="1"><?php esc_html_e('Very Poor', 'dc-woocommerce-multi-vendor'); ?></option>
-                                        </select></p>
+                                        </select>
+                                        <?php } ?>
+                                    </div>
+                                    </p>
                                     <p class="comment-form-comment">
                                         <label for="comment"><?php esc_html_e('Your Review', 'dc-woocommerce-multi-vendor'); ?> </label>
                                         <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
@@ -89,7 +112,7 @@ $reviews_lists = $vendor->get_reviews_and_rating(0);
                         echo '</ol>';
                         if ($total_pages > 1) {
                             echo '<div class="wcmp_review_loader"><img src="' . $WCMp->plugin_url . 'assets/images/ajax-loader.gif" alt="ajax-loader" /></div>';
-                            echo '<input name="loadmore" type="button" id="wcmp_review_load_more" class="submit wcmp_load_more" style="float:right;" value="' . esc_attr_e('Load More', 'dc-woocommerce-multi-vendor') . '">';
+                            echo '<input name="loadmore" type="button" id="wcmp_review_load_more" class="submit wcmp_load_more" style="float:right;" value="' . esc_attr('Load More', 'dc-woocommerce-multi-vendor') . '">';
                         }
                     }
                 } elseif ($count == 0) {
